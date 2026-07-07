@@ -1,0 +1,37 @@
+import { Request } from "express";
+import { AuditLog } from "../../superadmin/models/AuditLog";
+
+interface AuditEntry {
+  user: string;
+  userId: string;
+  userRole: string;
+  action: string;
+  resource: string;
+  resourceId?: string;
+  description?: string;
+  before?: Record<string, unknown>;
+  after?: Record<string, unknown>;
+}
+
+export async function createStateAuditLog(
+  entry: AuditEntry,
+  req?: Request
+): Promise<void> {
+  try {
+    await AuditLog.create({
+      user: entry.user,
+      userId: entry.userId,
+      userRole: entry.userRole,
+      action: entry.action,
+      resource: entry.resource,
+      resourceId: entry.resourceId || "",
+      description: entry.description || "",
+      ip: req?.ip || req?.headers?.["x-forwarded-for"] || "",
+      userAgent: req?.headers?.["user-agent"] || "",
+      before: entry.before || {},
+      after: entry.after || {},
+    });
+  } catch (error) {
+    console.error("State audit log creation failed:", error);
+  }
+}
