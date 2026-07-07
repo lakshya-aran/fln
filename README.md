@@ -1,123 +1,182 @@
-# FLN — Foundational Literacy & Numeracy Assessment Platform
+# FLN Assessment Platform
 
-A large-scale, personalized assessment system that helps teachers measure, track, and improve every student's Foundational Literacy and Numeracy (FLN) outcomes — from automatic question paper generation to scanning answer sheets and instant, profile-driven evaluation.
+A nationwide Foundational Literacy and Numeracy (FLN) assessment platform built with the MERN stack.
 
----
+## Modules Built
 
-## Table of Contents
-- [What is FLN?](#what-is-fln)
-- [Why FLN Matters](#why-fln-matters)
-- [Government Initiatives](#government-initiatives)
-- [What This Software Does](#what-this-software-does)
-- [How It Works (Workflow)](#how-it-works-workflow)
-- [Tech Stack](#tech-stack)
-- [Getting Started](#getting-started)
-- [Contribution Guidelines](#contribution-guidelines)
-- [Branching & PR Convention](#branching--pr-convention)
-- [License](#license)
+| Module | Path | Login |
+|---|---|---|
+| Login | `/login` | Any role |
+| Superadmin (National) | `/superadmin` | `national@fln.gov.in` |
+| State Admin | `/admin` | `state@fln.gov.in` (Maharashtra) or `state.karnataka@fln.gov.in` |
+| Other roles | `/dashboard/*` | teacher / principal / volunteer / block / district |
 
----
+## Project Structure
 
-## What is FLN?
+```
+fln-platform/
+├── backend/                       # Express.js API server
+│   └── src/
+│       ├── superadmin/            # National admin module
+│       ├── stateadmin/            # State admin module (state-scoped RBAC)
+│       ├── models/                # User model
+│       ├── controllers/           # Auth controller
+│       ├── routes/                # Auth routes
+│       ├── middleware/            # JWT auth, validators, rate limiter
+│       └── services/              # JWT service
+├── frontend/                      # React 19 + Vite client
+│   └── src/
+│       ├── pages/
+│       │   ├── superadmin/        # 11 superadmin pages
+│       │   └── stateadmin/        # 8 state admin pages
+│       ├── components/
+│       │   ├── superadmin/        # SuperAdminLayout, StatCard, PageHeader
+│       │   ├── stateadmin/        # StateAdminLayout, DistrictDetailDialog, SchoolDetailDialog
+│       │   └── ui/                # shadcn/ui components
+│       ├── router/                # AppRouter, SuperadminRouter, StateAdminRouter
+│       ├── services/              # api, auth, superadmin, stateadmin
+│       ├── types/                 # shared types
+│       └── context/               # AuthContext
+├── shared/                        # Cross-cutting types
+└── docs/                          # Documentation
+```
 
-**Foundational Literacy and Numeracy (FLN)** refers to the basic ability to read with comprehension and perform simple arithmetic operations — the core skills every child needs before they can meaningfully engage with the rest of their school curriculum. It typically covers children from pre-school through Grade 3 (roughly ages 3–9), and includes skills like letter and word recognition, reading fluency, basic comprehension, number sense, and elementary arithmetic.
+## Prerequisites
 
-FLN is considered the "foundation" of all future learning — without it, a child cannot effectively progress through later grades, no matter how good the rest of the curriculum is.
-
-## Why FLN Matters
-
-India has one of the largest school-going populations in the world, but enrollment has not translated into actual learning. Large-scale assessments have repeatedly shown that a significant share of children in upper primary grades cannot read a simple grade-appropriate text or solve basic arithmetic problems. This learning gap compounds over time — children who fall behind in FLN tend to struggle increasingly with every subject built on top of it, leading to disengagement, grade repetition, and eventually dropout.
-
-The National Education Policy (NEP) 2020 explicitly recognized this and stated that achieving universal foundational literacy and numeracy in primary school is the highest near-term priority for the Indian education system — without it, the rest of education policy has limited impact for a large portion of students.
-
-This is the problem our project aims to help solve: giving schools and teachers a reliable, scalable, and personalized way to **assess** where each child stands on FLN, **act** on that data quickly, and **track** progress until every child clears the foundational bar.
-
-## Government Initiatives
-
-Some of the key national and state-level efforts this project aligns with:
-
-- **NIPUN Bharat** (National Initiative for Proficiency in Reading with Understanding and Numeracy) — launched by the Ministry of Education in July 2021 under the Samagra Shiksha scheme, with the goal that every child achieves grade-level FLN competencies by the end of Grade 3, by 2026–27. It uses a five-tier implementation structure (national, state, district, block, school).
-- **NEP 2020** — the policy mandate that established universal FLN as the top priority for the Indian school system.
-- **DIKSHA & UDISE+** — existing national digital infrastructure for teacher resources and student/school data that FLN initiatives are encouraged to build on or align with.
-- **State-led missions** — several states have their own FLN programs aligned with NIPUN Bharat (e.g., Mission Buniyaad in Delhi, Mission Ankur in Madhya Pradesh), often with localized assessment tools and workbooks.
-
-This project is built to be usable by schools, teachers, and administrators operating within this broader policy ecosystem — generating assessments aligned with grade-wise FLN expectations ("Lakshyas") rather than a generic test.
-
-## What This Software Does
-
-The platform is built around **personalized, student-specific assessment**, not one-size-fits-all testing. Core capabilities:
-
-- **Student Profiling** — every student has a profile that tracks their current FLN level, assessment history, and progress over time.
-- **Teacher Dashboard** — central workspace for teachers to manage classes, generate assessments, scan results, and view analytics.
-- **Automatic Question Paper Generation** — question papers are generated automatically based on grade level and the student's current FLN level, not just a static template.
-  - For a **new class/new school** with no prior data, the system falls back to a **standard question paper** aligned with the generic FLN benchmark expected for that grade.
-  - Once a student has a profile, future papers are **personalized**, while still meeting the minimum competency bar defined for that grade under FLN criteria.
-- **Print & Distribute** — teachers can print a generic class paper or individual, name-tagged worksheets per student.
-- **Scan & Auto-Evaluate** — after collecting completed sheets, the teacher scans them (via phone camera or a school scanner) and the system evaluates them automatically.
-- **Instant Results & Certification**
-  - If a student **clears** the FLN benchmark for their grade → they receive a certificate for that grade and progress forward.
-  - If a student **does not clear** it → they receive a detailed analysis of which FLN level they're actually at, along with a scheduled re-assessment date for the appropriate (lower) level.
-  - Students who clear a lower-level re-assessment go on to attempt the FLN qualifier for their original grade again — every subsequent paper is generated from their updated, personalized profile.
-
-## How It Works (Workflow)
-
-1. Teacher generates a question paper from the dashboard (standard paper for new classes, or personalized per student once profiles exist).
-2. Paper is printed and distributed to students.
-3. Students take the assessment on paper.
-4. Teacher collects the answer sheets.
-5. Teacher scans the sheets (phone or scanner) and uploads them into the app.
-6. System auto-evaluates the sheet and updates the student's profile.
-7. Teacher gets an instant result:
-   - **Pass** → certificate issued, student advances.
-   - **Fail** → FLN level diagnosis + scheduled re-assessment at the appropriate level.
-8. Cycle repeats until the student clears the grade-level FLN qualifier.
-
-## Tech Stack
-
-This project is built on the **MERN stack**:
-- **M**ongoDB — database
-- **E**xpress.js — backend framework
-- **R**eact — frontend
-- **N**ode.js — backend runtime
-
-(Specific libraries for OCR/scanning, PDF generation, etc. will be documented as they're added.)
+- Node.js 18+
+- MongoDB 6+
+- npm 9+
 
 ## Getting Started
 
-> Setup instructions (installation, environment variables, running locally) will be added here as the codebase matures.
+### 1. Install dependencies
 
 ```bash
-git clone https://github.com/vicharanashala/fln.git
-cd fln
-# setup instructions coming soon
+cd backend && npm install
+cd ../frontend && npm install
 ```
 
-## Contribution Guidelines
+### 2. Configure environment
 
-This is an **open-source** project — contributions are welcome. Before contributing:
+```bash
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env
+```
 
-1. Check open issues or discuss the feature/fix you want to work on.
-2. Fork the repo (or create a branch if you have write access).
-3. Follow the branch naming and PR process below.
-4. Keep PRs focused — one feature or one fix per PR.
-5. Write clear commit messages describing *what* and *why*.
+### 3. Start MongoDB locally (or update `MONGODB_URI`)
 
-## Branching & PR Convention
+### 4. Seed the database
 
-All branches must follow this naming convention:
+```bash
+cd backend
 
-| Type | Branch Name Format | Example |
-|------|--------------------|---------|
-| Feature | `feat: <name of feature>` | `feat: auto question paper generation` |
-| Fix | `fix: <name of fix>` | `fix: scanner upload crash on android` |
+# Main users + roles
+npm run seed
 
-**Process:**
-1. Create a branch using the convention above.
-2. Make your changes and commit with clear messages.
-3. Push the branch and **raise a Pull Request (PR)** against `main` (or the appropriate base branch).
-4. PRs should reference the related issue (if any) and briefly describe the change.
-5. At least one review/approval is required before merging (process may be refined as the team grows).
+# Superadmin demo data (calendars, curriculum, questions, feedback, etc.)
+npx tsx src/superadmin/seed.ts
 
-## License
+# State admin demo data (7 districts, 28 schools, infrastructure requests)
+npx tsx src/stateadmin/seed.ts
+```
 
-This repository is open source. *(License file to be added — e.g., MIT/Apache 2.0. Update this section once finalized.)*
+### 5. Run the application
+
+```bash
+# Terminal 1
+cd backend && npm run dev     # port 5000
+
+# Terminal 2
+cd frontend && npm run dev    # port 5173
+```
+
+Open http://localhost:5173.
+
+## Test Accounts (password: `asdf@ghjk`)
+
+| Role | Email | State | Module |
+|---|---|---|---|
+| Teacher | `teacher@fln.gov.in` | — | `/dashboard/teacher` |
+| Principal | `principal@fln.gov.in` | Maharashtra | `/dashboard/principal` |
+| Volunteer | `volunteer@fln.gov.in` | — | `/dashboard/volunteer` |
+| Block Officer | `block@fln.gov.in` | — | `/dashboard/block` |
+| District Officer | `district@fln.gov.in` | — | `/dashboard/district` |
+| **State Admin** | `state@fln.gov.in` | Maharashtra | **`/admin`** |
+| State Admin | `state.karnataka@fln.gov.in` | Karnataka | `/admin` (empty data) |
+| **National Admin** | `national@fln.gov.in` | All India | **`/superadmin`** |
+
+## State Admin Module
+
+The state admin manages all FLN activity within one State/UT. The middleware enforces state isolation - Karnataka admin can never see Maharashtra data.
+
+**Features:**
+- Dashboard with state-level stats and charts
+- District management with drill-down
+- District admin CRUD with login history & password reset
+- School search/filter/sort with drill-down
+- Locked school recovery with audit log
+- Low performance monitor (districts below 40% FLN)
+- State analytics (district comparison, learning trends, radar)
+- Reports (CSV downloads: state summary, district, school, volunteer, assessment, certification)
+
+**State-scoped RBAC:** `requireStateAdmin` middleware looks up the user's `assignedState` from DB and injects it into `req.user`. Every controller then filters by `state` automatically.
+
+## API Endpoints
+
+### Auth
+- `POST /api/v1/auth/login`
+- `POST /api/v1/auth/refresh`
+- `POST /api/v1/auth/logout`
+- `GET  /api/v1/auth/me`
+
+### Superadmin (national_admin)
+- `GET    /api/v1/superadmin/dashboard`
+- `GET    /api/v1/superadmin/analytics`
+- `GET    /api/v1/superadmin/calendar`, `POST`, `PUT /:id`
+- `GET    /api/v1/superadmin/curriculum`, `POST`, `PUT /:id`
+- `GET    /api/v1/superadmin/question-review`, `PUT /:id`
+- `GET    /api/v1/superadmin/visual-assets`, `POST`, `PUT /:id/replace`
+- `GET    /api/v1/superadmin/feedback`, `PUT /:id`
+- `GET    /api/v1/superadmin/announcements`, `POST`, `PUT /:id`
+- `POST   /api/v1/superadmin/unlock-school`
+- `GET    /api/v1/superadmin/audit`
+- ... (full list in `backend/src/superadmin/routes/index.ts`)
+
+### State Admin (state_admin)
+- `GET    /api/v1/admin/dashboard`
+- `GET    /api/v1/admin/dashboard/charts`
+- `GET    /api/v1/admin/districts`
+- `GET    /api/v1/admin/districts/low-performing`
+- `GET    /api/v1/admin/districts/certification`
+- `GET    /api/v1/admin/districts/:id`
+- `GET    /api/v1/admin/schools`
+- `GET    /api/v1/admin/schools/locked`
+- `GET    /api/v1/admin/schools/:id`
+- `GET    /api/v1/admin/district-admin`
+- `POST   /api/v1/admin/district-admin`
+- `PUT    /api/v1/admin/district-admin/:id`
+- `PATCH  /api/v1/admin/district-admin/:id/deactivate`
+- `POST   /api/v1/admin/district-admin/:id/reset-password`
+- `GET    /api/v1/admin/district-admin/:id/login-history`
+- `POST   /api/v1/admin/unlock-school`
+- `GET    /api/v1/admin/infrastructure-requests`
+- `GET    /api/v1/admin/reports?type=...`
+
+## Security
+
+- bcrypt (12 rounds) password hashing
+- JWT access (15m) + refresh tokens (7d)
+- HTTP-only cookies for refresh
+- Rate limiting (auth 10/15min, api 100/15min)
+- Helmet security headers
+- CORS restricted
+- Zod validation on all inputs
+- Role-based access control (national_admin / state_admin enforced server-side)
+- State-scoped data filtering (state admin cannot access other states)
+- Immutable audit logs for every privileged action
+
+## Tech Stack
+
+**Frontend:** React 19, Vite, TypeScript, Tailwind CSS, shadcn/ui, React Router 6, React Hook Form, Zod, Axios, TanStack React Query, recharts, react-markdown, Radix UI
+
+**Backend:** Node.js, Express, TypeScript, MongoDB, Mongoose, JWT, bcrypt, Helmet, CORS, Zod, express-rate-limit
