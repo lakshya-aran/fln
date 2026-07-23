@@ -1,4 +1,6 @@
+import { apiFetch, withBase } from '../services/apiClient';
 import React, { useState, useEffect, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { User, UserRole, Student, ClassGroup, School, LogEntry, Ticket } from '../types';
 import { DiagnosticWorkflow } from './DiagnosticWorkflow';
 import { BulkDiagnosticWorkflow } from './BulkDiagnosticWorkflow';
@@ -192,7 +194,7 @@ export const RegionalAnalyticsView: React.FC<{ token: string; user: User }> = ({
     setLoading(true);
     try {
       const q = `stateCode=${stateCode}&districtCode=${districtCode}&blockCode=${blockCode}`;
-      const res = await fetch(`/api/analytics?${q}`, {
+      const res = await apiFetch(`/api/analytics?${q}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const d = await res.json();
@@ -477,7 +479,7 @@ export const SuperadminDashboard: React.FC<DashboardProps> = ({ user, token }) =
   
   // Overview data
   const [schools, setSchools] = useState<School[]>([]);
-  const [students, setStudents] = useState<Student[]>([]);
+  const [stats, setStats] = useState<{ totalStudents: number; certifiedCount: number; certifiedPercent: number; avgFlnLevel: number; [key: string]: any } | null>(null);
   const [announcementTitle, setAnnouncementTitle] = useState('');
   const [announcementMsg, setAnnouncementMsg] = useState('');
   const [isUrgent, setIsUrgent] = useState(false);
@@ -559,13 +561,13 @@ export const SuperadminDashboard: React.FC<DashboardProps> = ({ user, token }) =
 
   const fetchGlobalData = async () => {
     try {
-      const schRes = await fetch('/api/schools', { headers: { 'Authorization': `Bearer ${token}` } });
+      const schRes = await apiFetch('/api/schools', { headers: { 'Authorization': `Bearer ${token}` } });
       const schData = await schRes.json();
       if (Array.isArray(schData)) setSchools(schData);
 
-      const stdRes = await fetch('/api/students', { headers: { 'Authorization': `Bearer ${token}` } });
-      const stdData = await stdRes.json();
-      if (Array.isArray(stdData)) setStudents(stdData);
+      const statsRes = await apiFetch('/api/stats');
+      const statsData = await statsRes.json();
+      setStats(statsData);
     } catch (err) {
       console.error(err);
     }
@@ -573,7 +575,7 @@ export const SuperadminDashboard: React.FC<DashboardProps> = ({ user, token }) =
 
   const fetchCoordinators = async () => {
     try {
-      const res = await fetch('/api/admin/coordinators', { headers: { 'Authorization': `Bearer ${token}` } });
+      const res = await apiFetch('/api/admin/coordinators', { headers: { 'Authorization': `Bearer ${token}` } });
       const data = await res.json();
       if (Array.isArray(data)) setCoordinatorsList(data);
     } catch (e) {
@@ -590,7 +592,7 @@ export const SuperadminDashboard: React.FC<DashboardProps> = ({ user, token }) =
     e.preventDefault();
     if (!announcementTitle || !announcementMsg) return;
     try {
-      const res = await fetch('/api/announcements/create', {
+      const res = await apiFetch('/api/announcements/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -619,7 +621,7 @@ export const SuperadminDashboard: React.FC<DashboardProps> = ({ user, token }) =
       : undefined;
 
     try {
-      const res = await fetch('/api/admin/create', {
+      const res = await apiFetch('/api/admin/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -651,7 +653,7 @@ export const SuperadminDashboard: React.FC<DashboardProps> = ({ user, token }) =
         await fetchCoordinators();
         
         // Refresh school data
-        const schRes = await fetch('/api/schools', { headers: { 'Authorization': `Bearer ${token}` } });
+        const schRes = await apiFetch('/api/schools', { headers: { 'Authorization': `Bearer ${token}` } });
         const schData = await schRes.json();
         if (Array.isArray(schData)) setSchools(schData);
 
@@ -673,7 +675,7 @@ export const SuperadminDashboard: React.FC<DashboardProps> = ({ user, token }) =
     setLoading(true);
 
     try {
-      const res = await fetch('/api/schools', {
+      const res = await apiFetch('/api/schools', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -697,7 +699,7 @@ export const SuperadminDashboard: React.FC<DashboardProps> = ({ user, token }) =
         setNewSchoolDistrict('');
         setNewSchoolBlock('');
         // Refresh school list
-        const schRes = await fetch('/api/schools', { headers: { 'Authorization': `Bearer ${token}` } });
+        const schRes = await apiFetch('/api/schools', { headers: { 'Authorization': `Bearer ${token}` } });
         const schData = await schRes.json();
         if (Array.isArray(schData)) setSchools(schData);
         setTimeout(() => setSchoolSuccess(''), 6000);
@@ -716,9 +718,6 @@ export const SuperadminDashboard: React.FC<DashboardProps> = ({ user, token }) =
   const isPassUppercaseValid = /[A-Z]/.test(coordPass);
   const isPassNumberValid = /[0-9]/.test(coordPass);
   const isPassSpecialValid = /[!@#$%^&*(),.?":{}|<>]/.test(coordPass);
-
-  const certifiedCount = students.filter(s => s.currentLevel >= 5).length;
-  const certifiedPercent = students.length > 0 ? Math.round((certifiedCount / students.length) * 100) : 0;
 
   return (
     <div className="space-y-6" id="superadmin-dashboard">
@@ -760,7 +759,7 @@ export const SuperadminDashboard: React.FC<DashboardProps> = ({ user, token }) =
         <button
           onClick={async () => {
             if (!window.confirm('Reset all database data to fresh seed state? This is irreversible.')) return;
-            await fetch('/api/reset', { method: 'POST' });
+            await apiFetch('/api/reset', { method: 'POST' });
             window.location.reload();
           }}
           className="px-3 py-1.5 text-xs font-mono font-bold rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950 text-red-600 dark:text-red-300 hover:bg-red-100 dark:hover:bg-red-900 transition-colors"
@@ -791,9 +790,9 @@ export const SuperadminDashboard: React.FC<DashboardProps> = ({ user, token }) =
             {/* Analytics Card Deck */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <MetricCard title="Total Schools Tracked" value={schools.length} subtext="● 100% Active" icon={SchoolIcon} />
-              <MetricCard title="National Roster Count" value={students.length} subtext="Primary FLN candidates" icon={Users} />
-              <MetricCard title="National FLN Score" value="82.4" subtext="Average assessment grade" icon={BarChart3} />
-              <MetricCard title="FLN Certification Rate" value={`${certifiedPercent}%`} subtext={`${certifiedCount} students verified competent`} icon={Award} />
+              <MetricCard title="Primary FLN Students" value={stats?.totalStudents?.toLocaleString() ?? '—'} subtext="Across all classes" icon={Users} />
+              <MetricCard title="National FLN Score" value={stats?.avgFlnLevel ? `L${stats.avgFlnLevel}` : '—'} subtext="Average student level" icon={BarChart3} />
+              <MetricCard title="FLN Certification Rate" value={stats?.certifiedPercent != null ? `${stats.certifiedPercent}%` : '—'} subtext={stats?.certifiedCount != null ? `${stats.certifiedCount.toLocaleString()} students verified competent` : 'Loading...'} icon={Award} />
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -855,9 +854,9 @@ export const SuperadminDashboard: React.FC<DashboardProps> = ({ user, token }) =
       {activeTab === 'coordinators' && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Admin registration form */}
-          <div className="lg:col-span-1 bg-white dark:bg-slate-900 border border-zinc-200 dark:border-zinc-700 rounded-xl p-5 shadow-sm h-fit space-y-4">
-            <h3 className="text-lg font-display font-medium text-zinc-900 dark:text-white flex items-center gap-2">
-              <UserCheck className="w-5 h-5 text-zinc-500 dark:text-zinc-400" />
+          <div className="lg:col-span-1 bg-white border border-zinc-200 rounded-xl p-5 shadow-sm h-fit space-y-4">
+            <h3 className="text-lg font-display font-medium text-zinc-900 flex items-center gap-2">
+              <UserCheck className="w-5 h-5 text-zinc-500" />
               <span>Register New Coordinator</span>
             </h3>
 
@@ -960,34 +959,34 @@ export const SuperadminDashboard: React.FC<DashboardProps> = ({ user, token }) =
                        onChange={e => setCoordState(e.target.value.toUpperCase())}
                        placeholder="e.g. PB"
                        required
-                       className="w-full text-xs border border-zinc-200 rounded-lg p-2 bg-zinc-50 outline-none font-medium text-zinc-800"
-                    />
-                  </div>
-                  
-                  {coordRole !== UserRole.ADMIN && (
-                    <div>
-                      <label className="block text-[9px] font-mono font-bold text-zinc-400 uppercase tracking-wider mb-0.5">District Code</label>
-                      <input
-                        type="text"
-                        value={coordDistrict}
-                        onChange={e => setCoordDistrict(e.target.value.toUpperCase())}
-                        placeholder="e.g. LDH"
-                        required
-                        className="w-full text-xs border border-zinc-200 rounded-lg p-2 bg-zinc-50 outline-none font-medium text-zinc-800"
-                      />
-                    </div>
-                  )}
+                       className="w-full text-xs border border-zinc-200 dark:border-zinc-700 rounded-lg p-2 bg-zinc-50 dark:bg-zinc-800 outline-none font-medium text-zinc-800 dark:text-zinc-200"
+                     />
+                   </div>
+                   
+                   {coordRole !== UserRole.ADMIN && (
+                     <div>
+                       <label className="block text-[9px] font-mono font-bold text-zinc-400 uppercase tracking-wider mb-0.5">District Code</label>
+                       <input
+                         type="text"
+                         value={coordDistrict}
+                         onChange={e => setCoordDistrict(e.target.value.toUpperCase())}
+                         placeholder="e.g. LDH"
+                         required
+                         className="w-full text-xs border border-zinc-200 dark:border-zinc-700 rounded-lg p-2 bg-zinc-50 dark:bg-zinc-800 outline-none font-medium text-zinc-800 dark:text-zinc-200"
+                       />
+                     </div>
+                   )}
 
-                  {coordRole === UserRole.BLOCK_ADMIN && (
-                    <div>
-                      <label className="block text-[9px] font-mono font-bold text-zinc-400 uppercase tracking-wider mb-0.5">Block Code</label>
-                      <input
-                        type="text"
-                        value={coordBlock}
-                        onChange={e => setCoordBlock(e.target.value.toUpperCase())}
-                        placeholder="e.g. LDH-01"
-                        required
-                        className="w-full text-xs border border-zinc-200 rounded-lg p-2 bg-zinc-50 outline-none font-medium text-zinc-800"
+                   {coordRole === UserRole.BLOCK_ADMIN && (
+                     <div>
+                       <label className="block text-[9px] font-mono font-bold text-zinc-400 uppercase tracking-wider mb-0.5">Block Code</label>
+                       <input
+                         type="text"
+                         value={coordBlock}
+                         onChange={e => setCoordBlock(e.target.value.toUpperCase())}
+                         placeholder="e.g. LDH-01"
+                         required
+                         className="w-full text-xs border border-zinc-200 dark:border-zinc-700 rounded-lg p-2 bg-zinc-50 dark:bg-zinc-800 outline-none font-medium text-zinc-800 dark:text-zinc-200"
                       />
                     </div>
                   )}
@@ -1179,15 +1178,15 @@ export const AdminDashboard: React.FC<DashboardProps> = ({ user, token }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const schRes = await fetch('/api/schools', { headers: { 'Authorization': `Bearer ${token}` } });
+        const schRes = await apiFetch('/api/schools', { headers: { 'Authorization': `Bearer ${token}` } });
         const schData = await schRes.json();
         if (Array.isArray(schData)) setSchools(schData);
 
-        const stdRes = await fetch('/api/students', { headers: { 'Authorization': `Bearer ${token}` } });
+        const stdRes = await apiFetch('/api/students', { headers: { 'Authorization': `Bearer ${token}` } });
         const stdData = await stdRes.json();
         if (Array.isArray(stdData)) setStudents(stdData);
 
-        const uRes = await fetch('/api/admin/coordinators', { headers: { 'Authorization': `Bearer ${token}` } });
+        const uRes = await apiFetch('/api/admin/coordinators', { headers: { 'Authorization': `Bearer ${token}` } });
         const uData = await uRes.json();
         if (Array.isArray(uData)) setAllUsers(uData);
       } catch (err) {
@@ -1434,7 +1433,7 @@ export const AdminDashboard: React.FC<DashboardProps> = ({ user, token }) => {
 
                   const handleRestore = async () => {
                     try {
-                      const res = await fetch('/api/admin/restore-school', {
+                      const res = await apiFetch('/api/admin/restore-school', {
                         method: 'POST',
                         headers: {
                           'Content-Type': 'application/json',
@@ -1445,11 +1444,11 @@ export const AdminDashboard: React.FC<DashboardProps> = ({ user, token }) => {
                       if (res.ok) {
                         alert(`School access restored for ${sch.name}.`);
                         // Refresh data
-                        const schRes = await fetch('/api/schools', { headers: { 'Authorization': `Bearer ${token}` } });
+                        const schRes = await apiFetch('/api/schools', { headers: { 'Authorization': `Bearer ${token}` } });
                         const schData = await schRes.json();
                         if (Array.isArray(schData)) setSchools(schData);
                         
-                        const uRes = await fetch('/api/admin/coordinators', { headers: { 'Authorization': `Bearer ${token}` } });
+                        const uRes = await apiFetch('/api/admin/coordinators', { headers: { 'Authorization': `Bearer ${token}` } });
                         const uData = await uRes.json();
                         if (Array.isArray(uData)) setAllUsers(uData);
                       } else {
@@ -1508,7 +1507,7 @@ export const AdminDashboard: React.FC<DashboardProps> = ({ user, token }) => {
 
                   const handleRevive = async () => {
                     try {
-                      const res = await fetch('/api/admin/revive-teacher', {
+                      const res = await apiFetch('/api/admin/revive-teacher', {
                         method: 'POST',
                         headers: {
                           'Content-Type': 'application/json',
@@ -1519,11 +1518,11 @@ export const AdminDashboard: React.FC<DashboardProps> = ({ user, token }) => {
                       if (res.ok) {
                         alert(`Teacher ${tch.name} revived. Suspension released.`);
                         // Refresh data
-                        const schRes = await fetch('/api/schools', { headers: { 'Authorization': `Bearer ${token}` } });
+                        const schRes = await apiFetch('/api/schools', { headers: { 'Authorization': `Bearer ${token}` } });
                         const schData = await schRes.json();
                         if (Array.isArray(schData)) setSchools(schData);
                         
-                        const uRes = await fetch('/api/admin/coordinators', { headers: { 'Authorization': `Bearer ${token}` } });
+                        const uRes = await apiFetch('/api/admin/coordinators', { headers: { 'Authorization': `Bearer ${token}` } });
                         const uData = await uRes.json();
                         if (Array.isArray(uData)) setAllUsers(uData);
                       } else {
@@ -1583,11 +1582,11 @@ export const SchoolDashboard: React.FC<DashboardProps> = ({ user, token }) => {
 
   const fetchSchoolData = async () => {
     try {
-      const clsRes = await fetch('/api/classes', { headers: { 'Authorization': `Bearer ${token}` } });
+      const clsRes = await apiFetch('/api/classes', { headers: { 'Authorization': `Bearer ${token}` } });
       const clsData = await clsRes.json();
       if (Array.isArray(clsData)) setClasses(clsData);
 
-      const stdRes = await fetch('/api/students', { headers: { 'Authorization': `Bearer ${token}` } });
+      const stdRes = await apiFetch('/api/students', { headers: { 'Authorization': `Bearer ${token}` } });
       const stdData = await stdRes.json();
       if (Array.isArray(stdData)) setStudents(stdData);
     } catch (err) {
@@ -1719,7 +1718,7 @@ export const TeacherDashboard: React.FC<DashboardProps> = ({ user, token }) => {
     setLevelPdfLoading(true);
     setLevelPdfError('');
     try {
-      const res = await fetch('/api/worksheets/generate-level-pdf', {
+      const res = await apiFetch('/api/worksheets/generate-level-pdf', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1755,7 +1754,7 @@ export const TeacherDashboard: React.FC<DashboardProps> = ({ user, token }) => {
     setLevelBatchSkipped([]);
     setLevelBatchId(null);
     try {
-      const res = await fetch('/api/worksheets/generate-level-batch', {
+      const res = await apiFetch('/api/worksheets/generate-level-batch', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1785,7 +1784,7 @@ export const TeacherDashboard: React.FC<DashboardProps> = ({ user, token }) => {
     if (!levelBatchId) return;
     setLevelBatchDownloading(true);
     try {
-      const res = await fetch(`/api/worksheets/download-batch/${levelBatchId}`);
+      const res = await apiFetch(`/api/worksheets/download-batch/${levelBatchId}`);
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         throw new Error(data.error || 'Download failed.');
@@ -1808,14 +1807,14 @@ export const TeacherDashboard: React.FC<DashboardProps> = ({ user, token }) => {
 
   const fetchTeacherData = async () => {
     try {
-      const clsRes = await fetch('/api/classes', { headers: { 'Authorization': `Bearer ${token}` } });
+      const clsRes = await apiFetch('/api/classes', { headers: { 'Authorization': `Bearer ${token}` } });
       const clsData = await clsRes.json();
       if (Array.isArray(clsData)) {
         setClasses(clsData);
         if (clsData.length > 0) setActiveClass(clsData[0]);
       }
 
-      const stdRes = await fetch('/api/students', { headers: { 'Authorization': `Bearer ${token}` } });
+      const stdRes = await apiFetch('/api/students', { headers: { 'Authorization': `Bearer ${token}` } });
       const stdData = await stdRes.json();
       if (Array.isArray(stdData)) setStudents(stdData);
     } catch (err) {
@@ -1832,7 +1831,7 @@ export const TeacherDashboard: React.FC<DashboardProps> = ({ user, token }) => {
     if (!bulkJob || bulkJob.status !== 'running') return;
     const interval = setInterval(async () => {
       try {
-        const res = await fetch(`/api/diagnostic/bulk/${bulkJob.jobId}/progress`);
+        const res = await apiFetch(`/api/diagnostic/bulk/${bulkJob.jobId}/progress`);
         if (res.ok) {
           const data = await res.json();
           setBulkJob(prev => prev ? { ...prev, completed: data.completed, status: data.status, pdfUrl: data.pdfUrl || prev.pdfUrl, downloadUrl: data.downloadUrl || prev.downloadUrl, error: data.error || '' } : prev);
@@ -1867,7 +1866,7 @@ export const TeacherDashboard: React.FC<DashboardProps> = ({ user, token }) => {
     const finalSection = activeClass ? activeClass.section : sec;
 
     try {
-      const res = await fetch('/api/students', {
+      const res = await apiFetch('/api/students', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -2159,7 +2158,7 @@ export const TeacherDashboard: React.FC<DashboardProps> = ({ user, token }) => {
                     setBulkError('');
                     setBulkJob(null);
                     try {
-                      const res = await fetch('/api/diagnostic/bulk', {
+                      const res = await apiFetch('/api/diagnostic/bulk', {
                         method: 'POST',
                         headers: {
                           'Content-Type': 'application/json',
@@ -2311,29 +2310,29 @@ export const TeacherDashboard: React.FC<DashboardProps> = ({ user, token }) => {
             </div>
 
             {levelBatchError && (
-              <div className="p-2 bg-red-50 border border-red-200 rounded text-xs text-red-700">⚠️ {levelBatchError}</div>
+              <div className="p-2 bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded text-xs text-red-700 dark:text-red-300">⚠️ {levelBatchError}</div>
             )}
 
             {levelBatchId && (
-              <div className="pt-2 border-t border-zinc-100 space-y-2">
-                <div className="flex justify-between text-xs font-mono text-zinc-500">
-                  <span>Batch <span className="text-zinc-800 font-semibold">{levelBatchId}</span> — {levelBatchResults.length} file(s) generated</span>
+              <div className="pt-2 border-t border-zinc-100 dark:border-zinc-800 space-y-2">
+                <div className="flex justify-between text-xs font-mono text-zinc-500 dark:text-zinc-400">
+                  <span>Batch <span className="text-zinc-800 dark:text-zinc-200 font-semibold">{levelBatchId}</span> — {levelBatchResults.length} file(s) generated</span>
                   {levelBatchSkipped.length > 0 && (
-                    <span className="text-amber-600 font-semibold">{levelBatchSkipped.length} skipped</span>
+                    <span className="text-amber-600 dark:text-amber-400 font-semibold">{levelBatchSkipped.length} skipped</span>
                   )}
                 </div>
                 {levelBatchResults.length > 0 && (
                   <div className="max-h-40 overflow-y-auto space-y-1">
                     {levelBatchResults.map((r, i) => (
-                      <div key={`${r.studentId}-${r.sublevelId}-${r.setNum}-${i}`} className="flex items-center justify-between text-xs bg-zinc-50 border border-zinc-100 rounded px-2 py-1">
-                        <span className="text-zinc-700 font-medium">{r.studentName} <span className="text-zinc-400 font-mono">L{r.sublevelId} set{r.setNum}</span></span>
-                        <a href={r.pdfUrl} target="_blank" rel="noreferrer" className="text-indigo-600 hover:text-indigo-800 font-mono font-bold">View PDF</a>
+                      <div key={`${r.studentId}-${r.sublevelId}-${r.setNum}-${i}`} className="flex items-center justify-between text-xs bg-zinc-50 dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-700 rounded px-2 py-1">
+                        <span className="text-zinc-700 dark:text-zinc-300 font-medium">{r.studentName} <span className="text-zinc-400 dark:text-zinc-500 font-mono">L{r.sublevelId} set{r.setNum}</span></span>
+                        <a href={r.pdfUrl} target="_blank" rel="noreferrer" className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 font-mono font-bold">View PDF</a>
                       </div>
                     ))}
                   </div>
                 )}
                 {levelBatchSkipped.length > 0 && (
-                  <div className="p-2 bg-amber-50 border border-amber-200 rounded text-xs text-amber-700">
+                  <div className="p-2 bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 rounded text-xs text-amber-700 dark:text-amber-300">
                     Skipped: {levelBatchSkipped.map(s => s.reason).join('; ')}
                   </div>
                 )}
@@ -2343,12 +2342,12 @@ export const TeacherDashboard: React.FC<DashboardProps> = ({ user, token }) => {
 
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
           {/* Class roster table */}
-          <div className="xl:col-span-2 bg-white border border-zinc-200 rounded-xl shadow-sm overflow-hidden">
-            <div className="p-4 border-b border-zinc-150 flex justify-between items-center bg-zinc-50/50">
-              <h3 className="font-display font-medium text-zinc-900 text-sm">Classroom Student Roster ({classStudents.length})</h3>
+          <div className="xl:col-span-2 bg-white dark:bg-slate-900 border border-zinc-200 dark:border-slate-700 rounded-xl shadow-sm overflow-hidden">
+            <div className="p-4 border-b border-zinc-150 dark:border-zinc-800 flex justify-between items-center bg-zinc-50/50 dark:bg-zinc-800/50">
+              <h3 className="font-display font-medium text-zinc-900 dark:text-white text-sm">Classroom Student Roster ({classStudents.length})</h3>
               <button
                 onClick={() => setShowWorksheetPortal(true)} // Open worksheets flow
-                className="bg-white hover:bg-zinc-50 border border-zinc-200 text-zinc-700 font-mono text-[10px] font-bold px-3 py-1.5 rounded-lg shadow-sm cursor-pointer hover:border-zinc-400 transition-colors"
+                className="bg-white dark:bg-slate-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 font-mono text-[10px] font-bold px-3 py-1.5 rounded-lg shadow-sm cursor-pointer hover:border-zinc-400 transition-colors"
               >
                 Trigger Worksheets Flow
               </button>
@@ -2356,24 +2355,24 @@ export const TeacherDashboard: React.FC<DashboardProps> = ({ user, token }) => {
             <div className="p-4">
               {(() => {
                 const studentColumns: Column<Student>[] = [
-                  { header: 'ID', accessor: 'id', sortKey: 'id', className: 'font-mono text-xs text-slate-400' },
-                  { header: 'Student Name', accessor: 'name', sortKey: 'name', className: 'font-medium text-slate-900' },
-                  { header: 'Aadhar / ID No.', accessor: 'aadharMasked', className: 'font-mono text-xs text-slate-500' },
+                  { header: 'ID', accessor: 'id', sortKey: 'id', className: 'font-mono text-xs text-slate-400 dark:text-slate-500' },
+                  { header: 'Student Name', accessor: 'name', sortKey: 'name', className: 'font-medium text-slate-900 dark:text-slate-100' },
+                  { header: 'Aadhar / ID No.', accessor: 'aadharMasked', className: 'font-mono text-xs text-slate-500 dark:text-slate-400' },
                   {
                     header: 'Current Level',
                     accessor: (s) => (
-                      <span className="font-mono font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded border border-slate-200 text-xs">
+                      <span className="font-mono font-bold text-slate-800 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700 text-xs">
                         L{s.currentLevel}.{s.currentSubLevel ?? 0}
                       </span>
                     )
                   },
                   {
                     header: 'Target Level',
-                    accessor: (s) => <span className="font-mono text-slate-500 text-xs">Level {s.targetLevel}</span>
+                    accessor: (s) => <span className="font-mono text-slate-500 dark:text-slate-400 text-xs">Level {s.targetLevel}</span>
                   },
                   {
                     header: 'Streak',
-                    accessor: (s) => <span className="font-mono font-semibold text-slate-800">{s.streak} 🔥</span>
+                    accessor: (s) => <span className="font-mono font-semibold text-slate-800 dark:text-slate-200">{s.streak} 🔥</span>
                   },
                   {
                     header: 'Diagnostic Status',
@@ -2394,7 +2393,7 @@ export const TeacherDashboard: React.FC<DashboardProps> = ({ user, token }) => {
                       </div>
                     ) : (
                       <div className="flex items-center gap-2">
-                        <span className="text-green-700 font-mono text-[9px] font-bold uppercase bg-green-50 px-2 py-0.5 rounded border border-green-200">
+                        <span className="text-green-700 dark:text-green-400 font-mono text-[9px] font-bold uppercase bg-green-50 dark:bg-green-950/40 px-2 py-0.5 rounded border border-green-200 dark:border-green-800">
                           Placed
                         </span>
                         <button
@@ -2405,10 +2404,10 @@ export const TeacherDashboard: React.FC<DashboardProps> = ({ user, token }) => {
                           Print L{s.currentLevel}.{s.currentSubLevel || 0}
                         </button>
                         <a
-                          href={`/worksheets/levels_main.html?level=${s.currentLevel}&sub=${s.currentSubLevel || 0}`}
+                          href={withBase(`/worksheets/levels_main.html?level=${s.currentLevel}&sub=${s.currentSubLevel || 0}`)}
                           target="_blank"
                           rel="noreferrer"
-                          className="bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 text-zinc-800 font-mono text-[9px] font-bold px-2 py-0.5 rounded cursor-pointer transition-all active:scale-95 inline-flex items-center gap-1"
+                          className="bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 font-mono text-[9px] font-bold px-2 py-0.5 rounded cursor-pointer transition-all active:scale-95 inline-flex items-center gap-1"
                           title="Open in-browser interactive generator for this specific level"
                         >
                           🌐 Interactive
@@ -2427,9 +2426,9 @@ export const TeacherDashboard: React.FC<DashboardProps> = ({ user, token }) => {
 
           {/* Quick-action worksheets shortcuts */}
           <div className="xl:col-span-1 space-y-4">
-            <div className="bg-white p-5 border border-zinc-200 rounded-xl shadow-sm space-y-4">
-              <h4 className="font-display font-medium text-zinc-905 text-sm">Exam Worksheets Engine</h4>
-              <p className="text-xs text-zinc-505 leading-relaxed">
+            <div className="bg-white dark:bg-slate-900 p-5 border border-zinc-200 dark:border-slate-700 rounded-xl shadow-sm space-y-4">
+              <h4 className="font-display font-medium text-zinc-900 dark:text-white text-sm">Exam Worksheets Engine</h4>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
                 Trigger class-wide personalized mathematics worksheets or grade submitted solution sheets using ICR scanner integrations.
               </p>
               <button
@@ -2502,7 +2501,7 @@ export const VolunteerDashboard: React.FC<DashboardProps> = ({ user, token }) =>
     setLevelPdfLoading(true);
     setLevelPdfError('');
     try {
-      const res = await fetch('/api/worksheets/generate-level-pdf', {
+      const res = await apiFetch('/api/worksheets/generate-level-pdf', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -2525,14 +2524,14 @@ export const VolunteerDashboard: React.FC<DashboardProps> = ({ user, token }) =>
 
   const fetchVolunteerData = async () => {
     try {
-      const clsRes = await fetch('/api/classes', { headers: { 'Authorization': `Bearer ${token}` } });
+      const clsRes = await apiFetch('/api/classes', { headers: { 'Authorization': `Bearer ${token}` } });
       const clsData = await clsRes.json();
       if (Array.isArray(clsData)) {
         setClasses(clsData);
         if (clsData.length > 0) setActiveClass(clsData[0]);
       }
 
-      const stdRes = await fetch('/api/students', { headers: { 'Authorization': `Bearer ${token}` } });
+      const stdRes = await apiFetch('/api/students', { headers: { 'Authorization': `Bearer ${token}` } });
       const stdData = await stdRes.json();
       if (Array.isArray(stdData)) setStudents(stdData);
     } catch (err) {
@@ -2549,7 +2548,7 @@ export const VolunteerDashboard: React.FC<DashboardProps> = ({ user, token }) =>
     if (!bulkJob || bulkJob.status !== 'running') return;
     const interval = setInterval(async () => {
       try {
-        const res = await fetch(`/api/diagnostic/bulk/${bulkJob.jobId}/progress`);
+        const res = await apiFetch(`/api/diagnostic/bulk/${bulkJob.jobId}/progress`);
         if (res.ok) {
           const data = await res.json();
           setBulkJob(prev => prev ? { ...prev, completed: data.completed, status: data.status, pdfUrl: data.pdfUrl || prev.pdfUrl, downloadUrl: data.downloadUrl || prev.downloadUrl, error: data.error || '' } : prev);
@@ -2584,7 +2583,7 @@ export const VolunteerDashboard: React.FC<DashboardProps> = ({ user, token }) =>
     const finalSection = activeClass ? activeClass.section : sec;
 
     try {
-      const res = await fetch('/api/students', {
+      const res = await apiFetch('/api/students', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -2722,19 +2721,19 @@ export const VolunteerDashboard: React.FC<DashboardProps> = ({ user, token }) =>
         </div>
       )}
       {levelPdfError && (
-        <div className="bg-red-50 border border-red-200 text-red-800 p-4 rounded-xl text-xs font-mono">
+        <div className="bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 p-4 rounded-xl text-xs font-mono">
           ⚠️ {levelPdfError}
         </div>
       )}
-      <div className="border-b border-zinc-200 pb-4 flex justify-between items-end">
+      <div className="border-b border-zinc-200 dark:border-zinc-700 pb-4 flex justify-between items-end">
         <div>
-          <h1 className="text-3xl font-display font-semibold text-zinc-900 tracking-tight">Classroom Workspace</h1>
-          <p className="text-zinc-550 text-sm mt-0.5 font-medium">Volunteer: {user.name}</p>
+          <h1 className="text-3xl font-display font-semibold text-zinc-900 dark:text-white tracking-tight">Classroom Workspace</h1>
+          <p className="text-zinc-550 dark:text-zinc-400 text-sm mt-0.5 font-medium">Volunteer: {user.name}</p>
         </div>
         <div className="flex gap-2">
           <button
             onClick={() => setShowLevelRef(true)}
-            className="bg-white hover:bg-zinc-50 border border-zinc-200 text-zinc-700 font-mono text-xs font-semibold px-4 py-2.5 rounded-lg transition-colors cursor-pointer"
+            className="bg-white dark:bg-slate-900 hover:bg-zinc-50 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-200 font-mono text-xs font-semibold px-4 py-2.5 rounded-lg transition-colors cursor-pointer"
           >
             📖 59 FLN Framework
           </button>
@@ -2748,55 +2747,55 @@ export const VolunteerDashboard: React.FC<DashboardProps> = ({ user, token }) =>
       </div>
 
       {showAddForm && (
-        <form onSubmit={handleAddStudent} className="bg-white p-6 border border-zinc-200 rounded-xl shadow-sm space-y-4">
-          <div className="flex justify-between items-center border-b border-zinc-100 pb-2">
-            <h4 className="text-xs font-mono font-bold text-zinc-500 uppercase">
-              Register Student in <span className="text-zinc-900">{activeClass ? `${activeClass.className} - ${activeClass.section}` : `${cls} - ${sec}`}</span>
+        <form onSubmit={handleAddStudent} className="bg-white dark:bg-slate-900 p-6 border border-zinc-200 dark:border-zinc-700 rounded-xl shadow-sm space-y-4">
+          <div className="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-800 pb-2">
+            <h4 className="text-xs font-mono font-bold text-zinc-500 dark:text-zinc-400 uppercase">
+              Register Student in <span className="text-zinc-900 dark:text-white">{activeClass ? `${activeClass.className} - ${activeClass.section}` : `${cls} - ${sec}`}</span>
             </h4>
           </div>
           
           {regError && (
-            <div className="p-3 text-xs bg-red-50 text-red-700 rounded-lg border border-red-100 font-medium">
+            <div className="p-3 text-xs bg-red-50 dark:bg-red-950 text-red-700 dark:text-red-300 rounded-lg border border-red-100 dark:border-red-800 font-medium">
               ⚠️ {regError}
             </div>
           )}
           {regSuccess && (
-            <div className="p-3 text-xs bg-green-50 text-green-700 rounded-lg border border-green-100 font-medium">
+            <div className="p-3 text-xs bg-green-50 dark:bg-green-950 text-green-700 dark:text-green-300 rounded-lg border border-green-100 dark:border-green-800 font-medium">
               ✅ {regSuccess}
             </div>
           )}
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
-              <label className="block text-[10px] font-mono font-bold uppercase text-zinc-505 mb-1">Full Name</label>
+              <label className="block text-[10px] font-mono font-bold uppercase text-zinc-505 dark:text-zinc-400 mb-1">Full Name</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. Amanpreet Singh"
-                className="w-full text-sm border border-zinc-200 rounded-lg p-2.5 outline-none focus:border-zinc-500 focus:bg-white"
+                className="w-full text-sm border border-zinc-200 dark:border-zinc-700 rounded-lg p-2.5 outline-none focus:border-zinc-500 focus:bg-white dark:bg-zinc-800 dark:text-white"
                 required
               />
             </div>
             <div>
-              <label className="block text-[10px] font-mono font-bold uppercase text-zinc-505 mb-1">Age</label>
+              <label className="block text-[10px] font-mono font-bold uppercase text-zinc-505 dark:text-zinc-400 mb-1">Age</label>
               <input
                 type="number"
                 value={age}
                 onChange={(e) => setAge(e.target.value)}
                 placeholder="e.g. 8"
-                className="w-full text-sm border border-zinc-200 rounded-lg p-2.5 outline-none focus:border-zinc-500 focus:bg-white"
+                className="w-full text-sm border border-zinc-200 dark:border-zinc-700 rounded-lg p-2.5 outline-none focus:border-zinc-500 focus:bg-white dark:bg-zinc-800 dark:text-white"
                 required
               />
             </div>
             <div>
-              <label className="block text-[10px] font-mono font-bold uppercase text-zinc-505 mb-1">Identity (Aadhar / BC No.)</label>
+              <label className="block text-[10px] font-mono font-bold uppercase text-zinc-505 dark:text-zinc-400 mb-1">Identity (Aadhar / BC No.)</label>
               <input
                 type="text"
                 value={aadhar}
                 onChange={(e) => setAadhar(e.target.value)}
                 placeholder="12 digit identity number"
-                className="w-full text-sm border border-zinc-200 rounded-lg p-2.5 outline-none focus:border-zinc-500 focus:bg-white"
+                className="w-full text-sm border border-zinc-200 dark:border-zinc-700 rounded-lg p-2.5 outline-none focus:border-zinc-500 focus:bg-white dark:bg-zinc-800 dark:text-white"
                 required
               />
             </div>
@@ -2812,7 +2811,7 @@ export const VolunteerDashboard: React.FC<DashboardProps> = ({ user, token }) =>
         </form>
       )}
 
-      <div className="flex gap-2 border-b border-zinc-200 pb-px">
+      <div className="flex gap-2 border-b border-zinc-200 dark:border-zinc-700 pb-px">
         {classes.map(c => (
           <button
             key={c.id}
@@ -2829,14 +2828,14 @@ export const VolunteerDashboard: React.FC<DashboardProps> = ({ user, token }) =>
       {activeClass && (
         <div className="space-y-6">
           {/* 📋 Diagnostic Paper Generator */}
-          <div className="bg-white border border-zinc-200 rounded-xl p-5 shadow-sm space-y-4">
+          <div className="bg-white dark:bg-slate-900 border border-zinc-200 dark:border-slate-700 rounded-xl p-5 shadow-sm space-y-4">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
-                <h3 className="font-display font-semibold text-zinc-900 text-sm">📋 Diagnostic Paper Generator</h3>
-                <p className="text-xs text-zinc-500 mt-0.5">Generate baseline diagnostic PDFs for students pending placement.</p>
+                <h3 className="font-display font-semibold text-zinc-900 dark:text-white text-sm">📋 Diagnostic Paper Generator</h3>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">Generate baseline diagnostic PDFs for students pending placement.</p>
               </div>
               <div className="flex items-center gap-3">
-                <span className="text-xs font-mono font-bold px-2 py-1 rounded bg-amber-50 text-amber-700 border border-amber-200">
+                <span className="text-xs font-mono font-bold px-2 py-1 rounded bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800">
                   {classStudents.filter(s => s.levelHistory.length === 0).length} Pending
                 </span>
                 <button
@@ -2853,7 +2852,7 @@ export const VolunteerDashboard: React.FC<DashboardProps> = ({ user, token }) =>
                     setBulkError('');
                     setBulkJob(null);
                     try {
-                      const res = await fetch('/api/diagnostic/bulk', {
+                      const res = await apiFetch('/api/diagnostic/bulk', {
                         method: 'POST',
                         headers: {
                           'Content-Type': 'application/json',
@@ -2895,13 +2894,13 @@ export const VolunteerDashboard: React.FC<DashboardProps> = ({ user, token }) =>
                 )}
                 {bulkJob && (
                   <>
-                    <div className="flex justify-between text-xs font-mono text-zinc-500">
+                    <div className="flex justify-between text-xs font-mono text-zinc-500 dark:text-zinc-400">
                       <span>Progress: {bulkJob.completed} / {bulkJob.total} papers</span>
-                      <span className={`font-semibold ${bulkJob.status === 'running' ? 'text-blue-600' : bulkJob.status === 'completed' ? 'text-green-600' : 'text-red-600'}`}>
+                      <span className={`font-semibold ${bulkJob.status === 'running' ? 'text-blue-600 dark:text-blue-400' : bulkJob.status === 'completed' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
                         {bulkJob.status === 'running' ? 'Generating...' : bulkJob.status === 'completed' ? 'Ready' : 'Failed'}
                       </span>
                     </div>
-                    <div className="w-full bg-zinc-100 rounded-full h-2.5 overflow-hidden">
+                    <div className="w-full bg-zinc-100 dark:bg-zinc-800 rounded-full h-2.5 overflow-hidden">
                       <div className={`h-full rounded-full transition-all duration-500 ${bulkJob.status === 'completed' ? 'bg-green-500' : bulkJob.status === 'failed' ? 'bg-red-500' : 'bg-blue-500'}`}
                         style={{ width: `${bulkJob.total > 0 ? Math.round((bulkJob.completed / bulkJob.total) * 100) : 0}%` }} />
                     </div>
@@ -2927,14 +2926,14 @@ export const VolunteerDashboard: React.FC<DashboardProps> = ({ user, token }) =>
           </div>
 
           {/* 📄 Level-Wise Paper Generator */}
-          <div className="bg-white border border-zinc-200 rounded-xl p-5 shadow-sm space-y-4">
+          <div className="bg-white dark:bg-slate-900 border border-zinc-200 dark:border-slate-700 rounded-xl p-5 shadow-sm space-y-4">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
-                <h3 className="font-display font-semibold text-zinc-900 text-sm">📄 Level-Wise Paper Generator</h3>
-                <p className="text-xs text-zinc-500 mt-0.5">Generate personalized level-wise question PDFs for placed students.</p>
+                <h3 className="font-display font-semibold text-zinc-900 dark:text-white text-sm">📄 Level-Wise Paper Generator</h3>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">Generate personalized level-wise question PDFs for placed students.</p>
               </div>
               <div className="flex items-center gap-3">
-                <span className="text-xs font-mono font-bold px-2 py-1 rounded bg-green-50 text-green-700 border border-green-200">
+                <span className="text-xs font-mono font-bold px-2 py-1 rounded bg-green-50 dark:bg-green-950/40 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800">
                   {classStudents.filter(s => s.levelHistory.length > 0).length} Placed
                 </span>
                 <button
@@ -2949,7 +2948,7 @@ export const VolunteerDashboard: React.FC<DashboardProps> = ({ user, token }) =>
                     setLevelBulkLoading(true);
                     setLevelBulkProgress({ total: placed.length, completed: 0, errors: [] });
                     try {
-                      const res = await fetch('/api/worksheets/generate-level-batch', {
+                      const res = await apiFetch('/api/worksheets/generate-level-batch', {
                         method: 'POST',
                         headers: {
                           'Content-Type': 'application/json',
@@ -2986,18 +2985,18 @@ export const VolunteerDashboard: React.FC<DashboardProps> = ({ user, token }) =>
             {/* Inline level-wise progress */}
             {levelBulkProgress && (
               <div className="pt-2 border-t border-zinc-100 dark:border-zinc-800 space-y-3">
-                <div className="flex justify-between text-xs font-mono text-zinc-500">
+                <div className="flex justify-between text-xs font-mono text-zinc-500 dark:text-zinc-400">
                   <span>Progress: {levelBulkProgress.completed} / {levelBulkProgress.total} papers</span>
-                  <span className={`font-semibold ${levelBulkLoading ? 'text-blue-600' : 'text-green-600'}`}>
+                  <span className={`font-semibold ${levelBulkLoading ? 'text-blue-600 dark:text-blue-400' : 'text-green-600 dark:text-green-400'}`}>
                     {levelBulkLoading ? 'Generating...' : 'Done'}
                   </span>
                 </div>
-                <div className="w-full bg-zinc-100 rounded-full h-2.5 overflow-hidden">
+                <div className="w-full bg-zinc-100 dark:bg-zinc-800 rounded-full h-2.5 overflow-hidden">
                   <div className={`h-full rounded-full transition-all duration-500 ${!levelBulkLoading ? 'bg-green-500' : 'bg-blue-500'}`}
                     style={{ width: `${levelBulkProgress.total > 0 ? Math.round((levelBulkProgress.completed / levelBulkProgress.total) * 100) : 0}%` }} />
                 </div>
                 {levelBulkProgress.errors.length > 0 && (
-                  <div className="p-2 bg-red-50 border border-red-200 rounded text-xs text-red-700">
+                  <div className="p-2 bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded text-xs text-red-700 dark:text-red-300">
                     Errors: {levelBulkProgress.errors.join('; ')}
                   </div>
                 )}
@@ -3006,12 +3005,12 @@ export const VolunteerDashboard: React.FC<DashboardProps> = ({ user, token }) =>
           </div>
 
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-          <div className="xl:col-span-2 bg-white border border-zinc-200 rounded-xl shadow-sm overflow-hidden">
-            <div className="p-4 border-b border-zinc-150 flex justify-between items-center bg-zinc-50/50">
-              <h3 className="font-display font-medium text-zinc-900 text-sm">Classroom Student Roster ({classStudents.length})</h3>
+          <div className="xl:col-span-2 bg-white dark:bg-slate-900 border border-zinc-200 dark:border-slate-700 rounded-xl shadow-sm overflow-hidden">
+            <div className="p-4 border-b border-zinc-150 dark:border-zinc-800 flex justify-between items-center bg-zinc-50/50 dark:bg-zinc-800/50">
+              <h3 className="font-display font-medium text-zinc-900 dark:text-white text-sm">Classroom Student Roster ({classStudents.length})</h3>
               <button
                 onClick={() => setShowWorksheetPortal(true)}
-                className="bg-white hover:bg-zinc-50 border border-zinc-200 text-zinc-700 font-mono text-[10px] font-bold px-3 py-1.5 rounded-lg shadow-sm cursor-pointer hover:border-zinc-400 transition-colors"
+                className="bg-white dark:bg-slate-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 font-mono text-[10px] font-bold px-3 py-1.5 rounded-lg shadow-sm cursor-pointer hover:border-zinc-400 transition-colors"
               >
                 Trigger Worksheets Flow
               </button>
@@ -3019,24 +3018,24 @@ export const VolunteerDashboard: React.FC<DashboardProps> = ({ user, token }) =>
             <div className="p-4">
               {(() => {
                 const studentColumns: Column<Student>[] = [
-                  { header: 'ID', accessor: 'id', sortKey: 'id', className: 'font-mono text-xs text-slate-400' },
-                  { header: 'Student Name', accessor: 'name', sortKey: 'name', className: 'font-medium text-slate-900' },
-                  { header: 'Aadhar / ID No.', accessor: 'aadharMasked', className: 'font-mono text-xs text-slate-500' },
+                  { header: 'ID', accessor: 'id', sortKey: 'id', className: 'font-mono text-xs text-slate-400 dark:text-slate-500' },
+                  { header: 'Student Name', accessor: 'name', sortKey: 'name', className: 'font-medium text-slate-900 dark:text-slate-100' },
+                  { header: 'Aadhar / ID No.', accessor: 'aadharMasked', className: 'font-mono text-xs text-slate-500 dark:text-slate-400' },
                   {
                     header: 'Current Level',
                     accessor: (s) => (
-                      <span className="font-mono font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded border border-slate-200 text-xs">
+                      <span className="font-mono font-bold text-slate-800 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700 text-xs">
                         L{s.currentLevel}.{s.currentSubLevel ?? 0}
                       </span>
                     )
                   },
                   {
                     header: 'Target Level',
-                    accessor: (s) => <span className="font-mono text-slate-500 text-xs">Level {s.targetLevel}</span>
+                    accessor: (s) => <span className="font-mono text-slate-500 dark:text-slate-400 text-xs">Level {s.targetLevel}</span>
                   },
                   {
                     header: 'Streak',
-                    accessor: (s) => <span className="font-mono font-semibold text-slate-800">{s.streak} 🔥</span>
+                    accessor: (s) => <span className="font-mono font-semibold text-slate-800 dark:text-slate-200">{s.streak} 🔥</span>
                   },
                   {
                     header: 'Diagnostic Status',
@@ -3057,7 +3056,7 @@ export const VolunteerDashboard: React.FC<DashboardProps> = ({ user, token }) =>
                       </div>
                     ) : (
                       <div className="flex items-center gap-2">
-                        <span className="text-green-700 font-mono text-[9px] font-bold uppercase bg-green-50 px-2 py-0.5 rounded border border-green-200">
+                        <span className="text-green-700 dark:text-green-400 font-mono text-[9px] font-bold uppercase bg-green-50 dark:bg-green-950/40 px-2 py-0.5 rounded border border-green-200 dark:border-green-800">
                           Placed
                         </span>
                         <button
@@ -3068,10 +3067,10 @@ export const VolunteerDashboard: React.FC<DashboardProps> = ({ user, token }) =>
                           Print L{s.currentLevel}.{s.currentSubLevel || 0}
                         </button>
                         <a
-                          href={`/worksheets/levels_main.html?level=${s.currentLevel}&sub=${s.currentSubLevel || 0}`}
+                          href={withBase(`/worksheets/levels_main.html?level=${s.currentLevel}&sub=${s.currentSubLevel || 0}`)}
                           target="_blank"
                           rel="noreferrer"
-                          className="bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 text-zinc-800 font-mono text-[9px] font-bold px-2 py-0.5 rounded cursor-pointer transition-all active:scale-95 inline-flex items-center gap-1"
+                          className="bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 font-mono text-[9px] font-bold px-2 py-0.5 rounded cursor-pointer transition-all active:scale-95 inline-flex items-center gap-1"
                           title="Open in-browser interactive generator for this specific level"
                         >
                           🌐 Interactive
@@ -3088,9 +3087,9 @@ export const VolunteerDashboard: React.FC<DashboardProps> = ({ user, token }) =>
           </div>
 
           <div className="xl:col-span-1 space-y-4">
-            <div className="bg-white p-5 border border-zinc-200 rounded-xl shadow-sm space-y-4">
-              <h4 className="font-display font-medium text-zinc-905 text-sm">Exam Worksheets Engine</h4>
-              <p className="text-xs text-zinc-505 leading-relaxed">
+            <div className="bg-white dark:bg-slate-900 p-5 border border-zinc-200 dark:border-slate-700 rounded-xl shadow-sm space-y-4">
+              <h4 className="font-display font-medium text-zinc-900 dark:text-white text-sm">Exam Worksheets Engine</h4>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
                 Trigger class-wide personalized mathematics worksheets or grade submitted solution sheets using ICR scanner integrations.
               </p>
               <button
