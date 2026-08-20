@@ -1,0 +1,585 @@
+[
+  {
+    "file": "class1-diagnostic-cognitive.html",
+    "questions": [
+      {
+        "title": "Count Objects",
+        "cog": "",
+        "marks": "[1 mark]",
+        "body": "Count the objects below. How many are there?\n      <div class=\"objects\">★ &nbsp; ★ &nbsp; ★ &nbsp; ★ &nbsp; ★</div>\n      <div class=\"boxed\">Answer = <span class=\"answer-box\" style=\"width:70px;\"></span></div>\n    </div>\n  </div>\n\n  <!-- Q2: Number Recognition (Recognize) -->"
+      },
+      {
+        "title": "Number Recognition",
+        "cog": "",
+        "marks": "[1 mark]",
+        "body": "Look at the group of stars. Which numeral shows how many there are?\n      <div class=\"objects\">▲ &nbsp; ▲ &nbsp; ▲ &nbsp; ▲ &nbsp; ▲ &nbsp; ▲ &nbsp; ▲</div>\n      <ul class=\"mcq-list\">\n        <li><span class=\"bubble\"></span>(A) 5</li>\n        <li><span class=\"bubble\"></span>(B) 6</li>\n        <li><span class=\"bubble\"></span>(C) 7</li>\n        <li><span class=\"bubble\"></span>(D) 8</li>\n      </ul>\n    </div>\n  </div>\n\n  <!-- Q3: Write Number (Recall) -->"
+      },
+      {
+        "title": "Write Number",
+        "cog": "",
+        "marks": "[1 mark]",
+        "body": "Write the numeral for the given group of objects.\n      <div class=\"objects\">● &nbsp; ● &nbsp; ● &nbsp; ● &nbsp; ● &nbsp; ● &nbsp; ● &nbsp; ● &nbsp; ●</div>\n      <div class=\"boxed\">Answer = <span class=\"answer-box\" style=\"width:70px;\"></span></div>\n    </div>\n  </div>\n\n  <!-- Q4: Before Number (Sequence) -->"
+      },
+      {
+        "title": "Before Number",
+        "cog": "",
+        "marks": "[1 mark]",
+        "body": "What number comes <b>just before</b> 7?\n      <div class=\"boxed\" style=\"font-size:18px;margin-top:8px;\">\n        Answer = <span class=\"answer-box\" style=\"width:70px;\"></span> , &nbsp; <b>7</b>\n      </div>\n    </div>\n  </div>\n\n  <!-- Q5: After Number (Sequence) -->"
+      },
+      {
+        "title": "After Number",
+        "cog": "",
+        "marks": "[1 mark]",
+        "body": "What number comes <b>just after</b> 9?\n      <div class=\"boxed\" style=\"font-size:18px;margin-top:8px;\">\n        <b>9</b> , &nbsp; Answer = <span class=\"answer-box\" style=\"width:70px;\"></span>\n      </div>\n    </div>\n  </div>\n\n  <!-- Q6: Missing Number (Sequence) -->"
+      },
+      {
+        "title": "Missing Number",
+        "cog": "",
+        "marks": "[1 mark]",
+        "body": "Fill in the missing number in the counting sequence below.\n      <div style=\"font-size:18px;font-weight:bold;margin:10px 0;letter-spacing:8px;font-family:Arial,sans-serif;\">\n        2 &nbsp; 3 &nbsp; <span class=\"pattern-blank\"></span> &nbsp; 5 &nbsp; 6\n      </div>\n    </div>\n  </div>\n\n  <!-- Q7: Greater or Smaller (Compare) -->"
+      },
+      {
+        "title": "Greater or Smaller",
+        "cog": "",
+        "marks": "[1 mark]",
+        "body": "Circle the number that is the <b>greatest</b>:\n      <div style=\"font-size:22px;font-weight:bold;margin:8px 0;letter-spacing:12px;font-family:Arial,sans-serif;text-align:center;\">\n        4 &nbsp;&nbsp; 9 &nbsp;&nbsp; 6 &nbsp;&nbsp; 3\n      </div>\n    </div>\n  </div>\n\n  <!-- Q8: Compare Quantities (Compare) -->"
+      },
+      {
+        "title": "Compare Quantities",
+        "cog": "",
+        "marks": "[1 mark]",
+        "body": "Look at the two groups of bananas. Circle the group that has <b>more</b> bananas.\n      <div class=\"compare-groups\">\n        <div class=\"compare-group\">▮ ▮ ▮ ▮</div>\n        <span class=\"compare-vs\">vs.</span>\n        <div class=\"compare-group\">▮ ▮ ▮ ▮ ▮ ▮ ▮ ▮</div>\n      </div>\n    </div>\n  </div>\n\n</div>\n\n<!-- ============ PAGE 2 ============ -->\n<div class=\"sheet pagebreak\">\n\n  <!-- Q9: Number Line (Represent) -->"
+      },
+      {
+        "title": "Number Line",
+        "cog": "",
+        "marks": "[2 marks]",
+        "body": "Mark the position of the number <b>4</b> on the number line below with a cross (×).\n      <div class=\"numberline-wrap\">\n        <div class=\"numberline\" id=\"numline\">\n          <div class=\"tick\" style=\"left:0%;\"></div><div class=\"label\" style=\"left:0%;\">0</div>\n          <div class=\"tick\" style=\"left:20%;\"></div><div class=\"label\" style=\"left:20%;\">1</div>\n          <div class=\"tick\" style=\"left:40%;\"></div><div class=\"label\" style=\"left:40%;\">2</div>\n          <div class=\"tick\" style=\"left:60%;\"></div><div class=\"label\" style=\"left:60%;\">3</div>\n          <div class=\"tick\" style=\"left:80%;\"></div><div class=\"label\" style=\"left:80%;\">4</div>\n          <div class=\"tick\" style=\"left:100%;\"></div><div class=\"label\" style=\"left:100%;\">5</div>\n        </div>\n      </div>\n      <div class=\"mark-here\">(Mark your answer clearly above the number 4.)</div>\n    </div>\n  </div>\n\n  <!-- Q10: Simple Addition (Combine) -->"
+      },
+      {
+        "title": "Simple Addition",
+        "cog": "",
+        "marks": "[2 marks]",
+        "body": "Add the two groups and write the total.\n      <div style=\"font-size:22px;margin:10px 0;letter-spacing:6px;font-family:Arial,sans-serif;\">\n        ▲ ▲ ▲ &nbsp; + &nbsp; ▲ ▲ &nbsp; = &nbsp; <span class=\"answer-box\" style=\"width:80px;height:32px;\"></span>\n      </div>\n    </div>\n  </div>\n\n  <!-- Q11: Simple Subtraction (Take Away) -->"
+      },
+      {
+        "title": "Simple Subtraction",
+        "cog": "",
+        "marks": "[2 marks]",
+        "body": "Cross out (×) the objects being taken away. How many remain?\n      <div style=\"font-size:22px;margin:10px 0;letter-spacing:6px;font-family:Arial,sans-serif;\">\n        ● ● ● ● ● &nbsp; − &nbsp; ● ● &nbsp; = &nbsp; <span class=\"answer-box\" style=\"width:80px;height:32px;\"></span>\n      </div>\n    </div>\n  </div>\n\n  <!-- Q12: Identify Shapes (Classify) -->"
+      },
+      {
+        "title": "Identify Shapes",
+        "cog": "",
+        "marks": "[2 marks]",
+        "body": "Tick (✓) the correct shape for each name.\n      <div style=\"margin-top:12px;\">\n        <div style=\"margin:8px 0;\">\n          <b>(a) Circle</b>\n          <div class=\"shape-choices\">\n            <div class=\"choice\"><div class=\"draw\"><span class=\"shape-cell sh-circle\"></span></div><div class=\"check\">☐</div></div>\n            <div class=\"choice\"><div class=\"draw\"><span class=\"shape-cell sh-square\"></span></div><div class=\"check\">☐</div></div>\n            <div class=\"choice\"><div class=\"draw\"><span class=\"shape-cell sh-triangle\"></span></div><div class=\"check\">☐</div></div>\n          </div>\n        </div>\n        <div style=\"margin:8px 0;\">\n          <b>(b) Triangle</b>\n          <div class=\"shape-choices\">\n            <div class=\"choice\"><div class=\"draw\"><span class=\"shape-cell sh-circle\"></span></div><div class=\"check\">☐</div></div>\n            <div class=\"choice\"><div class=\"draw\"><span class=\"shape-cell sh-square\"></span></div><div class=\"check\">☐</div></div>\n            <div class=\"choice\"><div class=\"draw\"><span class=\"shape-cell sh-triangle\"></span></div><div class=\"check\">☐</div></div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <!-- Q13: Patterns (Generalize) -->"
+      },
+      {
+        "title": "Patterns",
+        "cog": "",
+        "marks": "[2 marks]",
+        "body": "Look at the pattern below. What shape comes next?\n      <div class=\"pattern-row\">\n        ▲ &nbsp; ● &nbsp; ▲ &nbsp; ● &nbsp; ▲ &nbsp; <span class=\"pattern-blank\"></span>\n      </div>\n      <div style=\"font-size:11px;font-style:italic;margin-top:4px;\">\n        (Hint: follow the same rule used to make the pattern.)\n      </div>\n    </div>\n  </div>\n\n  <!-- Q14: Match Objects (Relate) -->"
+      },
+      {
+        "title": "Match Objects",
+        "cog": "",
+        "marks": "[2 marks]",
+        "body": "Draw a line to match each group on the left with the correct numeral on the right.\n      <table class=\"match-table\">\n        <tr>\n          <td class=\"obj\" style=\"width:45%;\">●●●</td>\n          <td class=\"conn\"></td>\n          <td style=\"width:20%;font-size:18px;font-weight:bold;\">5</td>\n        </tr>\n        <tr>\n          <td class=\"obj\">●●●●●</td>\n          <td class=\"conn\"></td>\n          <td style=\"font-size:18px;font-weight:bold;\">3</td>\n        </tr>\n        <tr>\n          <td class=\"obj\">●●●●</td>\n          <td class=\"conn\"></td>\n          <td style=\"font-size:18px;font-weight:bold;\">4</td>\n        </tr>\n      </table>\n    </div>\n  </div>\n\n  <!-- Q15: One-Step Word Problem (Apply) -->"
+      },
+      {
+        "title": "One-Step Word Problem",
+        "cog": "",
+        "marks": "[3 marks]",
+        "body": "<div class=\"wordbox\">\n        Ravi has <b>4 toffees</b>. His mother gives him <b>3 more toffees</b>.<br>\n        How many toffees does Ravi have altogether?\n      </div>\n      <div class=\"boxed\" style=\"margin-top:8px;\">\n        Number sentence: &nbsp;\n        <span class=\"answer-box\" style=\"width:50px;\"></span>\n        + <span class=\"answer-box\" style=\"width:50px;\"></span>\n        = <span class=\"answer-box\" style=\"width:50px;\"></span>\n      </div>\n      <div class=\"boxed\" style=\"margin-top:8px;\">\n        Answer: Ravi has <span class=\"answer-box\" style=\"width:60px;\"></span> toffees.\n      </div>\n    </div>\n  </div>\n\n  <div class=\"footer\">\n    <span>FLN · Class 1 · Diagnostic Paper</span>\n    <span>End of Paper · 15 Questions · 25 Marks</span>\n  </div>"
+      }
+    ]
+  },
+  {
+    "file": "class-pre-diagnostic-cognitive.html",
+    "questions": [
+      {
+        "title": "One-to-One Correspondence",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><svg viewBox=\"0 0 24 24\" width=\"36\" height=\"36\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><circle cx=\"12\" cy=\"12\" r=\"9\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\"/><path d=\"M12 3 L12 21 M3 12 L21 12 M5.5 5.5 L18.5 18.5 M18.5 5.5 L5.5 18.5\" stroke=\"#1a1a1a\" stroke-width=\".8\" opacity=\".5\"/></svg><span style=\"display:inline-block;width:18px;\"></span><svg viewBox=\"0 0 24 24\" width=\"36\" height=\"36\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><circle cx=\"12\" cy=\"12\" r=\"9\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\"/><path d=\"M12 3 L12 21 M3 12 L21 12 M5.5 5.5 L18.5 18.5 M18.5 5.5 L5.5 18.5\" stroke=\"#1a1a1a\" stroke-width=\".8\" opacity=\".5\"/></svg><span style=\"display:inline-block;width:18px;\"></span><svg viewBox=\"0 0 24 24\" width=\"36\" height=\"36\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><circle cx=\"12\" cy=\"12\" r=\"9\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\"/><path d=\"M12 3 L12 21 M3 12 L21 12 M5.5 5.5 L18.5 18.5 M18.5 5.5 L5.5 18.5\" stroke=\"#1a1a1a\" stroke-width=\".8\" opacity=\".5\"/></svg><br><span style=\"display:inline-block;width:60px;border-top:1.5px solid #000;margin:0 18px 0 0;\"></span><span style=\"display:inline-block;width:18px;\"></span><span style=\"display:inline-block;width:60px;border-top:1.5px solid #000;margin:0 18px 0 0;\"></span><span style=\"display:inline-block;width:18px;\"></span><span style=\"display:inline-block;width:60px;border-top:1.5px solid #000;margin:0 18px 0 0;\"></span><span style=\"display:inline-block;width:18px;\"></span><span style=\"display:inline-block;width:60px;border-top:1.5px solid #000;margin:0;\"></span></div>"
+      },
+      {
+        "title": "Classification (Single Property)",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><div style=\"display:flex;gap:18px;margin:10px 0;flex-wrap:wrap;align-items:center;\"><svg viewBox=\"0 0 24 24\" width=\"48\" height=\"48\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M12 8 C6 8 3 13 3 17 C3 21 7 23 10 22 C11 21 13 21 14 22 C17 23 21 21 21 17 C21 13 18 8 12 8 Z\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M12 8 C12 6 12 5 11 3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M11 4 C13 2 16 2 17 4 C15 6 12 6 11 4 Z\" fill=\"#1a1a1a\"/><path d=\"M9 12 C8 14 8 16 10 18\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".5\"/></svg><span style=\"display:inline-block;width:18px;\"></span><svg viewBox=\"0 0 24 24\" width=\"48\" height=\"48\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><circle cx=\"12\" cy=\"12\" r=\"9\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\"/><path d=\"M12 3 L12 21 M3 12 L21 12 M5.5 5.5 L18.5 18.5 M18.5 5.5 L5.5 18.5\" stroke=\"#1a1a1a\" stroke-width=\".8\" opacity=\".5\"/></svg><span style=\"display:inline-block;width:18px;\"></span><svg viewBox=\"0 0 24 24\" width=\"48\" height=\"48\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M6 20 C4 13 5 7 10 4 C13 2 17 2 19 4\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"3.4\" stroke-linecap=\"round\"/><path d=\"M8 19 C6 13 7 8 11 5\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".4\"/><path d=\"M18 2 C19 1 21 1.5 21 3 C21 4 19.5 4.5 18 3.5 Z\" fill=\"#1a1a1a\"/></svg><span style=\"display:inline-block;width:18px;\"></span><svg viewBox=\"0 0 24 24\" width=\"48\" height=\"48\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M3 15 L4 11 C4.5 9.5 6 8.5 7.5 8.5 L15 8.5 C16.5 8.5 18 9.5 18.5 11 L20 15\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><rect x=\"2\" y=\"15\" width=\"19\" height=\"3\" rx=\"1.5\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\"/><line x1=\"7\" y1=\"8.5\" x2=\"8\" y2=\"12\" stroke=\"#1a1a1a\" stroke-width=\"1.2\"/><line x1=\"16\" y1=\"8.5\" x2=\"15\" y2=\"12\" stroke=\"#1a1a1a\" stroke-width=\"1.2\"/><circle cx=\"6.5\" cy=\"18\" r=\"2\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.5\"/><circle cx=\"16.5\" cy=\"18\" r=\"2\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.5\"/></svg><span style=\"display:inline-block;width:18px;\"></span><svg viewBox=\"0 0 24 24\" width=\"48\" height=\"48\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M4 14 C4 6 12 3 18 7 C21 9 20 15 16 19 C11 23 4 21 4 14 Z\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M14 5 C15 3 17 2 19 3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.4\" stroke-linecap=\"round\"/></svg><span style=\"display:inline-block;width:18px;\"></span><svg viewBox=\"0 0 24 24\" width=\"48\" height=\"48\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><polygon points=\"12,2 20,12 12,22 4,12\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\" stroke-linejoin=\"round\"/><line x1=\"12\" y1=\"22\" x2=\"14\" y2=\"28\" stroke=\"#1a1a1a\" stroke-width=\"1\"/><line x1=\"12\" y1=\"2\" x2=\"12\" y2=\"22\" stroke=\"#1a1a1a\" stroke-width=\"1\" opacity=\".5\"/></svg></div></div>"
+      },
+      {
+        "title": "Perceptual Same/Different",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><div style=\"margin:10px 0;font-size:14px;\"><div style=\"margin:6px 0;\">Pair A: <svg viewBox=\"0 0 24 24\" width=\"36\" height=\"36\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M12 8 C6 8 3 13 3 17 C3 21 7 23 10 22 C11 21 13 21 14 22 C17 23 21 21 21 17 C21 13 18 8 12 8 Z\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M12 8 C12 6 12 5 11 3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M11 4 C13 2 16 2 17 4 C15 6 12 6 11 4 Z\" fill=\"#1a1a1a\"/><path d=\"M9 12 C8 14 8 16 10 18\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".5\"/></svg> &nbsp; vs &nbsp; <svg viewBox=\"0 0 24 24\" width=\"36\" height=\"36\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M12 8 C6 8 3 13 3 17 C3 21 7 23 10 22 C11 21 13 21 14 22 C17 23 21 21 21 17 C21 13 18 8 12 8 Z\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M12 8 C12 6 12 5 11 3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M11 4 C13 2 16 2 17 4 C15 6 12 6 11 4 Z\" fill=\"#1a1a1a\"/><path d=\"M9 12 C8 14 8 16 10 18\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".5\"/></svg> &nbsp;&nbsp; <span class=\"answer-box\" style=\"width:48px;\"></span> Yes &nbsp;&nbsp; <span class=\"answer-box\" style=\"width:48px;\"></span> No</div><div style=\"margin:6px 0;\">Pair B: <svg viewBox=\"0 0 24 24\" width=\"36\" height=\"36\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><circle cx=\"12\" cy=\"12\" r=\"9\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\"/><path d=\"M12 3 L12 21 M3 12 L21 12 M5.5 5.5 L18.5 18.5 M18.5 5.5 L5.5 18.5\" stroke=\"#1a1a1a\" stroke-width=\".8\" opacity=\".5\"/></svg> &nbsp; vs &nbsp; <svg viewBox=\"0 0 24 24\" width=\"36\" height=\"36\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><polygon points=\"12,2 20,12 12,22 4,12\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\" stroke-linejoin=\"round\"/><line x1=\"12\" y1=\"22\" x2=\"14\" y2=\"28\" stroke=\"#1a1a1a\" stroke-width=\"1\"/><line x1=\"12\" y1=\"2\" x2=\"12\" y2=\"22\" stroke=\"#1a1a1a\" stroke-width=\"1\" opacity=\".5\"/></svg> &nbsp;&nbsp; <span class=\"answer-box\" style=\"width:48px;\"></span> Yes &nbsp;&nbsp; <span class=\"answer-box\" style=\"width:48px;\"></span> No</div></div></div>"
+      },
+      {
+        "title": "Rote Verbal Counting to 10",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><div style=\"display:flex;gap:8px;margin:14px 0;flex-wrap:wrap;\"><span class=\"answer-box\" style=\"width:42px;height:34px;font-size:14px;line-height:34px;\">1</span><span class=\"answer-box\" style=\"width:42px;height:34px;font-size:14px;line-height:34px;\">2</span><span class=\"answer-box\" style=\"width:42px;height:34px;font-size:14px;line-height:34px;\">3</span><span class=\"answer-box\" style=\"width:42px;height:34px;font-size:14px;line-height:34px;\">4</span><span class=\"answer-box\" style=\"width:42px;height:34px;font-size:14px;line-height:34px;\">5</span><span class=\"answer-box\" style=\"width:42px;height:34px;font-size:14px;line-height:34px;\">6</span><span class=\"answer-box\" style=\"width:42px;height:34px;font-size:14px;line-height:34px;\">7</span><span class=\"answer-box\" style=\"width:42px;height:34px;font-size:14px;line-height:34px;\">8</span><span class=\"answer-box\" style=\"width:42px;height:34px;font-size:14px;line-height:34px;\">9</span><span class=\"answer-box\" style=\"width:42px;height:34px;font-size:14px;line-height:34px;\">10</span></div><div style=\"font-size:11px;font-style:italic;\">(10 small boxes; teacher marks each one spoken correctly.)</div></div>"
+      },
+      {
+        "title": "Counting Small Sets (1–3) with Support",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><div style=\"margin:14px 0;line-height:2.2;\"><svg viewBox=\"0 0 24 24\" width=\"28\" height=\"28\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><polygon points=\"12,2 14.9,8.6 22,9.3 16.5,14 18.2,21 12,17.3 5.8,21 7.5,14 2,9.3 9.1,8.6\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\" stroke-linejoin=\"round\"/></svg><span style=\"display:inline-block;width:18px;\"></span><svg viewBox=\"0 0 24 24\" width=\"28\" height=\"28\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><polygon points=\"12,2 14.9,8.6 22,9.3 16.5,14 18.2,21 12,17.3 5.8,21 7.5,14 2,9.3 9.1,8.6\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\" stroke-linejoin=\"round\"/></svg><span style=\"display:inline-block;width:18px;\"></span><svg viewBox=\"0 0 24 24\" width=\"28\" height=\"28\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><polygon points=\"12,2 14.9,8.6 22,9.3 16.5,14 18.2,21 12,17.3 5.8,21 7.5,14 2,9.3 9.1,8.6\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\" stroke-linejoin=\"round\"/></svg></div><div style=\"margin:10px 0;font-size:22px;font-weight:bold;font-family:Arial,sans-serif;letter-spacing:6px;\"><span style=\"border:1.5px dashed #000;padding:4px 10px;\">3</span>&nbsp;&#8594;&nbsp;<span class=\"answer-box\" style=\"width:70px; height:36px;\"></span></div></div>"
+      },
+      {
+        "title": "Shape Matching (Perceptual)",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><div style=\"display:flex;justify-content:space-around;align-items:center;margin:14px 0;gap:20px;\"><div style=\"display:flex;flex-direction:column;gap:18px;\"><svg viewBox=\"0 0 56 56\" width=\"56\" height=\"56\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"28.0\" cy=\"28.0\" r=\"25.0\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg><svg viewBox=\"0 0 56 56\" width=\"56\" height=\"56\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"4\" y=\"4\" width=\"48\" height=\"48\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg><svg viewBox=\"0 0 56 56\" width=\"56\" height=\"56\" xmlns=\"http://www.w3.org/2000/svg\"><polygon points=\"28.0,4 52,52 4,52\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg><svg viewBox=\"0 0 56 56\" width=\"56\" height=\"56\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"4\" y=\"18.0\" width=\"48\" height=\"20\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg></div><div style=\"display:flex;flex-direction:column;gap:18px;\"><svg viewBox=\"0 0 40 40\" width=\"40\" height=\"40\" xmlns=\"http://www.w3.org/2000/svg\"><polygon points=\"20.0,4 36,36 4,36\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg><svg viewBox=\"0 0 40 40\" width=\"40\" height=\"40\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"20.0\" cy=\"20.0\" r=\"17.0\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg><svg viewBox=\"0 0 40 40\" width=\"40\" height=\"40\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"4\" y=\"10.0\" width=\"32\" height=\"20\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg><svg viewBox=\"0 0 40 40\" width=\"40\" height=\"40\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"4\" y=\"4\" width=\"32\" height=\"32\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg></div></div></div>"
+      },
+      {
+        "title": "Perceptual Subitizing",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><div style=\"display:flex;gap:30px;margin:14px 0;align-items:center;flex-wrap:wrap;\"><div style=\"text-align:center;\"><svg viewBox=\"0 0 80 80\" width=\"80\" height=\"80\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"40.0\" cy=\"24.0\" r=\"5\" fill=\"#000\"/><circle cx=\"24.0\" cy=\"56.0\" r=\"5\" fill=\"#000\"/><circle cx=\"56.0\" cy=\"56.0\" r=\"5\" fill=\"#000\"/></svg><div style=\"margin-top:6px;\">Answer = <span class=\"answer-box\" style=\"width:60px; height:32px;\"></span></div></div><div style=\"text-align:center;\"><svg viewBox=\"0 0 80 80\" width=\"80\" height=\"80\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"28.0\" cy=\"40.0\" r=\"5\" fill=\"#000\"/><circle cx=\"52.0\" cy=\"40.0\" r=\"5\" fill=\"#000\"/></svg><div style=\"margin-top:6px;\">Answer = <span class=\"answer-box\" style=\"width:60px; height:32px;\"></span></div></div></div><div style=\"font-size:11px;font-style:italic;margin-top:6px;\">(Look quickly &#8212; do not count one by one.)</div></div>"
+      },
+      {
+        "title": "Quantity Comparison (More/Less/Equal)",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><div style=\"display:flex;gap:30px;margin:14px 0;align-items:center;justify-content:center;\"><div style=\"border:1.5px solid #000;border-radius:8px;padding:10px 14px;\"><svg viewBox=\"0 0 24 24\" width=\"28\" height=\"28\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M12 8 C6 8 3 13 3 17 C3 21 7 23 10 22 C11 21 13 21 14 22 C17 23 21 21 21 17 C21 13 18 8 12 8 Z\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M12 8 C12 6 12 5 11 3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M11 4 C13 2 16 2 17 4 C15 6 12 6 11 4 Z\" fill=\"#1a1a1a\"/><path d=\"M9 12 C8 14 8 16 10 18\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".5\"/></svg><svg viewBox=\"0 0 24 24\" width=\"28\" height=\"28\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M12 8 C6 8 3 13 3 17 C3 21 7 23 10 22 C11 21 13 21 14 22 C17 23 21 21 21 17 C21 13 18 8 12 8 Z\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M12 8 C12 6 12 5 11 3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M11 4 C13 2 16 2 17 4 C15 6 12 6 11 4 Z\" fill=\"#1a1a1a\"/><path d=\"M9 12 C8 14 8 16 10 18\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".5\"/></svg><svg viewBox=\"0 0 24 24\" width=\"28\" height=\"28\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M12 8 C6 8 3 13 3 17 C3 21 7 23 10 22 C11 21 13 21 14 22 C17 23 21 21 21 17 C21 13 18 8 12 8 Z\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M12 8 C12 6 12 5 11 3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M11 4 C13 2 16 2 17 4 C15 6 12 6 11 4 Z\" fill=\"#1a1a1a\"/><path d=\"M9 12 C8 14 8 16 10 18\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".5\"/></svg><svg viewBox=\"0 0 24 24\" width=\"28\" height=\"28\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M12 8 C6 8 3 13 3 17 C3 21 7 23 10 22 C11 21 13 21 14 22 C17 23 21 21 21 17 C21 13 18 8 12 8 Z\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M12 8 C12 6 12 5 11 3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M11 4 C13 2 16 2 17 4 C15 6 12 6 11 4 Z\" fill=\"#1a1a1a\"/><path d=\"M9 12 C8 14 8 16 10 18\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".5\"/></svg></div><span style=\"font-size:18px;font-weight:bold;\">vs.</span><div style=\"border:1.5px solid #000;border-radius:8px;padding:10px 14px;\"><svg viewBox=\"0 0 24 24\" width=\"28\" height=\"28\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M12 8 C6 8 3 13 3 17 C3 21 7 23 10 22 C11 21 13 21 14 22 C17 23 21 21 21 17 C21 13 18 8 12 8 Z\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M12 8 C12 6 12 5 11 3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M11 4 C13 2 16 2 17 4 C15 6 12 6 11 4 Z\" fill=\"#1a1a1a\"/><path d=\"M9 12 C8 14 8 16 10 18\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".5\"/></svg><svg viewBox=\"0 0 24 24\" width=\"28\" height=\"28\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M12 8 C6 8 3 13 3 17 C3 21 7 23 10 22 C11 21 13 21 14 22 C17 23 21 21 21 17 C21 13 18 8 12 8 Z\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M12 8 C12 6 12 5 11 3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M11 4 C13 2 16 2 17 4 C15 6 12 6 11 4 Z\" fill=\"#1a1a1a\"/><path d=\"M9 12 C8 14 8 16 10 18\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".5\"/></svg><svg viewBox=\"0 0 24 24\" width=\"28\" height=\"28\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M12 8 C6 8 3 13 3 17 C3 21 7 23 10 22 C11 21 13 21 14 22 C17 23 21 21 21 17 C21 13 18 8 12 8 Z\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M12 8 C12 6 12 5 11 3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M11 4 C13 2 16 2 17 4 C15 6 12 6 11 4 Z\" fill=\"#1a1a1a\"/><path d=\"M9 12 C8 14 8 16 10 18\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".5\"/></svg><svg viewBox=\"0 0 24 24\" width=\"28\" height=\"28\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M12 8 C6 8 3 13 3 17 C3 21 7 23 10 22 C11 21 13 21 14 22 C17 23 21 21 21 17 C21 13 18 8 12 8 Z\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M12 8 C12 6 12 5 11 3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M11 4 C13 2 16 2 17 4 C15 6 12 6 11 4 Z\" fill=\"#1a1a1a\"/><path d=\"M9 12 C8 14 8 16 10 18\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".5\"/></svg><svg viewBox=\"0 0 24 24\" width=\"28\" height=\"28\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M12 8 C6 8 3 13 3 17 C3 21 7 23 10 22 C11 21 13 21 14 22 C17 23 21 21 21 17 C21 13 18 8 12 8 Z\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M12 8 C12 6 12 5 11 3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M11 4 C13 2 16 2 17 4 C15 6 12 6 11 4 Z\" fill=\"#1a1a1a\"/><path d=\"M9 12 C8 14 8 16 10 18\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".5\"/></svg><svg viewBox=\"0 0 24 24\" width=\"28\" height=\"28\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M12 8 C6 8 3 13 3 17 C3 21 7 23 10 22 C11 21 13 21 14 22 C17 23 21 21 21 17 C21 13 18 8 12 8 Z\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M12 8 C12 6 12 5 11 3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M11 4 C13 2 16 2 17 4 C15 6 12 6 11 4 Z\" fill=\"#1a1a1a\"/><path d=\"M9 12 C8 14 8 16 10 18\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".5\"/></svg></div></div></div>"
+      },
+      {
+        "title": "Seriation (3 Objects)",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><div style=\"display:flex;gap:36px;align-items:flex-end;margin:14px 0;flex-wrap:wrap;\"><div style=\"text-align:center;\"><svg viewBox=\"0 0 120 30\" width=\"120\" height=\"30\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"0.5\" y=\"0.5\" width=\"119\" height=\"13\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg><div style=\"margin-top:6px;\"><span class=\"answer-box\" style=\"width:48px; height:30px;\"></span></div></div><div style=\"text-align:center;\"><svg viewBox=\"0 0 200 30\" width=\"200\" height=\"30\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"0.5\" y=\"0.5\" width=\"199\" height=\"13\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg><div style=\"margin-top:6px;\"><span class=\"answer-box\" style=\"width:48px; height:30px;\"></span></div></div><div style=\"text-align:center;\"><svg viewBox=\"0 0 160 30\" width=\"160\" height=\"30\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"0.5\" y=\"0.5\" width=\"159\" height=\"13\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg><div style=\"margin-top:6px;\"><span class=\"answer-box\" style=\"width:48px; height:30px;\"></span></div></div></div></div>"
+      },
+      {
+        "title": "Classification (Increasing Complexity)",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><div style=\"margin:14px 0;line-height:2.4;\"><svg viewBox=\"0 0 24 24\" width=\"36\" height=\"36\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><circle cx=\"12\" cy=\"13\" r=\"7\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\"/><path d=\"M7 8 L9 3 L11 8\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\" stroke-linejoin=\"round\"/><path d=\"M17 8 L15 3 L13 8\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\" stroke-linejoin=\"round\"/><circle cx=\"10\" cy=\"13\" r=\"1\" fill=\"#1a1a1a\"/><circle cx=\"14\" cy=\"13\" r=\"1\" fill=\"#1a1a1a\"/><path d=\"M11 16 Q12 17 13 16\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\"/><line x1=\"3\" y1=\"14\" x2=\"7\" y2=\"14.5\" stroke=\"#1a1a1a\" stroke-width=\"1\"/><line x1=\"17\" y1=\"14.5\" x2=\"21\" y2=\"14\" stroke=\"#1a1a1a\" stroke-width=\"1\"/></svg><svg viewBox=\"0 0 24 24\" width=\"36\" height=\"36\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M3 15 L4 11 C4.5 9.5 6 8.5 7.5 8.5 L15 8.5 C16.5 8.5 18 9.5 18.5 11 L20 15\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><rect x=\"2\" y=\"15\" width=\"19\" height=\"3\" rx=\"1.5\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\"/><line x1=\"7\" y1=\"8.5\" x2=\"8\" y2=\"12\" stroke=\"#1a1a1a\" stroke-width=\"1.2\"/><line x1=\"16\" y1=\"8.5\" x2=\"15\" y2=\"12\" stroke=\"#1a1a1a\" stroke-width=\"1.2\"/><circle cx=\"6.5\" cy=\"18\" r=\"2\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.5\"/><circle cx=\"16.5\" cy=\"18\" r=\"2\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.5\"/></svg><svg viewBox=\"0 0 24 24\" width=\"36\" height=\"36\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><ellipse cx=\"12\" cy=\"14\" rx=\"7.2\" ry=\"6.2\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\"/><path d=\"M6 9 C2.5 9 1.5 13.5 4 16.5\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M18 9 C21.5 9 22.5 13.5 20 16.5\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"9.3\" cy=\"13\" r=\"1.2\" fill=\"#1a1a1a\"/><circle cx=\"14.7\" cy=\"13\" r=\"1.2\" fill=\"#1a1a1a\"/><path d=\"M11 15.5 Q12 16.5 13 15.5 Q12 17.5 11 15.5 Z\" fill=\"#1a1a1a\"/><path d=\"M12 17 L12 18.3\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\"/><path d=\"M10.5 18.6 Q12 19.6 13.5 18.6\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\"/></svg><svg viewBox=\"0 0 24 24\" width=\"36\" height=\"36\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><rect x=\"3\" y=\"6\" width=\"18\" height=\"11\" rx=\"2\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\"/><line x1=\"3\" y1=\"10\" x2=\"21\" y2=\"10\" stroke=\"#1a1a1a\" stroke-width=\"1.2\"/><line x1=\"9\" y1=\"10\" x2=\"9\" y2=\"17\" stroke=\"#1a1a1a\" stroke-width=\"1\"/><line x1=\"15\" y1=\"10\" x2=\"15\" y2=\"17\" stroke=\"#1a1a1a\" stroke-width=\"1\"/><circle cx=\"7\" cy=\"19\" r=\"2\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.4\"/><circle cx=\"17\" cy=\"19\" r=\"2\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.4\"/></svg><svg viewBox=\"0 0 24 24\" width=\"36\" height=\"36\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><ellipse cx=\"12\" cy=\"13\" rx=\"6\" ry=\"5\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\"/><circle cx=\"17\" cy=\"9\" r=\"3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\"/><path d=\"M20 9 L24 8 L20 11 Z\" fill=\"#1a1a1a\"/><circle cx=\"18\" cy=\"8\" r=\".6\" fill=\"#1a1a1a\"/><path d=\"M6 15 L2 18 M8 16 L5 20\" stroke=\"#1a1a1a\" stroke-width=\"1.2\" stroke-linecap=\"round\"/></svg><svg viewBox=\"0 0 24 24\" width=\"36\" height=\"36\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><circle cx=\"6\" cy=\"17\" r=\"4\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.6\"/><circle cx=\"18\" cy=\"17\" r=\"4\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.6\"/><path d=\"M6 17L11 8h5l2 9M11 8l3 4\" stroke=\"#1a1a1a\" stroke-width=\"1.6\" fill=\"none\"/></svg></div><div style=\"display:flex;gap:30px;margin-top:14px;\"><div style=\"flex:1;border:2px solid #000;padding:14px;text-align:center;font-weight:bold;font-size:14px;\">Box A &#8212; Animals</div><div style=\"flex:1;border:2px solid #000;padding:14px;text-align:center;font-weight:bold;font-size:14px;\">Box B &#8212; Vehicles</div></div></div>"
+      },
+      {
+        "title": "Counting to 5 with Cardinality",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><div style=\"display:flex;gap:30px;margin:14px 0;align-items:center;flex-wrap:wrap;\"><div style=\"text-align:center;\"><svg viewBox=\"0 0 160 44\" width=\"160\" height=\"44\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"0\" y=\"0\" width=\"160\" height=\"44\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/><circle cx=\"10\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"19\" cy=\"14\" r=\"4\" fill=\"#000\"/></svg><div style=\"margin-top:6px;\"><span class=\"answer-box\" style=\"width:54px; height:30px;\"></span></div></div><div style=\"text-align:center;\"><svg viewBox=\"0 0 160 44\" width=\"160\" height=\"44\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"0\" y=\"0\" width=\"160\" height=\"44\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/><circle cx=\"10\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"19\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"28\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"37\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"46\" cy=\"14\" r=\"4\" fill=\"#000\"/></svg><div style=\"margin-top:6px;\"><span class=\"answer-box\" style=\"width:54px; height:30px;\"></span></div></div><div style=\"text-align:center;\"><svg viewBox=\"0 0 160 44\" width=\"160\" height=\"44\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"0\" y=\"0\" width=\"160\" height=\"44\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/><circle cx=\"10\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"19\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"28\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"37\" cy=\"14\" r=\"4\" fill=\"#000\"/></svg><div style=\"margin-top:6px;\"><span class=\"answer-box\" style=\"width:54px; height:30px;\"></span></div></div></div></div>"
+      },
+      {
+        "title": "Counting 6–10 with Support",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><div style=\"display:flex;gap:30px;margin:14px 0;align-items:center;flex-wrap:wrap;\"><div style=\"text-align:center;\"><svg viewBox=\"0 0 140 60\" width=\"140\" height=\"60\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"0\" y=\"0\" width=\"140\" height=\"60\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/><circle cx=\"10\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"19\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"28\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"37\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"46\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"55\" cy=\"14\" r=\"4\" fill=\"#000\"/></svg><div style=\"margin-top:6px;\"><span class=\"answer-box\" style=\"width:54px; height:30px;\"></span></div></div><div style=\"text-align:center;\"><svg viewBox=\"0 0 140 60\" width=\"140\" height=\"60\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"0\" y=\"0\" width=\"140\" height=\"60\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/><circle cx=\"10\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"19\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"28\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"37\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"46\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"55\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"64\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"73\" cy=\"14\" r=\"4\" fill=\"#000\"/></svg><div style=\"margin-top:6px;\"><span class=\"answer-box\" style=\"width:54px; height:30px;\"></span></div></div><div style=\"text-align:center;\"><svg viewBox=\"0 0 140 60\" width=\"140\" height=\"60\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"0\" y=\"0\" width=\"140\" height=\"60\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/><circle cx=\"10\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"19\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"28\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"37\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"46\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"55\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"64\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"73\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"82\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"91\" cy=\"14\" r=\"4\" fill=\"#000\"/></svg><div style=\"margin-top:6px;\"><span class=\"answer-box\" style=\"width:54px; height:30px;\"></span></div></div></div></div>"
+      },
+      {
+        "title": "Shape Identification (Named)",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><div style=\"display:flex;gap:30px;margin:14px 0;align-items:center;flex-wrap:wrap;justify-content:center;\"><div style=\"text-align:center;\"><svg viewBox=\"0 0 56 56\" width=\"56\" height=\"56\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"28.0\" cy=\"28.0\" r=\"25.0\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg><div style=\"margin-top:8px;border-bottom:1.5px solid #000;width:90px;height:22px;\"></div></div><div style=\"text-align:center;\"><svg viewBox=\"0 0 56 56\" width=\"56\" height=\"56\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"4\" y=\"4\" width=\"48\" height=\"48\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg><div style=\"margin-top:8px;border-bottom:1.5px solid #000;width:90px;height:22px;\"></div></div><div style=\"text-align:center;\"><svg viewBox=\"0 0 56 56\" width=\"56\" height=\"56\" xmlns=\"http://www.w3.org/2000/svg\"><polygon points=\"28.0,4 52,52 4,52\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg><div style=\"margin-top:8px;border-bottom:1.5px solid #000;width:90px;height:22px;\"></div></div><div style=\"text-align:center;\"><svg viewBox=\"0 0 56 56\" width=\"56\" height=\"56\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"4\" y=\"18.0\" width=\"48\" height=\"20\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg><div style=\"margin-top:8px;border-bottom:1.5px solid #000;width:90px;height:22px;\"></div></div></div><div style=\"font-size:11px;font-style:italic;margin-top:6px;\">(Use: circle, square, triangle, rectangle)</div></div>"
+      },
+      {
+        "title": "Simple Repeating Pattern (2-Item)",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><div style=\"margin:14px 0;font-family:Arial,sans-serif;font-size:32px;letter-spacing:14px;font-weight:bold;line-height:1.6;\"><span style=\"display:inline-block;width:34px;height:34px;border:1.5px solid #000;border-radius:6px;vertical-align:middle;text-align:center;line-height:30px;\">▲</span> &nbsp;<span style=\"display:inline-block;width:34px;height:34px;border:1.5px solid #000;border-radius:6px;vertical-align:middle;text-align:center;line-height:30px;\">■</span> &nbsp;<span style=\"display:inline-block;width:34px;height:34px;border:1.5px solid #000;border-radius:6px;vertical-align:middle;text-align:center;line-height:30px;\">▲</span> &nbsp;<span style=\"display:inline-block;width:34px;height:34px;border:1.5px solid #000;border-radius:6px;vertical-align:middle;text-align:center;line-height:30px;\">■</span> &nbsp;<span style=\"display:inline-block;width:34px;height:34px;border:1.5px solid #000;border-radius:6px;vertical-align:middle;text-align:center;line-height:30px;\">▲</span> &nbsp;<span style=\"display:inline-block;width:34px;height:34px;border:1.5px solid #000;border-radius:6px;vertical-align:middle;text-align:center;line-height:30px;\">■</span> &nbsp;<span style=\"display:inline-block;width:44px;height:34px;border:2px dashed #000;vertical-align:middle;\"></span> &nbsp;<span style=\"display:inline-block;width:44px;height:34px;border:2px dashed #000;vertical-align:middle;\"></span> &nbsp;</div></div></div>\n<div class=\"footer\"><span>class-pre-diagnostic-cognitive.html &mdash; page 1 of 2</span><span>FLN Assessment Programme</span>"
+      },
+      {
+        "title": "Comparative Vocabulary (Informal)",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><div style=\"display:flex;gap:30px;align-items:center;margin:14px 0;flex-wrap:wrap;justify-content:center;\"><div style=\"text-align:center;transform:scale(0.45);transform-origin:center;\"><svg viewBox=\"0 0 24 24\" width=\"80\" height=\"80\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><ellipse cx=\"12\" cy=\"12\" rx=\"8\" ry=\"6.5\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\"/><path d=\"M4 9 C1.5 9 1.5 15 4.5 15.5 C3 13 3.5 10 6 9.5\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/><path d=\"M9 6 C6 4.5 3 5.5 3 8\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.3\" stroke-linecap=\"round\" opacity=\".7\"/><path d=\"M17 13 C20.5 13 21.5 17.5 19 20.5\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.9\" stroke-linecap=\"round\"/><circle cx=\"10.5\" cy=\"10.5\" r=\"1\" fill=\"#1a1a1a\"/><path d=\"M12 8 Q14 6.5 16 8\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" opacity=\".5\"/></svg></div><div style=\"text-align:center;transform:scale(1.4);transform-origin:center;\"><svg viewBox=\"0 0 24 24\" width=\"50\" height=\"50\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><ellipse cx=\"12\" cy=\"15\" rx=\"6\" ry=\"5\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\"/><path d=\"M9 6 C9 2 9 1 8 -1\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\" transform=\"translate(0,1)\"/><path d=\"M9 6 C9 1 8.5 0 8 -2\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M15 6 C15 1 15.5 0 16 -2\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><circle cx=\"10\" cy=\"14\" r=\"1\" fill=\"#1a1a1a\"/><circle cx=\"14\" cy=\"14\" r=\"1\" fill=\"#1a1a1a\"/></svg></div></div><div style=\"margin-top:10px;\">Answer: <span class=\"answer-box\" style=\"width:140px; height:30px;\"></span></div><div style=\"font-size:11px;font-style:italic;margin-top:4px;\">(Use: big, bigger, biggest)</div></div>"
+      },
+      {
+        "title": "Conceptual Subitizing",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><div style=\"display:flex;gap:30px;margin:14px 0;align-items:center;flex-wrap:wrap;justify-content:center;\"><div style=\"text-align:center;\"><svg viewBox=\"0 0 100 100\" width=\"100\" height=\"100\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"30.0\" cy=\"30.0\" r=\"5\" fill=\"#000\"/><circle cx=\"70.0\" cy=\"30.0\" r=\"5\" fill=\"#000\"/><circle cx=\"30.0\" cy=\"70.0\" r=\"5\" fill=\"#000\"/><circle cx=\"70.0\" cy=\"70.0\" r=\"5\" fill=\"#000\"/></svg><div style=\"margin-top:6px;\"><span class=\"answer-box\" style=\"width:60px; height:32px;\"></span></div></div><div style=\"text-align:center;\"><svg viewBox=\"0 0 100 100\" width=\"100\" height=\"100\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"25.0\" cy=\"30.0\" r=\"5\" fill=\"#000\"/><circle cx=\"50.0\" cy=\"30.0\" r=\"5\" fill=\"#000\"/><circle cx=\"75.0\" cy=\"30.0\" r=\"5\" fill=\"#000\"/><circle cx=\"25.0\" cy=\"70.0\" r=\"5\" fill=\"#000\"/><circle cx=\"50.0\" cy=\"70.0\" r=\"5\" fill=\"#000\"/><circle cx=\"75.0\" cy=\"70.0\" r=\"5\" fill=\"#000\"/></svg><div style=\"margin-top:6px;\"><span class=\"answer-box\" style=\"width:60px; height:32px;\"></span></div></div></div></div>"
+      },
+      {
+        "title": "Shape Composition: Piece Assembly *(added 2026-07-19)*",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><div style=\"display:flex;gap:40px;margin:14px 0;align-items:center;justify-content:center;flex-wrap:wrap;\"><div style=\"text-align:center;\"><div style=\"font-size:11px;margin-bottom:4px;\">Target:</div><svg viewBox=\"0 0 70 70\" width=\"70\" height=\"70\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"4\" y=\"4\" width=\"62\" height=\"62\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg></div><div style=\"display:flex;gap:14px;flex-wrap:wrap;justify-content:center;max-width:300px;\"><div style=\"text-align:center;border:1.5px solid #000;border-radius:6px;padding:6px;\"><svg viewBox=\"0 0 60 60\" width=\"60\" height=\"60\" xmlns=\"http://www.w3.org/2000/svg\"><polygon points=\"30.0,4 56,56 4,56\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg><div style=\"font-size:10px;margin-top:2px;\">triangle</div></div><div style=\"text-align:center;border:1.5px solid #000;border-radius:6px;padding:6px;\"><svg viewBox=\"0 0 60 60\" width=\"60\" height=\"60\" xmlns=\"http://www.w3.org/2000/svg\"><polygon points=\"30.0,4 56,56 4,56\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg><div style=\"font-size:10px;margin-top:2px;\">triangle</div></div><div style=\"text-align:center;border:1.5px solid #000;border-radius:6px;padding:6px;\"><svg viewBox=\"0 0 60 60\" width=\"60\" height=\"60\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"4\" y=\"4\" width=\"52\" height=\"52\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg><div style=\"font-size:10px;margin-top:2px;\">square</div></div><div style=\"text-align:center;border:1.5px solid #000;border-radius:6px;padding:6px;\"><svg viewBox=\"0 0 60 60\" width=\"60\" height=\"60\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"4\" y=\"20.0\" width=\"52\" height=\"20\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg><div style=\"font-size:10px;margin-top:2px;\">rectangle</div></div></div></div></div>"
+      },
+      {
+        "title": "Numeral Recognition (1–10)",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><div style=\"margin:14px 0;font-family:Arial,sans-serif;font-size:36px;font-weight:bold;letter-spacing:30px;text-align:center;\"><span style=\"display:inline-block;width:46px;height:46px;border:1.5px solid #000;border-radius:50%;line-height:46px;text-align:center;\">3</span> <span style=\"display:inline-block;width:46px;height:46px;border:1.5px solid #000;border-radius:50%;line-height:46px;text-align:center;\">7</span> <span style=\"display:inline-block;width:46px;height:46px;border:1.5px solid #000;border-radius:50%;line-height:46px;text-align:center;\">9</span> <span style=\"display:inline-block;width:46px;height:46px;border:1.5px solid #000;border-radius:50%;line-height:46px;text-align:center;\">5</span> </div></div>"
+      },
+      {
+        "title": "Numeral–Quantity Correspondence",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><div style=\"display:grid;grid-template-columns:auto 60px auto;gap:14px 24px;margin:14px 0;align-items:center;font-size:18px;font-family:Arial,sans-serif;font-weight:bold;\"><div style=\"text-align:right;\">4</div><div></div><div><svg viewBox=\"0 0 160 44\" width=\"160\" height=\"44\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"0\" y=\"0\" width=\"160\" height=\"44\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/><circle cx=\"10\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"19\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"28\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"37\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"46\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"55\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"64\" cy=\"14\" r=\"4\" fill=\"#000\"/></svg></div><div style=\"text-align:right;\">7</div><div></div><div><svg viewBox=\"0 0 160 44\" width=\"160\" height=\"44\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"0\" y=\"0\" width=\"160\" height=\"44\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/><circle cx=\"10\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"19\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"28\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"37\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"46\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"55\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"64\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"73\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"82\" cy=\"14\" r=\"4\" fill=\"#000\"/></svg></div><div style=\"text-align:right;\">9</div><div></div><div><svg viewBox=\"0 0 160 44\" width=\"160\" height=\"44\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"0\" y=\"0\" width=\"160\" height=\"44\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/><circle cx=\"10\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"19\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"28\" cy=\"14\" r=\"4\" fill=\"#000\"/><circle cx=\"37\" cy=\"14\" r=\"4\" fill=\"#000\"/></svg></div></div><div style=\"font-size:11px;font-style:italic;\">(Draw a line from each number on the left to its group on the right.)</div></div>"
+      },
+      {
+        "title": "Numeral Comparison (Object-Mediated)",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><div style=\"margin:14px 0;font-family:Arial,sans-serif;font-size:16px;line-height:2;\"><div style=\"margin:8px 0;\">Group A: <svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M12 8 C6 8 3 13 3 17 C3 21 7 23 10 22 C11 21 13 21 14 22 C17 23 21 21 21 17 C21 13 18 8 12 8 Z\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M12 8 C12 6 12 5 11 3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M11 4 C13 2 16 2 17 4 C15 6 12 6 11 4 Z\" fill=\"#1a1a1a\"/><path d=\"M9 12 C8 14 8 16 10 18\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".5\"/></svg><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M12 8 C6 8 3 13 3 17 C3 21 7 23 10 22 C11 21 13 21 14 22 C17 23 21 21 21 17 C21 13 18 8 12 8 Z\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M12 8 C12 6 12 5 11 3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M11 4 C13 2 16 2 17 4 C15 6 12 6 11 4 Z\" fill=\"#1a1a1a\"/><path d=\"M9 12 C8 14 8 16 10 18\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".5\"/></svg><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M12 8 C6 8 3 13 3 17 C3 21 7 23 10 22 C11 21 13 21 14 22 C17 23 21 21 21 17 C21 13 18 8 12 8 Z\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M12 8 C12 6 12 5 11 3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M11 4 C13 2 16 2 17 4 C15 6 12 6 11 4 Z\" fill=\"#1a1a1a\"/><path d=\"M9 12 C8 14 8 16 10 18\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".5\"/></svg><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M12 8 C6 8 3 13 3 17 C3 21 7 23 10 22 C11 21 13 21 14 22 C17 23 21 21 21 17 C21 13 18 8 12 8 Z\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M12 8 C12 6 12 5 11 3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M11 4 C13 2 16 2 17 4 C15 6 12 6 11 4 Z\" fill=\"#1a1a1a\"/><path d=\"M9 12 C8 14 8 16 10 18\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".5\"/></svg><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M12 8 C6 8 3 13 3 17 C3 21 7 23 10 22 C11 21 13 21 14 22 C17 23 21 21 21 17 C21 13 18 8 12 8 Z\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M12 8 C12 6 12 5 11 3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M11 4 C13 2 16 2 17 4 C15 6 12 6 11 4 Z\" fill=\"#1a1a1a\"/><path d=\"M9 12 C8 14 8 16 10 18\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".5\"/></svg> <span style=\"display:inline-block;border:1.5px solid #000;width:34px;height:34px;vertical-align:middle;margin:0 6px;\"></span> Group B: <svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M12 8 C6 8 3 13 3 17 C3 21 7 23 10 22 C11 21 13 21 14 22 C17 23 21 21 21 17 C21 13 18 8 12 8 Z\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M12 8 C12 6 12 5 11 3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M11 4 C13 2 16 2 17 4 C15 6 12 6 11 4 Z\" fill=\"#1a1a1a\"/><path d=\"M9 12 C8 14 8 16 10 18\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".5\"/></svg><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M12 8 C6 8 3 13 3 17 C3 21 7 23 10 22 C11 21 13 21 14 22 C17 23 21 21 21 17 C21 13 18 8 12 8 Z\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M12 8 C12 6 12 5 11 3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M11 4 C13 2 16 2 17 4 C15 6 12 6 11 4 Z\" fill=\"#1a1a1a\"/><path d=\"M9 12 C8 14 8 16 10 18\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".5\"/></svg><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M12 8 C6 8 3 13 3 17 C3 21 7 23 10 22 C11 21 13 21 14 22 C17 23 21 21 21 17 C21 13 18 8 12 8 Z\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M12 8 C12 6 12 5 11 3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M11 4 C13 2 16 2 17 4 C15 6 12 6 11 4 Z\" fill=\"#1a1a1a\"/><path d=\"M9 12 C8 14 8 16 10 18\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".5\"/></svg></div></div></div>"
+      },
+      {
+        "title": "Seriation with Transitivity",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><div style=\"display:flex;gap:36px;align-items:flex-end;margin:14px 0;flex-wrap:wrap;justify-content:center;\"><div style=\"text-align:center;\"><svg viewBox=\"0 0 100 30\" width=\"100\" height=\"30\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"0.5\" y=\"0.5\" width=\"99\" height=\"13\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg></div><div style=\"text-align:center;\"><svg viewBox=\"0 0 240 30\" width=\"240\" height=\"30\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"0.5\" y=\"0.5\" width=\"239\" height=\"13\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg></div><div style=\"text-align:center;\"><svg viewBox=\"0 0 160 30\" width=\"160\" height=\"30\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"0.5\" y=\"0.5\" width=\"159\" height=\"13\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg></div></div></div>"
+      },
+      {
+        "title": "Classification (Flexible)",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><div style=\"margin:14px 0;font-family:Arial,sans-serif;font-size:18px;line-height:2;\"><div>Row 1: <svg viewBox=\"0 0 24 24\" width=\"32\" height=\"32\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M12 8 C6 8 3 13 3 17 C3 21 7 23 10 22 C11 21 13 21 14 22 C17 23 21 21 21 17 C21 13 18 8 12 8 Z\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M12 8 C12 6 12 5 11 3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M11 4 C13 2 16 2 17 4 C15 6 12 6 11 4 Z\" fill=\"#1a1a1a\"/><path d=\"M9 12 C8 14 8 16 10 18\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".5\"/></svg> <svg viewBox=\"0 0 24 24\" width=\"32\" height=\"32\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><circle cx=\"12\" cy=\"12\" r=\"9\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\"/><path d=\"M12 3 L12 21 M3 12 L21 12 M5.5 5.5 L18.5 18.5 M18.5 5.5 L5.5 18.5\" stroke=\"#1a1a1a\" stroke-width=\".8\" opacity=\".5\"/></svg> <svg viewBox=\"0 0 24 24\" width=\"32\" height=\"32\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M12 8 C6 8 3 13 3 17 C3 21 7 23 10 22 C11 21 13 21 14 22 C17 23 21 21 21 17 C21 13 18 8 12 8 Z\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M12 8 C12 6 12 5 11 3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M11 4 C13 2 16 2 17 4 C15 6 12 6 11 4 Z\" fill=\"#1a1a1a\"/><path d=\"M9 12 C8 14 8 16 10 18\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".5\"/></svg> <svg viewBox=\"0 0 24 24\" width=\"32\" height=\"32\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><circle cx=\"12\" cy=\"12\" r=\"9\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\"/><path d=\"M12 3 L12 21 M3 12 L21 12 M5.5 5.5 L18.5 18.5 M18.5 5.5 L5.5 18.5\" stroke=\"#1a1a1a\" stroke-width=\".8\" opacity=\".5\"/></svg></div><div style=\"margin-top:10px;font-size:14px;\"><span style=\"display:inline-block;width:18px;height:18px;border:1.5px solid #000;border-radius:50%;vertical-align:middle;margin-right:6px;\"></span> Colour &nbsp;&nbsp;&nbsp;<span style=\"display:inline-block;width:18px;height:18px;border:1.5px solid #000;border-radius:50%;vertical-align:middle;margin-right:6px;\"></span> Size &nbsp;&nbsp;&nbsp;<span style=\"display:inline-block;width:18px;height:18px;border:1.5px solid #000;border-radius:50%;vertical-align:middle;margin-right:6px;\"></span> Shape &nbsp;&nbsp;&nbsp;</div><div style=\"font-size:11px;font-style:italic;margin-top:6px;\">(All objects are the same size and shape. They differ in one thing only.)</div></div></div>"
+      },
+      {
+        "title": "Sequencing (Arranges by Sequence)",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><div style=\"display:flex;gap:30px;margin:14px 0;flex-wrap:wrap;align-items:center;justify-content:center;\"><div style=\"text-align:center;\"><div style=\"width:80px;height:80px;border:1.5px solid #000;border-radius:50%;display:flex;align-items:center;justify-content:center;\"><svg viewBox=\"0 0 24 24\" width=\"50\" height=\"50\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><circle cx=\"12\" cy=\"6\" r=\"3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.5\"/><circle cx=\"17\" cy=\"10\" r=\"3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.5\"/><circle cx=\"15\" cy=\"16\" r=\"3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.5\"/><circle cx=\"9\" cy=\"16\" r=\"3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.5\"/><circle cx=\"7\" cy=\"10\" r=\"3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.5\"/><circle cx=\"12\" cy=\"11\" r=\"2.8\" fill=\"#1a1a1a\"/><line x1=\"12\" y1=\"14\" x2=\"12\" y2=\"22\" stroke=\"#1a1a1a\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg></div><div style=\"margin-top:6px;\"><span class=\"answer-box\" style=\"width:48px; height:28px;\"></span></div></div><div style=\"text-align:center;\"><div style=\"width:80px;height:80px;border:1.5px solid #000;border-radius:50%;display:flex;align-items:center;justify-content:center;\"><svg viewBox=\"0 0 24 24\" width=\"50\" height=\"50\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><circle cx=\"12\" cy=\"8\" r=\"7\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\"/><rect x=\"10.5\" y=\"14\" width=\"3\" height=\"8\" fill=\"#5a3d20\"/></svg></div><div style=\"margin-top:6px;\"><span class=\"answer-box\" style=\"width:48px; height:28px;\"></span></div></div><div style=\"text-align:center;\"><div style=\"width:80px;height:80px;border:1.5px solid #000;border-radius:50%;display:flex;align-items:center;justify-content:center;\"><svg viewBox=\"0 0 24 24\" width=\"50\" height=\"50\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M4 20C4 8 20 4 20 4S16 20 4 20Z\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M6 18 C10 14 14 10 18 6\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\"/></svg></div><div style=\"margin-top:6px;\"><span class=\"answer-box\" style=\"width:48px; height:28px;\"></span></div></div><div style=\"text-align:center;\"><div style=\"width:80px;height:80px;border:1.5px solid #000;border-radius:50%;display:flex;align-items:center;justify-content:center;\"><svg viewBox=\"0 0 24 24\" width=\"50\" height=\"50\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><path d=\"M12 8 C6 8 3 13 3 17 C3 21 7 23 10 22 C11 21 13 21 14 22 C17 23 21 21 21 17 C21 13 18 8 12 8 Z\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M12 8 C12 6 12 5 11 3\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M11 4 C13 2 16 2 17 4 C15 6 12 6 11 4 Z\" fill=\"#1a1a1a\"/><path d=\"M9 12 C8 14 8 16 10 18\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".5\"/></svg></div><div style=\"margin-top:6px;\"><span class=\"answer-box\" style=\"width:48px; height:28px;\"></span></div></div></div><div style=\"font-size:11px;font-style:italic;margin-top:6px;\">(Seed &#8594; Sprout &#8594; Tree &#8594; Fruit)</div></div>"
+      },
+      {
+        "title": "Comparative Vocabulary (Formalizing)",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><div style=\"display:flex;gap:30px;margin:14px 0;align-items:center;flex-wrap:wrap;justify-content:center;\"><div style=\"text-align:center;transform:scale(0.55);transform-origin:center;\"><svg viewBox=\"0 0 24 24\" width=\"60\" height=\"60\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><circle cx=\"12\" cy=\"13\" r=\"7\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\"/><path d=\"M7 8 L9 3 L11 8\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\" stroke-linejoin=\"round\"/><path d=\"M17 8 L15 3 L13 8\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\" stroke-linejoin=\"round\"/><circle cx=\"10\" cy=\"13\" r=\"1\" fill=\"#1a1a1a\"/><circle cx=\"14\" cy=\"13\" r=\"1\" fill=\"#1a1a1a\"/><path d=\"M11 16 Q12 17 13 16\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\"/><line x1=\"3\" y1=\"14\" x2=\"7\" y2=\"14.5\" stroke=\"#1a1a1a\" stroke-width=\"1\"/><line x1=\"17\" y1=\"14.5\" x2=\"21\" y2=\"14\" stroke=\"#1a1a1a\" stroke-width=\"1\"/></svg></div><div style=\"text-align:center;transform:scale(0.85);transform-origin:center;\"><svg viewBox=\"0 0 24 24\" width=\"60\" height=\"60\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><ellipse cx=\"12\" cy=\"14\" rx=\"7.2\" ry=\"6.2\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\"/><path d=\"M6 9 C2.5 9 1.5 13.5 4 16.5\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M18 9 C21.5 9 22.5 13.5 20 16.5\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"9.3\" cy=\"13\" r=\"1.2\" fill=\"#1a1a1a\"/><circle cx=\"14.7\" cy=\"13\" r=\"1.2\" fill=\"#1a1a1a\"/><path d=\"M11 15.5 Q12 16.5 13 15.5 Q12 17.5 11 15.5 Z\" fill=\"#1a1a1a\"/><path d=\"M12 17 L12 18.3\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\"/><path d=\"M10.5 18.6 Q12 19.6 13.5 18.6\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" stroke-linecap=\"round\"/></svg></div><div style=\"text-align:center;transform:scale(1.5);transform-origin:center;\"><svg viewBox=\"0 0 24 24\" width=\"60\" height=\"60\" xmlns=\"http://www.w3.org/2000/svg\" class=\"ic\"><ellipse cx=\"12\" cy=\"12\" rx=\"8\" ry=\"6.5\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.7\"/><path d=\"M4 9 C1.5 9 1.5 15 4.5 15.5 C3 13 3.5 10 6 9.5\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/><path d=\"M9 6 C6 4.5 3 5.5 3 8\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.3\" stroke-linecap=\"round\" opacity=\".7\"/><path d=\"M17 13 C20.5 13 21.5 17.5 19 20.5\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1.9\" stroke-linecap=\"round\"/><circle cx=\"10.5\" cy=\"10.5\" r=\"1\" fill=\"#1a1a1a\"/><path d=\"M12 8 Q14 6.5 16 8\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"1\" opacity=\".5\"/></svg></div></div></div>"
+      },
+      {
+        "title": "Patterns (2-Item Independent + 3-Item Introduction)",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><div style=\"margin:14px 0;font-size:24px;font-family:Arial,sans-serif;line-height:2;\"><div><b>Pattern A</b> (2-item): <span style=\"display:inline-block;width:34px;height:34px;border:1.5px solid #000;border-radius:6px;vertical-align:middle;text-align:center;line-height:30px;background:#fff;\">&#9679;</span> <span style=\"display:inline-block;width:34px;height:34px;border:1.5px solid #000;border-radius:6px;vertical-align:middle;text-align:center;line-height:30px;background:#fff;\">&#9675;</span> <span style=\"display:inline-block;width:34px;height:34px;border:1.5px solid #000;border-radius:6px;vertical-align:middle;text-align:center;line-height:30px;background:#fff;\">&#9679;</span> <span style=\"display:inline-block;width:34px;height:34px;border:1.5px solid #000;border-radius:6px;vertical-align:middle;text-align:center;line-height:30px;background:#fff;\">&#9675;</span> <span style=\"display:inline-block;width:34px;height:34px;border:1.5px solid #000;border-radius:6px;vertical-align:middle;text-align:center;line-height:30px;background:#fff;\">&#9679;</span> <span style=\"display:inline-block;width:44px;height:34px;border:2px dashed #000;vertical-align:middle;\"></span></div><div style=\"margin-top:10px;\"><b>Pattern B</b> (3-item): <span style=\"display:inline-block;width:34px;height:34px;border:1.5px solid #000;border-radius:6px;vertical-align:middle;text-align:center;line-height:30px;background:#fff;\">&#9679;</span> <span style=\"display:inline-block;width:34px;height:34px;border:1.5px solid #000;border-radius:6px;vertical-align:middle;text-align:center;line-height:30px;background:#fff;\">&#9675;</span> <span style=\"display:inline-block;width:34px;height:34px;border:1.5px solid #000;border-radius:6px;vertical-align:middle;text-align:center;line-height:30px;background:#fff;\">&#9651;</span> <span style=\"display:inline-block;width:34px;height:34px;border:1.5px solid #000;border-radius:6px;vertical-align:middle;text-align:center;line-height:30px;background:#fff;\">&#9679;</span> <span style=\"display:inline-block;width:34px;height:34px;border:1.5px solid #000;border-radius:6px;vertical-align:middle;text-align:center;line-height:30px;background:#fff;\">&#9675;</span> <span style=\"display:inline-block;width:44px;height:34px;border:2px dashed #000;vertical-align:middle;\"></span></div></div><div style=\"font-size:11px;font-style:italic;margin-top:6px;\">Fill the dashed box with: &#9679; (solid circle), &#9675; (empty circle), or &#9651; (triangle)</div></div>"
+      },
+      {
+        "title": "Shape Properties (Basic)",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><div style=\"display:flex;gap:40px;margin:14px 0;flex-wrap:wrap;justify-content:center;\"><div style=\"text-align:center;\"><svg viewBox=\"0 0 80 80\" width=\"100\" height=\"100\" xmlns=\"http://www.w3.org/2000/svg\"><polygon points=\"40,8 76,72 4,72\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.6\"/><circle cx=\"40\" cy=\"8\" r=\"3.5\" fill=\"#000\"/><circle cx=\"76\" cy=\"72\" r=\"3.5\" fill=\"#000\"/><circle cx=\"4\" cy=\"72\" r=\"3.5\" fill=\"#000\"/></svg><div style=\"margin-top:6px;font-size:13px;\">Sides = <span class=\"answer-box\" style=\"width:48px; height:28px;\"></span> &nbsp;&nbsp; Corners = <span class=\"answer-box\" style=\"width:48px; height:28px;\"></span></div></div></div></div>"
+      },
+      {
+        "title": "Shape Composition: Picture Making *(added 2026-07-19)*",
+        "cog": "",
+        "marks": "",
+        "body": "Match the picture or count carefully.<br><div style=\"display:flex;gap:40px;margin:14px 0;flex-wrap:wrap;justify-content:center;align-items:center;\"><div style=\"text-align:center;\"><div style=\"font-size:11px;margin-bottom:4px;\">House:</div><svg viewBox=\"0 0 100 100\" width=\"120\" height=\"120\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"20\" y=\"50\" width=\"60\" height=\"45\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.6\"/><polygon points=\"10,52 50,12 90,52\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.6\"/><rect x=\"42\" y=\"68\" width=\"16\" height=\"27\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg></div><div style=\"display:flex;gap:14px;flex-wrap:wrap;justify-content:center;max-width:300px;\"><div style=\"text-align:center;border:1.5px solid #000;border-radius:6px;padding:6px;\"><svg viewBox=\"0 0 60 60\" width=\"60\" height=\"60\" xmlns=\"http://www.w3.org/2000/svg\"><polygon points=\"30.0,4 56,56 4,56\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg><div style=\"font-size:10px;margin-top:2px;\">triangle</div></div><div style=\"text-align:center;border:1.5px solid #000;border-radius:6px;padding:6px;\"><svg viewBox=\"0 0 60 60\" width=\"60\" height=\"60\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"30.0\" cy=\"30.0\" r=\"27.0\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg><div style=\"font-size:10px;margin-top:2px;\">circle</div></div><div style=\"text-align:center;border:1.5px solid #000;border-radius:6px;padding:6px;\"><svg viewBox=\"0 0 60 60\" width=\"60\" height=\"60\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"4\" y=\"4\" width=\"52\" height=\"52\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg><div style=\"font-size:10px;margin-top:2px;\">square</div></div><div style=\"text-align:center;border:1.5px solid #000;border-radius:6px;padding:6px;\"><svg viewBox=\"0 0 60 60\" width=\"60\" height=\"60\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"4\" y=\"20.0\" width=\"52\" height=\"20\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg><div style=\"font-size:10px;margin-top:2px;\">rectangle</div></div></div></div></div></div>\n<div class=\"footer\"><span>class-pre-diagnostic-cognitive.html &mdash; page 2 of 2</span><span>FLN Assessment Programme</span></div>"
+      }
+    ]
+  },
+  {
+    "file": "class-2-diagnostic-cognitive.html",
+    "questions": [
+      {
+        "title": "Currency Recognition",
+        "cog": "Recognize",
+        "marks": "[1 mark]",
+        "body": "Which of these is a <b>₹10</b> coin?<ul class=\"mcq-list\"><li><span class=\"bubble\"></span>(A) A round coin with the number 10</li><li><span class=\"bubble\"></span>(B) A round coin with the number 5</li><li><span class=\"bubble\"></span>(C) A note with the number 10</li><li><span class=\"bubble\"></span>(D) A note with the number 20</li></ul></div>"
+      },
+      {
+        "title": "Read and Write Numbers",
+        "cog": "Recall",
+        "marks": "[2 marks]",
+        "body": "Write the number <b>two hundred and thirty-four</b> in numerals.<div class=\"boxed\" style=\"font-size:20px;margin-top:8px;font-family:Arial,sans-serif;\">In numerals: <span class=\"answer-box\" style=\"width:80px;\"></span></div></div>"
+      },
+      {
+        "title": "Place Value (Groups of Ten)",
+        "cog": "Recall",
+        "marks": "[2 marks]",
+        "body": "Look at the number <b style=\"font-size:18px;\">53</b>. How many <b>groups of ten</b> and how many <b>ones</b>?<div class=\"boxed\" style=\"margin-top:8px;font-family:Arial,sans-serif;\">Tens: <span class=\"answer-box\" style=\"width:50px;\"></span>&nbsp;&nbsp; Ones: <span class=\"answer-box\" style=\"width:50px;\"></span></div></div>"
+      },
+      {
+        "title": "Multiplication Tables (2, 3, 4)",
+        "cog": "Recall",
+        "marks": "[1 mark]",
+        "body": "Fill in the missing number.<div class=\"boxed\" style=\"font-size:18px;margin-top:8px;font-family:Arial,sans-serif;\">3 × <span class=\"answer-box\" style=\"width:50px;\"></span> = 12</div></div>"
+      },
+      {
+        "title": "Zero as Placeholder",
+        "cog": "Recall",
+        "marks": "[1 mark]",
+        "body": "Why do we write <b>40</b> for \"forty\" instead of just <b>4</b>?<div class=\"boxed\" style=\"margin-top:6px;\">Because the 0 shows there are <b><span class=\"answer-box\" style=\"width:60px;\"></span></b> tens and <b><span class=\"answer-box\" style=\"width:60px;\"></span></b> ones.</div></div>"
+      },
+      {
+        "title": "Skip Counting by 5s",
+        "cog": "Sequence",
+        "marks": "[1 mark]",
+        "body": "Continue the skip-counting sequence.<div class=\"boxed\" style=\"font-size:18px;margin-top:6px;font-family:Arial,sans-serif;letter-spacing:4px;\">5, 10, 15, 20, <span class=\"answer-box\" style=\"width:50px;\"></span>, <span class=\"answer-box\" style=\"width:50px;\"></span></div></div>"
+      },
+      {
+        "title": "Length (Uniform Non-Standard Unit)",
+        "cog": "Represent",
+        "marks": "[2 marks]",
+        "body": "Measure the line below using <b>paper clips</b> as your unit. Count how many paper clips fit end to end.<div style=\"margin:8px 0;\"><svg viewBox=\"0 0 200 30\" width=\"200\" height=\"30\" xmlns=\"http://www.w3.org/2000/svg\"><line x1=\"4\" y1=\"15\" x2=\"196\" y2=\"15\" stroke=\"#000\" stroke-width=\"1.6\"/><line x1=\"4\" y1=\"9\" x2=\"4\" y2=\"21\" stroke=\"#000\" stroke-width=\"1.6\"/><line x1=\"196\" y1=\"9\" x2=\"196\" y2=\"21\" stroke=\"#000\" stroke-width=\"1.6\"/></svg></div><div class=\"boxed\">Length = <span class=\"answer-box\" style=\"width:50px;\"></span> paper clips.</div></div>"
+      },
+      {
+        "title": "Calendar (Days and Months)",
+        "cog": "Represent",
+        "marks": "[2 marks]",
+        "body": "How many days are in <b>one week</b>? How many months are in <b>one year</b>?<div class=\"boxed\" style=\"margin-top:6px;\">Week = <span class=\"answer-box\" style=\"width:50px;\"></span> days. &nbsp; Year = <span class=\"answer-box\" style=\"width:50px;\"></span> months.</div></div></div></div><div class=\"sheet pagebreak\">"
+      },
+      {
+        "title": "Number Line (0–100)",
+        "cog": "Represent",
+        "marks": "[2 marks]",
+        "body": "Mark the position of <b>35</b> on the number line below (×).<div class=\"numberline-wrap\"><div class=\"numberline\"><div class=\"tick\" style=\"left:20.0px;\"></div><div class=\"label\" style=\"left:20.0px;\">0</div><div class=\"tick\" style=\"left:24.0px;\"></div><div class=\"tick\" style=\"left:28.0px;\"></div><div class=\"tick\" style=\"left:32.0px;\"></div><div class=\"tick\" style=\"left:36.0px;\"></div><div class=\"tick\" style=\"left:40.0px;\"></div><div class=\"tick\" style=\"left:44.0px;\"></div><div class=\"tick\" style=\"left:48.0px;\"></div><div class=\"tick\" style=\"left:52.0px;\"></div><div class=\"tick\" style=\"left:56.0px;\"></div><div class=\"tick\" style=\"left:60.0px;\"></div><div class=\"label\" style=\"left:60.0px;\">10</div><div class=\"tick\" style=\"left:64.0px;\"></div><div class=\"tick\" style=\"left:68.0px;\"></div><div class=\"tick\" style=\"left:72.0px;\"></div><div class=\"tick\" style=\"left:76.0px;\"></div><div class=\"tick\" style=\"left:80.0px;\"></div><div class=\"tick\" style=\"left:84.0px;\"></div><div class=\"tick\" style=\"left:88.0px;\"></div><div class=\"tick\" style=\"left:92.0px;\"></div><div class=\"tick\" style=\"left:96.0px;\"></div><div class=\"tick\" style=\"left:100.0px;\"></div><div class=\"label\" style=\"left:100.0px;\">20</div><div class=\"tick\" style=\"left:104.0px;\"></div><div class=\"tick\" style=\"left:108.0px;\"></div><div class=\"tick\" style=\"left:112.0px;\"></div><div class=\"tick\" style=\"left:116.0px;\"></div><div class=\"tick\" style=\"left:120.0px;\"></div><div class=\"tick\" style=\"left:124.0px;\"></div><div class=\"tick\" style=\"left:128.0px;\"></div><div class=\"tick\" style=\"left:132.0px;\"></div><div class=\"tick\" style=\"left:136.0px;\"></div><div class=\"tick\" style=\"left:140.0px;\"></div><div class=\"label\" style=\"left:140.0px;\">30</div><div class=\"tick\" style=\"left:144.0px;\"></div><div class=\"tick\" style=\"left:148.0px;\"></div><div class=\"tick\" style=\"left:152.0px;\"></div><div class=\"tick\" style=\"left:156.0px;\"></div><div class=\"tick\" style=\"left:160.0px;\"></div><div class=\"tick\" style=\"left:164.0px;\"></div><div class=\"tick\" style=\"left:168.0px;\"></div><div class=\"tick\" style=\"left:172.0px;\"></div><div class=\"tick\" style=\"left:176.0px;\"></div><div class=\"tick\" style=\"left:180.0px;\"></div><div class=\"label\" style=\"left:180.0px;\">40</div><div class=\"tick\" style=\"left:184.0px;\"></div><div class=\"tick\" style=\"left:188.0px;\"></div><div class=\"tick\" style=\"left:192.0px;\"></div><div class=\"tick\" style=\"left:196.0px;\"></div><div class=\"tick\" style=\"left:200.0px;\"></div><div class=\"tick\" style=\"left:204.0px;\"></div><div class=\"tick\" style=\"left:208.0px;\"></div><div class=\"tick\" style=\"left:212.0px;\"></div><div class=\"tick\" style=\"left:216.0px;\"></div><div class=\"tick\" style=\"left:220.0px;\"></div><div class=\"label\" style=\"left:220.0px;\">50</div><div class=\"tick\" style=\"left:224.0px;\"></div><div class=\"tick\" style=\"left:228.0px;\"></div><div class=\"tick\" style=\"left:232.0px;\"></div><div class=\"tick\" style=\"left:236.0px;\"></div><div class=\"tick\" style=\"left:240.0px;\"></div><div class=\"tick\" style=\"left:244.0px;\"></div><div class=\"tick\" style=\"left:248.0px;\"></div><div class=\"tick\" style=\"left:252.0px;\"></div><div class=\"tick\" style=\"left:256.0px;\"></div><div class=\"tick\" style=\"left:260.0px;\"></div><div class=\"label\" style=\"left:260.0px;\">60</div><div class=\"tick\" style=\"left:264.0px;\"></div><div class=\"tick\" style=\"left:268.0px;\"></div><div class=\"tick\" style=\"left:272.0px;\"></div><div class=\"tick\" style=\"left:276.0px;\"></div><div class=\"tick\" style=\"left:280.0px;\"></div><div class=\"tick\" style=\"left:284.0px;\"></div><div class=\"tick\" style=\"left:288.0px;\"></div><div class=\"tick\" style=\"left:292.0px;\"></div><div class=\"tick\" style=\"left:296.0px;\"></div><div class=\"tick\" style=\"left:300.0px;\"></div><div class=\"label\" style=\"left:300.0px;\">70</div><div class=\"tick\" style=\"left:304.0px;\"></div><div class=\"tick\" style=\"left:308.0px;\"></div><div class=\"tick\" style=\"left:312.0px;\"></div><div class=\"tick\" style=\"left:316.0px;\"></div><div class=\"tick\" style=\"left:320.0px;\"></div><div class=\"tick\" style=\"left:324.0px;\"></div><div class=\"tick\" style=\"left:328.0px;\"></div><div class=\"tick\" style=\"left:332.0px;\"></div><div class=\"tick\" style=\"left:336.0px;\"></div><div class=\"tick\" style=\"left:340.0px;\"></div><div class=\"label\" style=\"left:340.0px;\">80</div><div class=\"tick\" style=\"left:344.0px;\"></div><div class=\"tick\" style=\"left:348.0px;\"></div><div class=\"tick\" style=\"left:352.0px;\"></div><div class=\"tick\" style=\"left:356.0px;\"></div><div class=\"tick\" style=\"left:360.0px;\"></div><div class=\"tick\" style=\"left:364.0px;\"></div><div class=\"tick\" style=\"left:368.0px;\"></div><div class=\"tick\" style=\"left:372.0px;\"></div><div class=\"tick\" style=\"left:376.0px;\"></div><div class=\"tick\" style=\"left:380.0px;\"></div><div class=\"label\" style=\"left:380.0px;\">90</div><div class=\"tick\" style=\"left:384.0px;\"></div><div class=\"tick\" style=\"left:388.0px;\"></div><div class=\"tick\" style=\"left:392.0px;\"></div><div class=\"tick\" style=\"left:396.0px;\"></div><div class=\"tick\" style=\"left:400.0px;\"></div><div class=\"tick\" style=\"left:404.0px;\"></div><div class=\"tick\" style=\"left:408.0px;\"></div><div class=\"tick\" style=\"left:412.0px;\"></div><div class=\"tick\" style=\"left:416.0px;\"></div><div class=\"tick\" style=\"left:420.0px;\"></div><div class=\"label\" style=\"left:420.0px;\">100</div></div></div></div>"
+      },
+      {
+        "title": "Addition (with carrying)",
+        "cog": "Combine",
+        "marks": "[2 marks]",
+        "body": "Add these two 2-digit numbers. Show your regrouping.<div class=\"boxed\" style=\"font-size:20px;margin-top:8px;font-family:Arial,sans-serif;letter-spacing:4px;\">&nbsp;<span class=\"answer-box\" style=\"width:50px;height:32px;\"></span><br>&nbsp;<span class=\"answer-box\" style=\"width:50px;height:32px;\"></span><br>+ 4 7<br>________<br>&nbsp;<span class=\"answer-box\" style=\"width:70px;height:32px;\"></span></div></div>"
+      },
+      {
+        "title": "Multiplication as Repeated Addition",
+        "cog": "Combine",
+        "marks": "[2 marks]",
+        "body": "Write this multiplication as repeated addition, then find the answer.<div class=\"boxed\" style=\"font-size:18px;margin-top:8px;font-family:Arial,sans-serif;\">4 × 3 = <span class=\"answer-box\" style=\"width:40px;\"></span> + <span class=\"answer-box\" style=\"width:40px;\"></span> + <span class=\"answer-box\" style=\"width:40px;\"></span> = <span class=\"answer-box\" style=\"width:50px;\"></span></div></div>"
+      },
+      {
+        "title": "Subtraction (with borrowing)",
+        "cog": "Take Away",
+        "marks": "[2 marks]",
+        "body": "Subtract. Regroup when you need to.<div class=\"boxed\" style=\"font-size:20px;margin-top:8px;font-family:Arial,sans-serif;letter-spacing:4px;\">&nbsp;<span class=\"answer-box\" style=\"width:50px;height:32px;\"></span><br>&nbsp;<span class=\"answer-box\" style=\"width:50px;height:32px;\"></span><br>- 1 8<br>________<br>&nbsp;<span class=\"answer-box\" style=\"width:70px;height:32px;\"></span></div></div>"
+      },
+      {
+        "title": "Division as Equal Sharing",
+        "cog": "Take Away",
+        "marks": "[2 marks]",
+        "body": "Share <b>12 apples</b> equally among <b>3 children</b>. How many apples does each child get?<div class=\"boxed\" style=\"margin-top:8px;\">12 ÷ 3 = <span class=\"answer-box\" style=\"width:60px;\"></span><br>Each child gets <span class=\"answer-box\" style=\"width:40px;\"></span> apples.</div></div>"
+      },
+      {
+        "title": "Halves and Quarters (Folding)",
+        "cog": "Classify",
+        "marks": "[2 marks]",
+        "body": "A roti is folded into <b>2 equal parts</b>. What is each part called?<div class=\"boxed\" style=\"margin-top:8px;\">Each part is a <b><span class=\"answer-box\" style=\"width:80px;\"></span></b>.</div><div style=\"margin-top:6px;font-style:italic;font-size:11px;\">Hint: if folded into 4 equal parts, each part is a <b>quarter</b>.</div></div>"
+      },
+      {
+        "title": "Identify 2D Shapes",
+        "cog": "Classify",
+        "marks": "[2 marks]",
+        "body": "Look at the shape on the left. Tick the correct name.<div style=\"margin:10px 0;display:flex;gap:18px;align-items:center;\"><div><svg viewBox=\"0 0 60 60\" width=\"60\" height=\"60\" xmlns=\"http://www.w3.org/2000/svg\"><ellipse cx=\"30.0\" cy=\"30.0\" rx=\"26.0\" ry=\"28.0\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.4\"/></svg></div><div style=\"font-size:14px;\">Name: <b>______</b></div></div><ul class=\"mcq-list\"><li><span class=\"bubble\"></span>(A) Circle</li><li><span class=\"bubble\"></span>(B) Square</li><li><span class=\"bubble\"></span>(C) Triangle</li><li><span class=\"bubble\"></span>(D) Oval</li></ul></div>"
+      },
+      {
+        "title": "Sort by Category",
+        "cog": "Classify",
+        "marks": "[2 marks]",
+        "body": "Look at the objects: ★, ●, ◆, ★, ●, ★, ◆, ●. How many of each shape are there?<div class=\"boxed\" style=\"margin-top:6px;font-family:Arial,sans-serif;\">Stars (★) = <span class=\"answer-box\" style=\"width:40px;\"></span><br>Circles (●) = <span class=\"answer-box\" style=\"width:40px;\"></span><br>Diamonds (◆) = <span class=\"answer-box\" style=\"width:40px;\"></span></div></div>"
+      },
+      {
+        "title": "Spatial Vocabulary",
+        "cog": "Relate",
+        "marks": "[1 mark]",
+        "body": "Look at the picture: a ball is <b>under</b> the table, a cat is <b>on</b> the table, a book is <b>between</b> the ball and the cat. Fill in the blanks using <b>under / on / between</b>.<div class=\"boxed\" style=\"margin-top:6px;\">The ball is _____ the table. (<span class=\"answer-box\" style=\"width:80px;\"></span>)<br>The book is _____ the ball and the cat. (<span class=\"answer-box\" style=\"width:80px;\"></span>)</div></div>"
+      },
+      {
+        "title": "Flexible Decomposition",
+        "cog": "Generalize",
+        "marks": "[2 marks]",
+        "body": "Show <b>two</b> different ways to make the number 47 using tens and ones. Example: 47 = 30 + 17.<div class=\"boxed\" style=\"margin-top:8px;\">Way 1: 47 = <span class=\"answer-box\" style=\"width:40px;\"></span> + <span class=\"answer-box\" style=\"width:40px;\"></span><br>Way 2: 47 = <span class=\"answer-box\" style=\"width:40px;\"></span> + <span class=\"answer-box\" style=\"width:40px;\"></span></div></div>"
+      },
+      {
+        "title": "Number Pattern",
+        "cog": "Generalize",
+        "marks": "[2 marks]",
+        "body": "What is the rule? Continue the sequence.<div class=\"boxed\" style=\"font-size:18px;margin-top:6px;font-family:Arial,sans-serif;letter-spacing:4px;\">2, 4, 6, 8, <span class=\"answer-box\" style=\"width:50px;\"></span>, <span class=\"answer-box\" style=\"width:50px;\"></span></div><div style=\"font-size:11px;font-style:italic;margin-top:4px;\">Rule: add <b>2</b> each time.</div></div></div>\n          <div class=\"footer\">\n            <span>FLN · Class 2 · Diagnostic Paper</span>\n            <span>End of Paper · 19 Questions · 33 Marks</span>\n          </div>"
+      }
+    ]
+  },
+  {
+    "file": "class-3-diagnostic-cognitive.html",
+    "questions": [
+      {
+        "title": "3-Digit Place Value",
+        "cog": "Recall",
+        "marks": "[2 marks]",
+        "body": "Look at <b style=\"font-size:18px;\">347</b>. Write the value of each digit.<div class=\"boxed\" style=\"margin-top:6px;font-family:Arial,sans-serif;\">Hundreds digit: <span class=\"answer-box\" style=\"width:50px;\"></span><br>Tens digit: <span class=\"answer-box\" style=\"width:50px;\"></span><br>Ones digit: <span class=\"answer-box\" style=\"width:50px;\"></span></div></div>"
+      },
+      {
+        "title": "Read and Write (up to 9999)",
+        "cog": "Recall",
+        "marks": "[2 marks]",
+        "body": "Write the number <b>two thousand, four hundred and twelve</b> in numerals.<div class=\"boxed\" style=\"font-size:20px;margin-top:8px;font-family:Arial,sans-serif;\">In numerals: <span class=\"answer-box\" style=\"width:90px;\"></span></div></div>"
+      },
+      {
+        "title": "Multiplication Tables (2–10)",
+        "cog": "Recall",
+        "marks": "[1 mark]",
+        "body": "Fill in the missing number.<div class=\"boxed\" style=\"font-size:18px;margin-top:6px;font-family:Arial,sans-serif;\">7 × <span class=\"answer-box\" style=\"width:50px;\"></span> = 56</div></div>"
+      },
+      {
+        "title": "Division Facts",
+        "cog": "Recall",
+        "marks": "[1 mark]",
+        "body": "Fill in the missing number.<div class=\"boxed\" style=\"font-size:18px;margin-top:6px;font-family:Arial,sans-serif;\">48 ÷ 6 = <span class=\"answer-box\" style=\"width:50px;\"></span></div></div>"
+      },
+      {
+        "title": "Compare 3-Digit Numbers",
+        "cog": "Compare",
+        "marks": "[1 mark]",
+        "body": "Write <b>&gt;</b>, <b>&lt;</b>, or <b>=</b> between the numbers.<div class=\"boxed\" style=\"font-size:24px;margin-top:6px;font-family:Arial,sans-serif;text-align:center;letter-spacing:8px;\">472 &nbsp;<span class=\"answer-box\" style=\"width:50px;height:32px;\"></span>&nbsp; 427</div></div>"
+      },
+      {
+        "title": "Standard Units",
+        "cog": "Represent",
+        "marks": "[1 mark]",
+        "body": "Which unit is best to measure the length of a <b>pencil</b>?<ul class=\"mcq-list\"><li><span class=\"bubble\"></span>(A) Kilometre (km)</li><li><span class=\"bubble\"></span>(B) Metre (m)</li><li><span class=\"bubble\"></span>(C) Centimetre (cm)</li><li><span class=\"bubble\"></span>(D) Millimetre (mm)</li></ul></div>"
+      },
+      {
+        "title": "Clock Reading (Hour / Half-Hour)",
+        "cog": "Represent",
+        "marks": "[2 marks]",
+        "body": "What time does this clock show? Write it in numbers.<div style=\"text-align:center;margin:8px 0;\"><svg viewBox=\"0 0 120 120\" width=\"120\" height=\"120\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"60\" cy=\"60\" r=\"56\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.6\"/><line x1=\"60\" y1=\"60\" x2=\"60\" y2=\"20\" stroke=\"#000\" stroke-width=\"3\" stroke-linecap=\"round\"/><line x1=\"60\" y1=\"60\" x2=\"92\" y2=\"60\" stroke=\"#000\" stroke-width=\"2\" stroke-linecap=\"round\"/><circle cx=\"60\" cy=\"60\" r=\"3\" fill=\"#000\"/><text x=\"60\" y=\"14\" font-family=\"Arial\" font-size=\"11\" text-anchor=\"middle\">12</text><text x=\"110\" y=\"64\" font-family=\"Arial\" font-size=\"11\" text-anchor=\"middle\">3</text><text x=\"60\" y=\"116\" font-family=\"Arial\" font-size=\"11\" text-anchor=\"middle\">6</text><text x=\"10\" y=\"64\" font-family=\"Arial\" font-size=\"11\" text-anchor=\"middle\">9</text></svg></div><div class=\"boxed\">Time = <span class=\"answer-box\" style=\"width:40px;\"></span> : <span class=\"answer-box\" style=\"width:40px;\"></span></div></div>"
+      },
+      {
+        "title": "Fractions of a Collection",
+        "cog": "Classify",
+        "marks": "[2 marks]",
+        "body": "There are <b>12 marbles</b> in a bag. <b>One-fourth</b> of them are red. How many red marbles?<div class=\"boxed\" style=\"margin-top:6px;\">12 ÷ 4 = <span class=\"answer-box\" style=\"width:60px;\"></span> red marbles.</div></div></div></div><div class=\"sheet pagebreak\">"
+      },
+      {
+        "title": "2D and 3D Shapes",
+        "cog": "Relate",
+        "marks": "[1 mark]",
+        "body": "A <b>cube</b> has 6 flat surfaces. What shape is each surface?<ul class=\"mcq-list\"><li><span class=\"bubble\"></span>(A) Circle</li><li><span class=\"bubble\"></span>(B) Square</li><li><span class=\"bubble\"></span>(C) Triangle</li><li><span class=\"bubble\"></span>(D) Oval</li></ul></div>"
+      },
+      {
+        "title": "Flexible 3-Digit Decomposition",
+        "cog": "Generalize",
+        "marks": "[2 marks]",
+        "body": "Show <b>two</b> different ways to make 325 using hundreds, tens, and ones.<div class=\"boxed\" style=\"margin-top:6px;\">Way 1: 325 = <span class=\"answer-box\" style=\"width:40px;\"></span> + <span class=\"answer-box\" style=\"width:40px;\"></span> + <span class=\"answer-box\" style=\"width:40px;\"></span><br>Way 2: 325 = <span class=\"answer-box\" style=\"width:40px;\"></span> + <span class=\"answer-box\" style=\"width:40px;\"></span> + <span class=\"answer-box\" style=\"width:40px;\"></span></div></div>"
+      },
+      {
+        "title": "Pattern Rule",
+        "cog": "Generalize",
+        "marks": "[2 marks]",
+        "body": "What is the rule? Continue the sequence.<div class=\"boxed\" style=\"font-size:18px;margin-top:6px;font-family:Arial,sans-serif;letter-spacing:4px;\">15, 25, 35, 45, <span class=\"answer-box\" style=\"width:50px;\"></span>, <span class=\"answer-box\" style=\"width:50px;\"></span></div><div class=\"boxed\" style=\"margin-top:4px;\">Rule: add <b>10</b> each time. (<span class=\"answer-box\" style=\"width:80px;\"></span>)</div></div>"
+      },
+      {
+        "title": "Read a Bar Graph",
+        "cog": "Interpret",
+        "marks": "[2 marks]",
+        "body": "A bar graph shows: Apples = 5, Bananas = 8, Cherries = 3, Dates = 6. Which fruit was sold the <b>most</b>?<div class=\"boxed\" style=\"margin-top:6px;\">Most sold: <span class=\"answer-box\" style=\"width:80px;\"></span></div><div style=\"font-size:11px;font-style:italic;margin-top:4px;\">How many bananas? <span class=\"answer-box\" style=\"width:60px;\"></span></div></div>"
+      },
+      {
+        "title": "Word Problem (Add/Sub)",
+        "cog": "Apply",
+        "marks": "[3 marks]",
+        "body": "<div class=\"wordbox\">A shop had <b>485 apples</b> in the morning. By evening, <b>127</b> were sold. How many apples are left?</div><div class=\"boxed\" style=\"margin-top:6px;\">Number sentence: <span class=\"answer-box\" style=\"width:60px;\"></span> − <span class=\"answer-box\" style=\"width:60px;\"></span> = <span class=\"answer-box\" style=\"width:60px;\"></span><br>Answer: <span class=\"answer-box\" style=\"width:80px;\"></span> apples.</div></div>"
+      },
+      {
+        "title": "Money Arithmetic",
+        "cog": "Apply",
+        "marks": "[2 marks]",
+        "body": "Riya has <b>₹85</b>. Her mother gives her <b>₹40</b> more. How much does Riya have now?<div class=\"boxed\" style=\"margin-top:6px;\">₹<span class=\"answer-box\" style=\"width:60px;\"></span> + ₹<span class=\"answer-box\" style=\"width:60px;\"></span> = ₹<span class=\"answer-box\" style=\"width:60px;\"></span><br>Riya has ₹<span class=\"answer-box\" style=\"width:80px;\"></span> now.</div></div></div>\n          <div class=\"footer\">\n            <span>FLN · Class 3 · Diagnostic Paper</span>\n            <span>End of Paper · 14 Questions · 24 Marks</span>\n          </div>"
+      }
+    ]
+  },
+  {
+    "file": "class-4-diagnostic-cognitive.html",
+    "questions": [
+      {
+        "title": "Place Value (Thousands)",
+        "cog": "Recall",
+        "marks": "[2 marks]",
+        "body": "In the number <b style=\"font-size:18px;\">4 3 7 2</b>, what digit is in the <b>thousands</b> place?<div class=\"boxed\" style=\"margin-top:6px;\">Thousands digit = <span class=\"answer-box\" style=\"width:50px;\"></span></div></div>"
+      },
+      {
+        "title": "Read and Write (4-digit)",
+        "cog": "Recall",
+        "marks": "[2 marks]",
+        "body": "Regroup <b>3 thousands 14 tens 6 ones</b> as a single 4-digit number.<div class=\"boxed\" style=\"font-size:20px;margin-top:6px;font-family:Arial,sans-serif;\">In numerals: <span class=\"answer-box\" style=\"width:90px;\"></span></div></div>"
+      },
+      {
+        "title": "Decimals (Tenths)",
+        "cog": "Recall",
+        "marks": "[2 marks]",
+        "body": "Which decimal is the same as <b>3/10</b>?<ul class=\"mcq-list\"><li><span class=\"bubble\"></span>(A) 0.03</li><li><span class=\"bubble\"></span>(B) 0.3</li><li><span class=\"bubble\"></span>(C) 3.0</li><li><span class=\"bubble\"></span>(D) 30.0</li></ul></div>"
+      },
+      {
+        "title": "Factors and Multiples",
+        "cog": "Classify",
+        "marks": "[2 marks]",
+        "body": "List all factors of <b>12</b>. Then write the first three multiples of <b>5</b>.<div class=\"boxed\" style=\"margin-top:6px;\">Factors of 12: <span class=\"answer-box\" style=\"width:120px;\"></span><br>First 3 multiples of 5: <span class=\"answer-box\" style=\"width:120px;\"></span></div></div>"
+      },
+      {
+        "title": "Angle Types",
+        "cog": "Classify",
+        "marks": "[1 mark]",
+        "body": "A clock showing <b>3:00</b> has what kind of angle between the hands?<ul class=\"mcq-list\"><li><span class=\"bubble\"></span>(A) Acute</li><li><span class=\"bubble\"></span>(B) Right</li><li><span class=\"bubble\"></span>(C) Obtuse</li><li><span class=\"bubble\"></span>(D) Straight</li></ul></div>"
+      },
+      {
+        "title": "Nets of 3D Shapes",
+        "cog": "Relate",
+        "marks": "[1 mark]",
+        "body": "Which flat shape, when folded, makes a <b>cube</b>?<ul class=\"mcq-list\"><li><span class=\"bubble\"></span>(A) A row of 4 squares in a line</li><li><span class=\"bubble\"></span>(B) A cross-shape of 6 squares (T-shape)</li><li><span class=\"bubble\"></span>(C) A 2×3 rectangle of 6 squares</li><li><span class=\"bubble\"></span>(D) All of the above can make a cube</li></ul></div>"
+      },
+      {
+        "title": "Equivalent Fractions",
+        "cog": "Generalize",
+        "marks": "[2 marks]",
+        "body": "Fill the blank to make the fractions equivalent.<div class=\"boxed\" style=\"font-size:20px;margin-top:6px;font-family:Arial,sans-serif;\">1 / 2 = <span class=\"answer-box\" style=\"width:50px;\"></span> / 4</div></div>"
+      },
+      {
+        "title": "Number Pattern Rule",
+        "cog": "Generalize",
+        "marks": "[2 marks]",
+        "body": "What is the rule? Continue the sequence.<div class=\"boxed\" style=\"font-size:18px;margin-top:6px;font-family:Arial,sans-serif;letter-spacing:4px;\">3, 6, 12, 24, <span class=\"answer-box\" style=\"width:50px;\"></span>, <span class=\"answer-box\" style=\"width:50px;\"></span></div><div class=\"boxed\" style=\"margin-top:4px;\">Rule: multiply by <b><span class=\"answer-box\" style=\"width:50px;\"></span></b> each time.</div></div></div></div><div class=\"sheet pagebreak\">"
+      },
+      {
+        "title": "Line of Symmetry",
+        "cog": "Generalize",
+        "marks": "[1 mark]",
+        "body": "How many lines of symmetry does a <b>square</b> have?<div class=\"boxed\" style=\"margin-top:6px;font-size:20px;font-family:Arial,sans-serif;\">A square has <b><span class=\"answer-box\" style=\"width:50px;\"></span></b> lines of symmetry.</div></div>"
+      },
+      {
+        "title": "Read and Interpret Bar Graph",
+        "cog": "Interpret",
+        "marks": "[2 marks]",
+        "body": "A bar graph shows scores: Maths = 85, Science = 72, English = 90, Hindi = 68. In which subject did the student score the <b>highest</b>?<div class=\"boxed\" style=\"margin-top:6px;\">Highest score: <b><span class=\"answer-box\" style=\"width:80px;\"></span></b></div></div>"
+      },
+      {
+        "title": "Word Problem (Multi-Digit)",
+        "cog": "Apply",
+        "marks": "[3 marks]",
+        "body": "<div class=\"wordbox\">A library has <b>2 4 5 6</b> books. <b>1 1 8 7</b> were borrowed this month. How many books are still on the shelf?</div><div class=\"boxed\" style=\"margin-top:6px;\"><span class=\"answer-box\" style=\"width:70px;\"></span> − <span class=\"answer-box\" style=\"width:70px;\"></span> = <span class=\"answer-box\" style=\"width:70px;\"></span><br><span class=\"answer-box\" style=\"width:80px;\"></span> books are on the shelf.</div></div>"
+      },
+      {
+        "title": "Multiplication (2-digit × 1-digit)",
+        "cog": "Apply",
+        "marks": "[3 marks]",
+        "body": "Multiply.<div class=\"boxed\" style=\"font-size:20px;margin-top:6px;font-family:Arial,sans-serif;letter-spacing:4px;\">&nbsp;&nbsp;<span class=\"answer-box\" style=\"width:50px;height:32px;\"></span><br>×&nbsp;&nbsp;&nbsp;<span class=\"answer-box\" style=\"width:40px;height:32px;\"></span><br>________<br>&nbsp;<span class=\"answer-box\" style=\"width:70px;height:32px;\"></span></div><div style=\"font-size:11px;font-style:italic;margin-top:4px;\">e.g. 23 × 4</div></div>"
+      },
+      {
+        "title": "Division (2-digit ÷ 1-digit)",
+        "cog": "Apply",
+        "marks": "[3 marks]",
+        "body": "Divide and show the remainder if any.<div class=\"boxed\" style=\"font-size:20px;margin-top:6px;font-family:Arial,sans-serif;\">75 ÷ 4 = <span class=\"answer-box\" style=\"width:50px;\"></span> remainder <span class=\"answer-box\" style=\"width:50px;\"></span></div></div>"
+      },
+      {
+        "title": "Unit Conversion",
+        "cog": "Apply",
+        "marks": "[1 mark]",
+        "body": "How many centimetres are in <b>1 metre</b>?<div class=\"boxed\" style=\"margin-top:6px;\">1 m = <span class=\"answer-box\" style=\"width:50px;\"></span> cm</div></div>"
+      },
+      {
+        "title": "Measurement Word Problem",
+        "cog": "Apply",
+        "marks": "[3 marks]",
+        "body": "<div class=\"wordbox\">A rope is <b>3 m 40 cm</b> long. <b>1 m 25 cm</b> is cut off. How much rope is left?</div><div class=\"boxed\" style=\"margin-top:6px;\">3 m 40 cm − 1 m 25 cm = <span class=\"answer-box\" style=\"width:50px;\"></span> m <span class=\"answer-box\" style=\"width:50px;\"></span> cm</div></div>"
+      },
+      {
+        "title": "Time Intervals (AM/PM)",
+        "cog": "Apply",
+        "marks": "[2 marks]",
+        "body": "A movie starts at <b>2:30 PM</b> and ends at <b>4:45 PM</b>. How long is the movie?<div class=\"boxed\" style=\"margin-top:6px;\">Start: 2:30 PM &nbsp; End: 4:45 PM<br>Duration: <span class=\"answer-box\" style=\"width:50px;\"></span> hours <span class=\"answer-box\" style=\"width:50px;\"></span> minutes</div></div>"
+      },
+      {
+        "title": "Money Word Problem (Multi-Step)",
+        "cog": "Apply",
+        "marks": "[3 marks]",
+        "body": "<div class=\"wordbox\">Sohan has <b>₹500</b>. He buys a book for <b>₹185</b> and a pencil box for <b>₹62</b>. How much money is left?</div><div class=\"boxed\" style=\"margin-top:6px;\">₹<span class=\"answer-box\" style=\"width:60px;\"></span> − ₹<span class=\"answer-box\" style=\"width:60px;\"></span> − ₹<span class=\"answer-box\" style=\"width:60px;\"></span> = ₹<span class=\"answer-box\" style=\"width:60px;\"></span><br>Money left: ₹<span class=\"answer-box\" style=\"width:70px;\"></span>.</div></div>"
+      },
+      {
+        "title": "Perimeter and Area",
+        "cog": "Apply",
+        "marks": "[3 marks]",
+        "body": "A rectangle is <b>5 cm</b> long and <b>3 cm</b> wide. Find its <b>perimeter</b> and <b>area</b>.<div class=\"boxed\" style=\"margin-top:6px;\">Perimeter = <span class=\"answer-box\" style=\"width:70px;\"></span> cm<br>Area = <span class=\"answer-box\" style=\"width:70px;\"></span> sq cm</div></div></div>\n          <div class=\"footer\">\n            <span>FLN · Class 4 · Diagnostic Paper</span>\n            <span>End of Paper · 18 Questions · 38 Marks</span>\n          </div>"
+      }
+    ]
+  }
+]

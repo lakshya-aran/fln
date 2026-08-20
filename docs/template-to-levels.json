@@ -1,0 +1,511 @@
+{
+  "T03": [
+    {
+      "id": "S1.1",
+      "title": "One-to-One Correspondence",
+      "variant": "default"
+    },
+    {
+      "id": "S1.3",
+      "title": "Perceptual Same/Different",
+      "variant": "default"
+    },
+    {
+      "id": "S1.5",
+      "title": "Counting Small Sets (1-3)",
+      "variant": "default"
+    },
+    {
+      "id": "S1.6",
+      "title": "Shape Matching (Perceptual)",
+      "variant": "default"
+    },
+    {
+      "id": "S3.1",
+      "title": "Numeral Recognition (1-10)",
+      "variant": "default"
+    },
+    {
+      "id": "S3.2",
+      "title": "Numeral-Quantity Correspondence",
+      "variant": "default"
+    }
+  ],
+  "T06": [
+    {
+      "id": "S1.2",
+      "title": "Classification (Single Property)",
+      "variant": "default"
+    },
+    {
+      "id": "S2.6",
+      "title": "Shape Identification",
+      "variant": "default"
+    },
+    {
+      "id": "S3.4",
+      "title": "Seriation with Transitivity",
+      "variant": "default"
+    },
+    {
+      "id": "S6.3",
+      "title": "3-Digit Comparison & Ordering",
+      "variant": "default"
+    }
+  ],
+  "T01": [
+    {
+      "id": "S1.4",
+      "title": "Rote Verbal Counting to 10",
+      "variant": "default"
+    },
+    {
+      "id": "S1.7",
+      "title": "Perceptual Subitizing",
+      "variant": "default"
+    },
+    {
+      "id": "S2.4",
+      "title": "Counting to 5 (Cardinality)",
+      "variant": "default"
+    },
+    {
+      "id": "S2.5",
+      "title": "Counting 6-10",
+      "variant": "default"
+    },
+    {
+      "id": "S2.9",
+      "title": "Conceptual Subitizing",
+      "variant": "default"
+    },
+    {
+      "id": "S4.3",
+      "title": "Counting Objects to 20",
+      "variant": "default"
+    }
+  ],
+  "T17": [
+    {
+      "id": "S2.1",
+      "title": "Quantity Comparison",
+      "variant": "default"
+    },
+    {
+      "id": "S2.8",
+      "title": "Comparative Vocabulary",
+      "variant": "default"
+    },
+    {
+      "id": "S4.13",
+      "title": "Ordinal Positions (1st-10th)",
+      "variant": "default"
+    }
+  ],
+  "T10": [
+    {
+      "id": "S2.10",
+      "title": "Basic Shape Composition",
+      "variant": "default"
+    },
+    {
+      "id": "S2.2",
+      "title": "Seriation (3 Objects)",
+      "variant": "default"
+    },
+    {
+      "id": "S3.10",
+      "title": "Shape Composition & Decomposition",
+      "variant": "shape_composition"
+    },
+    {
+      "id": "S3.9",
+      "title": "Basic Shape Properties",
+      "variant": "default"
+    },
+    {
+      "id": "S4.15",
+      "title": "Advanced Shape Composition",
+      "variant": "default"
+    },
+    {
+      "id": "S4.8",
+      "title": "3D Shape Properties",
+      "variant": "default"
+    },
+    {
+      "id": "S5.12",
+      "title": "2D Shape Set Identification",
+      "variant": "default"
+    },
+    {
+      "id": "S5.13",
+      "title": "Spatial Vocabulary",
+      "variant": "spatial_vocab"
+    },
+    {
+      "id": "S7.16",
+      "title": "Angles & Turn",
+      "variant": "default"
+    },
+    {
+      "id": "S7.17",
+      "title": "Symmetry & Reflection",
+      "variant": "default"
+    }
+  ],
+  "T15": [
+    {
+      "id": "S2.3",
+      "title": "Classification (Increasing Complexity)",
+      "variant": "default"
+    },
+    {
+      "id": "S4.5",
+      "title": "Tens and Ones",
+      "variant": "default"
+    },
+    {
+      "id": "S5.15",
+      "title": "Data Handling (Sorting & Tallies)",
+      "variant": "default"
+    },
+    {
+      "id": "S6.14",
+      "title": "Data Handling (Pictographs & Bar Graphs)",
+      "variant": "default"
+    },
+    {
+      "id": "S7.13",
+      "title": "Bar Graphs & Data Interpretation",
+      "variant": "default"
+    }
+  ],
+  "T08": [
+    {
+      "id": "S2.7",
+      "title": "2-Item Patterns",
+      "variant": "default"
+    },
+    {
+      "id": "S3.8",
+      "title": "Patterns (2-Item Indep & 3-Item Intro)",
+      "variant": "default"
+    },
+    {
+      "id": "S4.11",
+      "title": "3-Item Pattern Completion",
+      "variant": "default"
+    },
+    {
+      "id": "S5.16",
+      "title": "Number Patterns & Sequences",
+      "variant": "default"
+    },
+    {
+      "id": "S6.13",
+      "title": "Pattern Rules & Generalization",
+      "variant": "default"
+    },
+    {
+      "id": "S7.12",
+      "title": "Advanced Number Patterns",
+      "variant": "default"
+    }
+  ],
+  "T07": [
+    {
+      "id": "S3.3",
+      "title": "Numeral Comparison (Object-Mediated)",
+      "variant": "default"
+    },
+    {
+      "id": "S3.5",
+      "title": "Flexible Classification",
+      "variant": "default"
+    },
+    {
+      "id": "S3.7",
+      "title": "Comparative Vocabulary (Formalizing)",
+      "variant": "with_symbols"
+    },
+    {
+      "id": "S4.1",
+      "title": "Abstract Numeral Comparison",
+      "variant": "default"
+    },
+    {
+      "id": "S4.2",
+      "title": "Close Numeral Comparison",
+      "variant": "default"
+    }
+  ],
+  "T02": [
+    {
+      "id": "S3.6",
+      "title": "Numeral Sequencing",
+      "variant": "default"
+    },
+    {
+      "id": "S4.4",
+      "title": "Reading & Writing Numerals to 99",
+      "variant": "default"
+    },
+    {
+      "id": "S5.1",
+      "title": "Reading & Writing 3-Digit Numbers",
+      "variant": "default"
+    },
+    {
+      "id": "S5.8",
+      "title": "Multiplication Tables (2,3,4,5,10)",
+      "variant": "default"
+    },
+    {
+      "id": "S6.4",
+      "title": "Reading & Writing 4-Digit Numbers",
+      "variant": "read_in_words"
+    }
+  ],
+  "T05": [
+    {
+      "id": "S4.6",
+      "title": "Single-Digit Addition",
+      "variant": "default"
+    },
+    {
+      "id": "S4.7",
+      "title": "Single-Digit Subtraction",
+      "variant": "default"
+    },
+    {
+      "id": "S5.3",
+      "title": "Flexible 2-Digit Decomposition",
+      "variant": "default"
+    },
+    {
+      "id": "S5.4",
+      "title": "2-Digit Addition with Regrouping",
+      "variant": "default"
+    },
+    {
+      "id": "S5.5",
+      "title": "2-Digit Subtraction with Regrouping",
+      "variant": "default"
+    },
+    {
+      "id": "S6.1",
+      "title": "3-Digit Place Value & Expanded Form",
+      "variant": "default"
+    },
+    {
+      "id": "S6.2",
+      "title": "Flexible 3-Digit Decomposition",
+      "variant": "default"
+    },
+    {
+      "id": "S6.6",
+      "title": "Full Multiplication Tables (2-10)",
+      "variant": "default"
+    },
+    {
+      "id": "S6.7",
+      "title": "Division Facts & Inverse Relation",
+      "variant": "simple"
+    },
+    {
+      "id": "S7.10",
+      "title": "Advanced Time Calculation",
+      "variant": "simple"
+    },
+    {
+      "id": "S7.14",
+      "title": "Factors & Multiples",
+      "variant": "default"
+    },
+    {
+      "id": "S7.15",
+      "title": "Decimals (Tenths & Hundredths)",
+      "variant": "simple"
+    },
+    {
+      "id": "S7.2",
+      "title": "Large Number Operations & Regrouping",
+      "variant": "default"
+    },
+    {
+      "id": "S7.5",
+      "title": "Formal Long Division",
+      "variant": "default"
+    },
+    {
+      "id": "S7.7",
+      "title": "Standard Unit Conversion",
+      "variant": "simple"
+    }
+  ],
+  "T16": [
+    {
+      "id": "S4.10",
+      "title": "Non-Standard Capacity Estimation",
+      "variant": "default"
+    },
+    {
+      "id": "S4.9",
+      "title": "Non-Standard Length Estimation",
+      "variant": "default"
+    },
+    {
+      "id": "S5.11",
+      "title": "Uniform Non-Standard Measurement",
+      "variant": "default"
+    },
+    {
+      "id": "S6.8",
+      "title": "Standard Measurement Units",
+      "variant": "standard_units"
+    },
+    {
+      "id": "S7.18",
+      "title": "Perimeter & Area",
+      "variant": "default"
+    }
+  ],
+  "T21": [
+    {
+      "id": "S4.12",
+      "title": "Concept of Zero",
+      "variant": "concept_of_zero"
+    },
+    {
+      "id": "S5.17",
+      "title": "Zero as a Placeholder",
+      "variant": "default"
+    }
+  ],
+  "T09": [
+    {
+      "id": "S4.14",
+      "title": "Informal Number Line (0-20)",
+      "variant": "default"
+    },
+    {
+      "id": "S5.18",
+      "title": "Extended Number Line (0-100)",
+      "variant": "default"
+    }
+  ],
+  "T18": [
+    {
+      "id": "S5.2",
+      "title": "Tens as Bundles/Groups",
+      "variant": "bundles"
+    },
+    {
+      "id": "S7.1",
+      "title": "4-Digit & 5-Digit Place Value",
+      "variant": "expanded"
+    }
+  ],
+  "T19": [
+    {
+      "id": "S5.6",
+      "title": "Multiplication as Repeated Addition",
+      "variant": "array_full"
+    }
+  ],
+  "T11": [
+    {
+      "id": "S5.7",
+      "title": "Division as Equal Sharing",
+      "variant": "default"
+    },
+    {
+      "id": "S6.5",
+      "title": "3-Digit Addition & Subtraction Problems",
+      "variant": "default"
+    },
+    {
+      "id": "S7.3",
+      "title": "Complex Multi-Digit Word Problems",
+      "variant": "default"
+    },
+    {
+      "id": "S7.8",
+      "title": "Applied Measurement Word Problems",
+      "variant": "default"
+    }
+  ],
+  "T12": [
+    {
+      "id": "S5.9",
+      "title": "Currency Recognition",
+      "variant": "default"
+    },
+    {
+      "id": "S6.11",
+      "title": "Money Arithmetic",
+      "variant": "default"
+    },
+    {
+      "id": "S7.11",
+      "title": "Complex Money Problems",
+      "variant": "default"
+    }
+  ],
+  "T14": [
+    {
+      "id": "S5.10",
+      "title": "Informal Fractions (Folding)",
+      "variant": "informal_fold"
+    },
+    {
+      "id": "S6.12",
+      "title": "Formal Fractions (Half/Quarter)",
+      "variant": "default"
+    },
+    {
+      "id": "S7.6",
+      "title": "Fractional Notation & Equivalence",
+      "variant": "default"
+    }
+  ],
+  "T13": [
+    {
+      "id": "S5.14",
+      "title": "Calendar Reading",
+      "variant": "default"
+    },
+    {
+      "id": "S6.10",
+      "title": "Telling Time (Hours & Half-Hours)",
+      "variant": "default"
+    }
+  ],
+  "T20": [
+    {
+      "id": "S5.19",
+      "title": "Skip Counting (2s, 5s, 10s)",
+      "variant": "default"
+    }
+  ],
+  "T04": [
+    {
+      "id": "S6.9",
+      "title": "Relating 2D Faces to 3D Solids",
+      "variant": "text_options"
+    },
+    {
+      "id": "S7.9",
+      "title": "3D Nets & Spatial Perspective",
+      "variant": "text_options"
+    }
+  ],
+  "T22": [
+    {
+      "id": "S7.4",
+      "title": "Extended Multiplication",
+      "variant": "column_multiplication"
+    }
+  ]
+}

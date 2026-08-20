@@ -1,0 +1,764 @@
+[
+  {
+    "id": "S1.1",
+    "title": "One-to-One Correspondence",
+    "strand": "Pre-Number Foundations",
+    "oral": "**YES**",
+    "qtypes": "Match identical pairs; pair objects to children; identify the unpaired item. *No numerals yet.*",
+    "shape": "match_or_pairs"
+  },
+  {
+    "id": "S1.2",
+    "title": "Classification (Single Property)",
+    "strand": "Pre-Number Foundations",
+    "oral": "**YES**",
+    "qtypes": "Sort objects by one attribute (color, shape, size); circle the group that belongs; \"which one is different?\".",
+    "shape": "circle_or_tick"
+  },
+  {
+    "id": "S1.3",
+    "title": "Perceptual Same/Different",
+    "strand": "Pre-Number Foundations",
+    "oral": "**YES**",
+    "qtypes": "Same/different judgment on pictures; \"are these the same?\" Yes/No.",
+    "shape": "match_or_pairs"
+  },
+  {
+    "id": "S1.4",
+    "title": "Rote Verbal Counting to 10",
+    "strand": "Number Sense",
+    "oral": "partial (no symbols)",
+    "qtypes": "Recite the count sequence 1–10 with fingers or objects. *Recognition of written numerals not yet required.*",
+    "shape": "count_objects"
+  },
+  {
+    "id": "S1.5",
+    "title": "Counting Small Sets (1-3)",
+    "strand": "Number Sense",
+    "oral": "partial",
+    "qtypes": "Subitize small sets of 1–3; touch-and-count; match sets of equal cardinality (with no numerals).",
+    "shape": "match_or_pairs"
+  },
+  {
+    "id": "S1.6",
+    "title": "Shape Matching (Perceptual)",
+    "strand": "Shapes & Spatial",
+    "oral": "**YES**",
+    "qtypes": "Match shapes to identical shapes (circle-to-circle, square-to-square); no names required.",
+    "shape": "match_or_pairs"
+  },
+  {
+    "id": "S1.7",
+    "title": "Perceptual Subitizing",
+    "strand": "Number Sense",
+    "oral": "partial",
+    "qtypes": "Instant recognition of 1–3 dots/fingers without counting.",
+    "shape": "count_objects"
+  },
+  {
+    "id": "S2.1",
+    "title": "Quantity Comparison",
+    "strand": "Pre-Number Foundations",
+    "oral": "partial",
+    "qtypes": "Which group has more / fewer / same? (no numerals required; can answer by pointing).",
+    "shape": "oral_no_box"
+  },
+  {
+    "id": "S2.2",
+    "title": "Seriation (3 Objects)",
+    "strand": "Pre-Number Foundations",
+    "oral": "**YES**",
+    "qtypes": "Arrange 3 objects shortest-to-tallest; identify the middle / first / last.",
+    "shape": "shape_task"
+  },
+  {
+    "id": "S2.3",
+    "title": "Classification (Increasing Complexity)",
+    "strand": "Pre-Number Foundations",
+    "oral": "**YES**",
+    "qtypes": "Sort into two groups by two attributes combined; \"which group does this belong to?\".",
+    "shape": "data_task"
+  },
+  {
+    "id": "S2.4",
+    "title": "Counting to 5 (Cardinality)",
+    "strand": "Number Sense",
+    "oral": "partial",
+    "qtypes": "Count 1–5 objects; \"how many?\" (still no written numerals needed — child can answer verbally or by holding up fingers).",
+    "shape": "count_objects"
+  },
+  {
+    "id": "S2.5",
+    "title": "Counting 6-10",
+    "strand": "Number Sense",
+    "oral": "partial",
+    "qtypes": "Count 6–10 objects; introduces the count-word \"ten\".",
+    "shape": "count_objects"
+  },
+  {
+    "id": "S2.6",
+    "title": "Shape Identification",
+    "strand": "Shapes & Spatial",
+    "oral": "no",
+    "qtypes": "Name shapes (circle, square, triangle, rectangle). Verbal answer or pointing.",
+    "shape": "circle_or_tick"
+  },
+  {
+    "id": "S2.7",
+    "title": "2-Item Patterns",
+    "strand": "Patterns",
+    "oral": "**YES**",
+    "qtypes": "Complete ABAB patterns with colored blocks / fruits; \"what comes next?\" by pointing.",
+    "shape": "pattern_complete"
+  },
+  {
+    "id": "S2.8",
+    "title": "Comparative Vocabulary",
+    "strand": "Measurement",
+    "oral": "**YES**",
+    "qtypes": "\"long / short\", \"heavy / light\", \"full / empty\". Verbal or pointing.",
+    "shape": "oral_no_box"
+  },
+  {
+    "id": "S2.9",
+    "title": "Conceptual Subitizing",
+    "strand": "Number Sense",
+    "oral": "partial",
+    "qtypes": "Subitize arrangements of 4–6 (ten-frame-style).",
+    "shape": "count_objects"
+  },
+  {
+    "id": "S2.10",
+    "title": "Basic Shape Composition",
+    "strand": "Shapes & Spatial",
+    "oral": "partial",
+    "qtypes": "Combine two shapes to make another (e.g. two triangles = a square).",
+    "shape": "shape_task"
+  },
+  {
+    "id": "S3.1",
+    "title": "Numeral Recognition (1-10)",
+    "strand": "Number Sense",
+    "oral": "no",
+    "qtypes": "Match the spoken/written numeral to its word; trace the numeral.",
+    "shape": "match_or_pairs"
+  },
+  {
+    "id": "S3.2",
+    "title": "Numeral-Quantity Correspondence",
+    "strand": "Number Sense",
+    "oral": "no",
+    "qtypes": "Match the numeral (e.g. \"5\") to a set of 5 objects.",
+    "shape": "match_or_pairs"
+  },
+  {
+    "id": "S3.3",
+    "title": "Numeral Comparison (Object-Mediated)",
+    "strand": "Pre-Number Foundations",
+    "oral": "no",
+    "qtypes": "Compare two sets via a third representation (dots / fingers).",
+    "shape": "compare_groups"
+  },
+  {
+    "id": "S3.4",
+    "title": "Seriation with Transitivity",
+    "strand": "Pre-Number Foundations",
+    "oral": "partial",
+    "qtypes": "\"If A > B and B > C, then A > C.\" Can be done with three sticks without numerals.",
+    "shape": "circle_or_tick"
+  },
+  {
+    "id": "S3.5",
+    "title": "Flexible Classification",
+    "strand": "Pre-Number Foundations",
+    "oral": "**YES**",
+    "qtypes": "Re-sort by a different attribute after the first sort; \"now group them by…\".",
+    "shape": "compare_groups"
+  },
+  {
+    "id": "S3.6",
+    "title": "Numeral Sequencing",
+    "strand": "Number Sense",
+    "oral": "no",
+    "qtypes": "Write the next numeral in a sequence; fill the missing number 1–10.",
+    "shape": "fill_in_box"
+  },
+  {
+    "id": "S3.7",
+    "title": "Comparative Vocabulary (Formalizing)",
+    "strand": "Measurement",
+    "oral": "no",
+    "qtypes": "Use >, <, = with objects and with numerals up to 10.",
+    "shape": "compare_groups",
+    "variant": "with_symbols"
+  },
+  {
+    "id": "S3.8",
+    "title": "Patterns (2-Item Indep & 3-Item Intro)",
+    "strand": "Patterns",
+    "oral": "partial",
+    "qtypes": "Continue ABAB, AAB, ABB, ABC patterns.",
+    "shape": "pattern_complete"
+  },
+  {
+    "id": "S3.9",
+    "title": "Basic Shape Properties",
+    "strand": "Shapes & Spatial",
+    "oral": "no",
+    "qtypes": "Identify sides, corners, \"rolls vs. slides\".",
+    "shape": "shape_task"
+  },
+  {
+    "id": "S3.10",
+    "title": "Shape Composition & Decomposition",
+    "strand": "Shapes & Spatial",
+    "oral": "partial",
+    "qtypes": "Cut a square into two triangles;",
+    "shape": "shape_task",
+    "variant": "shape_composition"
+  },
+  {
+    "id": "S4.1",
+    "title": "Abstract Numeral Comparison",
+    "strand": "Number Sense",
+    "oral": "no",
+    "qtypes": "Compare numerals up to 20 with `<`, `>`, `=`.",
+    "shape": "compare_groups"
+  },
+  {
+    "id": "S4.2",
+    "title": "Close Numeral Comparison",
+    "strand": "Number Sense",
+    "oral": "no",
+    "qtypes": "Compare numerals that differ by 1–2 (e.g. 18 vs 19).",
+    "shape": "compare_groups"
+  },
+  {
+    "id": "S4.3",
+    "title": "Counting Objects to 20",
+    "strand": "Number Sense",
+    "oral": "no",
+    "qtypes": "Touch-and-count 11–20 objects.",
+    "shape": "count_objects"
+  },
+  {
+    "id": "S4.4",
+    "title": "Reading & Writing Numerals to 99",
+    "strand": "Number Sense",
+    "oral": "no",
+    "qtypes": "Write the numeral from its word (\"twenty-three\" → 23).",
+    "shape": "fill_in_box"
+  },
+  {
+    "id": "S4.5",
+    "title": "Tens and Ones",
+    "strand": "Number Sense",
+    "oral": "no",
+    "qtypes": "Decompose 47 = 4 tens + 7 ones; place-value chart fill-in.",
+    "shape": "data_task"
+  },
+  {
+    "id": "S4.6",
+    "title": "Single-Digit Addition",
+    "strand": "Number Operations",
+    "oral": "no",
+    "qtypes": "Sums up to 10 (e.g. 4 + 5 = ?); vertical addition (no carry).",
+    "shape": "compute_box"
+  },
+  {
+    "id": "S4.7",
+    "title": "Single-Digit Subtraction",
+    "strand": "Number Operations",
+    "oral": "no",
+    "qtypes": "Differences up to 10; vertical subtraction (no borrow).",
+    "shape": "compute_box"
+  },
+  {
+    "id": "S4.8",
+    "title": "3D Shape Properties",
+    "strand": "Shapes & Spatial",
+    "oral": "partial",
+    "qtypes": "Identify cube, sphere, cylinder, cone by touch/look.",
+    "shape": "shape_task"
+  },
+  {
+    "id": "S4.9",
+    "title": "Non-Standard Length Estimation",
+    "strand": "Measurement",
+    "oral": "partial",
+    "qtypes": "\"How many pencils long is the desk?\" — answer by counting units.",
+    "shape": "measurement_task"
+  },
+  {
+    "id": "S4.10",
+    "title": "Non-Standard Capacity Estimation",
+    "strand": "Measurement",
+    "oral": "partial",
+    "qtypes": "\"How many cups fill the jug?\" — answer by counting.",
+    "shape": "measurement_task"
+  },
+  {
+    "id": "S4.11",
+    "title": "3-Item Pattern Completion",
+    "strand": "Patterns",
+    "oral": "no",
+    "qtypes": "Continue ABC, AABB patterns.",
+    "shape": "pattern_complete"
+  },
+  {
+    "id": "S4.12",
+    "title": "Concept of Zero",
+    "strand": "Number Sense",
+    "oral": "no",
+    "qtypes": "\"How many apples are left? → 0.\"",
+    "shape": "zero_placeholder",
+    "variant": "concept_of_zero"
+  },
+  {
+    "id": "S4.13",
+    "title": "Ordinal Positions (1st-10th)",
+    "strand": "Number Sense",
+    "oral": "partial",
+    "qtypes": "\"Who is third in line?\" — answer verbally or by pointing.",
+    "shape": "oral_no_box"
+  },
+  {
+    "id": "S4.14",
+    "title": "Informal Number Line (0-20)",
+    "strand": "Number Sense",
+    "oral": "no",
+    "qtypes": "Place the missing numeral on a 0–20 number line; jump 1 forward / backward.",
+    "shape": "number_line"
+  },
+  {
+    "id": "S4.15",
+    "title": "Advanced Shape Composition",
+    "strand": "Shapes & Spatial",
+    "oral": "partial",
+    "qtypes": "Compose/decompose 3D shapes (e.g. two cubes = a rectangular prism).",
+    "shape": "shape_task"
+  },
+  {
+    "id": "S5.1",
+    "title": "Reading & Writing 3-Digit Numbers",
+    "strand": "Number Sense",
+    "oral": "no",
+    "qtypes": "247 → \"two hundred forty-seven\"; numeral-from-word.",
+    "shape": "fill_in_box"
+  },
+  {
+    "id": "S5.2",
+    "title": "Tens as Bundles/Groups",
+    "strand": "Number Sense",
+    "oral": "no",
+    "qtypes": "Base-10 blocks: 3 hundreds + 4 tens + 7 ones.",
+    "shape": "place_value_expanded",
+    "variant": "bundles"
+  },
+  {
+    "id": "S5.3",
+    "title": "Flexible 2-Digit Decomposition",
+    "strand": "Number Sense",
+    "oral": "no",
+    "qtypes": "83 = 50 + 33 = 70 + 13 = … (multiple correct decompositions).",
+    "shape": "compute_box"
+  },
+  {
+    "id": "S5.4",
+    "title": "2-Digit Addition with Regrouping",
+    "strand": "Number Operations",
+    "oral": "no",
+    "qtypes": "Vertical addition with carry (e.g. 47 + 28).",
+    "shape": "compute_box"
+  },
+  {
+    "id": "S5.5",
+    "title": "2-Digit Subtraction with Regrouping",
+    "strand": "Number Operations",
+    "oral": "no",
+    "qtypes": "Vertical subtraction with borrow (e.g. 52 − 27).",
+    "shape": "compute_box"
+  },
+  {
+    "id": "S5.6",
+    "title": "Multiplication as Repeated Addition",
+    "strand": "Number Operations",
+    "oral": "no",
+    "qtypes": "4 × 3 = 4 + 4 + 4 = 12; array/grid representation.",
+    "shape": "multiplication_visual",
+    "variant": "array_full"
+  },
+  {
+    "id": "S5.7",
+    "title": "Division as Equal Sharing",
+    "strand": "Number Operations",
+    "oral": "no",
+    "qtypes": "\"12 candies shared among 3 friends = ?\" Picture-based.",
+    "shape": "word_problem"
+  },
+  {
+    "id": "S5.8",
+    "title": "Multiplication Tables (2,3,4,5,10)",
+    "strand": "Number Operations",
+    "oral": "no",
+    "qtypes": "Recall: 2 × 7 = ?, 5 × 8 = ?.",
+    "shape": "fill_in_box"
+  },
+  {
+    "id": "S5.9",
+    "title": "Currency Recognition",
+    "strand": "Money",
+    "oral": "partial",
+    "qtypes": "Identify ₹10 note vs ₹50 note; verbal naming.",
+    "shape": "money_task"
+  },
+  {
+    "id": "S5.10",
+    "title": "Informal Fractions (Folding)",
+    "strand": "Fractions",
+    "oral": "partial",
+    "qtypes": "Fold a paper into 2 / 4 equal parts; \"this is half\".",
+    "shape": "fraction_task",
+    "variant": "informal_fold"
+  },
+  {
+    "id": "S5.11",
+    "title": "Uniform Non-Standard Measurement",
+    "strand": "Measurement",
+    "oral": "partial",
+    "qtypes": "Measure a strip using paper clips (all same size).",
+    "shape": "measurement_task"
+  },
+  {
+    "id": "S5.12",
+    "title": "2D Shape Set Identification",
+    "strand": "Shapes & Spatial",
+    "oral": "partial",
+    "qtypes": "\"Which of these is a quadrilateral?\" Multiple shapes shown.",
+    "shape": "shape_task"
+  },
+  {
+    "id": "S5.13",
+    "title": "Spatial Vocabulary",
+    "strand": "Shapes & Spatial",
+    "oral": "partial",
+    "qtypes": "\"above / below / beside / inside / outside\".",
+    "shape": "shape_task",
+    "variant": "spatial_vocab"
+  },
+  {
+    "id": "S5.14",
+    "title": "Calendar Reading",
+    "strand": "Calendar & Time",
+    "oral": "partial",
+    "qtypes": "Read day/month from a calendar; verbal answers.",
+    "shape": "time_task"
+  },
+  {
+    "id": "S5.15",
+    "title": "Data Handling (Sorting & Tallies)",
+    "strand": "Data Handling",
+    "oral": "no",
+    "qtypes": "Count tally marks (groups of 5); make a tally chart.",
+    "shape": "data_task"
+  },
+  {
+    "id": "S5.16",
+    "title": "Number Patterns & Sequences",
+    "strand": "Patterns",
+    "oral": "no",
+    "qtypes": "Find the rule; continue 2, 4, 6, 8, __.",
+    "shape": "pattern_complete"
+  },
+  {
+    "id": "S5.17",
+    "title": "Zero as a Placeholder",
+    "strand": "Number Sense",
+    "oral": "no",
+    "qtypes": "105 vs 15 — explain why the zero matters.",
+    "shape": "zero_placeholder"
+  },
+  {
+    "id": "S5.18",
+    "title": "Extended Number Line (0-100)",
+    "strand": "Number Sense",
+    "oral": "no",
+    "qtypes": "Place 73 on a 0–100 line; estimate nearest 10.",
+    "shape": "number_line"
+  },
+  {
+    "id": "S5.19",
+    "title": "Skip Counting (2s, 5s, 10s)",
+    "strand": "Patterns",
+    "oral": "no",
+    "qtypes": "5, 10, 15, 20, __; 2, 4, 6, __.",
+    "shape": "skip_counting",
+    "variant": "default"
+  },
+  {
+    "id": "S6.1",
+    "title": "3-Digit Place Value & Expanded Form",
+    "strand": "Number Sense",
+    "oral": "no",
+    "qtypes": "437 = 400 + 30 + 7; numeral from expanded form.",
+    "shape": "compute_box"
+  },
+  {
+    "id": "S6.2",
+    "title": "Flexible 3-Digit Decomposition",
+    "strand": "Number Sense",
+    "oral": "no",
+    "qtypes": "Multiple correct decompositions of a 3-digit number.",
+    "shape": "compute_box"
+  },
+  {
+    "id": "S6.3",
+    "title": "3-Digit Comparison & Ordering",
+    "strand": "Number Sense",
+    "oral": "no",
+    "qtypes": "Order 4 numbers from smallest to largest.",
+    "shape": "circle_or_tick"
+  },
+  {
+    "id": "S6.4",
+    "title": "Reading & Writing 4-Digit Numbers",
+    "strand": "Number Sense",
+    "oral": "no",
+    "qtypes": "4,572 → \"four thousand five hundred seventy-two\".",
+    "shape": "fill_in_box",
+    "variant": "read_in_words"
+  },
+  {
+    "id": "S6.5",
+    "title": "3-Digit Addition & Subtraction Problems",
+    "strand": "Number Operations",
+    "oral": "no",
+    "qtypes": "Word problems (e.g. \"Riya has 347 marbles; she gives 158 to Aman. How many left?\").",
+    "shape": "word_problem"
+  },
+  {
+    "id": "S6.6",
+    "title": "Full Multiplication Tables (2-10)",
+    "strand": "Number Operations",
+    "oral": "no",
+    "qtypes": "Recall any single-digit multiplication.",
+    "shape": "compute_box"
+  },
+  {
+    "id": "S6.7",
+    "title": "Division Facts & Inverse Relation",
+    "strand": "Number Operations",
+    "oral": "no",
+    "qtypes": "\"If 6 × 4 = 24, then 24 ÷ 4 = ?\"",
+    "shape": "compute_box",
+    "variant": "simple"
+  },
+  {
+    "id": "S6.8",
+    "title": "Standard Measurement Units",
+    "strand": "Measurement",
+    "oral": "no",
+    "qtypes": "Convert cm ↔ m, g ↔ kg.",
+    "shape": "measurement_task",
+    "variant": "standard_units"
+  },
+  {
+    "id": "S6.9",
+    "title": "Relating 2D Faces to 3D Solids",
+    "strand": "Shapes & Spatial",
+    "oral": "no",
+    "qtypes": "\"A cube has how many faces?\" (6).",
+    "shape": "mcq_bubbles",
+    "variant": "text_options"
+  },
+  {
+    "id": "S6.10",
+    "title": "Telling Time (Hours & Half-Hours)",
+    "strand": "Calendar & Time",
+    "oral": "no",
+    "qtypes": "Read analog clock to hour / half-hour.",
+    "shape": "time_task"
+  },
+  {
+    "id": "S6.11",
+    "title": "Money Arithmetic",
+    "strand": "Money",
+    "oral": "no",
+    "qtypes": "\"₹75 − ₹28 = ?\" Word-problem format.",
+    "shape": "money_task"
+  },
+  {
+    "id": "S6.12",
+    "title": "Formal Fractions (Half/Quarter)",
+    "strand": "Fractions",
+    "oral": "no",
+    "qtypes": "\"What fraction is shaded? 1/2, 1/4.\"",
+    "shape": "fraction_task"
+  },
+  {
+    "id": "S6.13",
+    "title": "Pattern Rules & Generalization",
+    "strand": "Patterns",
+    "oral": "no",
+    "qtypes": "\"The rule is ×2 +1. Find the next three terms.\"",
+    "shape": "pattern_complete"
+  },
+  {
+    "id": "S6.14",
+    "title": "Data Handling (Pictographs & Bar Graphs)",
+    "strand": "Data Handling",
+    "oral": "no",
+    "qtypes": "Read pictograph; answer \"How many more…?\".",
+    "shape": "data_task"
+  },
+  {
+    "id": "S7.1",
+    "title": "4-Digit & 5-Digit Place Value",
+    "strand": "Number Sense",
+    "oral": "no",
+    "qtypes": "34,507 = 30,000 + 4,000 + 500 + 7.",
+    "shape": "place_value_expanded",
+    "variant": "expanded"
+  },
+  {
+    "id": "S7.2",
+    "title": "Large Number Operations & Regrouping",
+    "strand": "Number Sense",
+    "oral": "no",
+    "qtypes": "Add/subtract 4- and 5-digit numbers vertically.",
+    "shape": "compute_box"
+  },
+  {
+    "id": "S7.3",
+    "title": "Complex Multi-Digit Word Problems",
+    "strand": "Number Operations",
+    "oral": "no",
+    "qtypes": "Two-step word problems (e.g. \"A shop sold 247 books on Monday and 158 on Tuesday. How many total? They returned 32. How many were kept?\").",
+    "shape": "word_problem"
+  },
+  {
+    "id": "S7.4",
+    "title": "Extended Multiplication",
+    "strand": "Number Operations",
+    "oral": "no",
+    "qtypes": "2-digit × 2-digit (e.g. 47 × 28), 3-digit × 1-digit.",
+    "shape": "multi_digit_operation",
+    "variant": "column_multiplication"
+  },
+  {
+    "id": "S7.5",
+    "title": "Formal Long Division",
+    "strand": "Number Operations",
+    "oral": "no",
+    "qtypes": "Long division with/without remainder (e.g. 875 ÷ 5).",
+    "shape": "compute_box"
+  },
+  {
+    "id": "S7.6",
+    "title": "Fractional Notation & Equivalence",
+    "strand": "Fractions",
+    "oral": "no",
+    "qtypes": "\"2/4 = ?/8\" (equivalent fractions).",
+    "shape": "fraction_task"
+  },
+  {
+    "id": "S7.7",
+    "title": "Standard Unit Conversion",
+    "strand": "Measurement",
+    "oral": "no",
+    "qtypes": "Convert m ↔ cm, km ↔ m, kg ↔ g.",
+    "shape": "compute_box",
+    "variant": "simple"
+  },
+  {
+    "id": "S7.8",
+    "title": "Applied Measurement Word Problems",
+    "strand": "Measurement",
+    "oral": "no",
+    "qtypes": "\"A rope is 3 m 45 cm long. Cut into 2 equal pieces. How long is each?\"",
+    "shape": "word_problem"
+  },
+  {
+    "id": "S7.9",
+    "title": "3D Nets & Spatial Perspective",
+    "strand": "Shapes & Spatial",
+    "oral": "no",
+    "qtypes": "\"Which net folds into a cube?\"",
+    "shape": "mcq_bubbles",
+    "variant": "text_options"
+  },
+  {
+    "id": "S7.10",
+    "title": "Advanced Time Calculation",
+    "strand": "Calendar & Time",
+    "oral": "no",
+    "qtypes": "\"Start 9:15, end 11:45. How long?\"",
+    "shape": "compute_box",
+    "variant": "simple"
+  },
+  {
+    "id": "S7.11",
+    "title": "Complex Money Problems",
+    "strand": "Money",
+    "oral": "no",
+    "qtypes": "\"₹500 − ₹127 − ₹48 = ?\" Multi-step.",
+    "shape": "money_task"
+  },
+  {
+    "id": "S7.12",
+    "title": "Advanced Number Patterns",
+    "strand": "Patterns",
+    "oral": "no",
+    "qtypes": "Fibonacci-style, square-number, triangular-number.",
+    "shape": "pattern_complete"
+  },
+  {
+    "id": "S7.13",
+    "title": "Bar Graphs & Data Interpretation",
+    "strand": "Data Handling",
+    "oral": "no",
+    "qtypes": "Read a multi-series bar graph; compute mean.",
+    "shape": "data_task"
+  },
+  {
+    "id": "S7.14",
+    "title": "Factors & Multiples",
+    "strand": "Number Operations",
+    "oral": "no",
+    "qtypes": "\"Find all factors of 24.\" \"First 5 multiples of 7.\"",
+    "shape": "compute_box"
+  },
+  {
+    "id": "S7.15",
+    "title": "Decimals (Tenths & Hundredths)",
+    "strand": "Number Sense",
+    "oral": "no",
+    "qtypes": "\"0.7 = 7/10.\" Place value to hundredths.",
+    "shape": "compute_box",
+    "variant": "simple"
+  },
+  {
+    "id": "S7.16",
+    "title": "Angles & Turn",
+    "strand": "Shapes & Spatial",
+    "oral": "no",
+    "qtypes": "Identify right / acute / obtuse; \"How many right angles in a square?\" (4).",
+    "shape": "shape_task"
+  },
+  {
+    "id": "S7.17",
+    "title": "Symmetry & Reflection",
+    "strand": "Shapes & Spatial",
+    "oral": "no",
+    "qtypes": "\"Draw the line of symmetry.\" \"Is this letter symmetrical?\"",
+    "shape": "shape_task"
+  },
+  {
+    "id": "S7.18",
+    "title": "Perimeter & Area",
+    "strand": "Measurement",
+    "oral": "no",
+    "qtypes": "\"Perimeter of a 5×3 rectangle?\" (16). \"Area of a 6×4 rectangle?\" (24).",
+    "shape": "measurement_task"
+  }
+]
