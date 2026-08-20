@@ -4,6 +4,32 @@ All notable changes to this repository, grouped by date (newest first).
 Auto-curated from git history: pull-request merges and direct commits are listed;
 routine branch-sync merges are omitted. Regenerate with `gen_changelog.py`.
 
+## 2026-08-19 — 22 question templates, template engine, Ollama multi-page + JSON cleanup
+
+- **22 question templates + manifest covering all 93 levels** ([docs/templates/](docs/templates/) + [docs/templates/TEMPLATE-MANIFEST.md](docs/templates/TEMPLATE-MANIFEST.md))
+  - One `.md` per visual-shape template (T01–T22): count_objects, fill_in_box, match_pairs, mcq_bubbles, compute_box, circle_or_tick, compare_groups, pattern_complete, number_line, shape_task, word_problem, money_task, time_task, fraction_task, data_task, measurement_task, oral_pointing, place_value_expanded, multiplication_visual, skip_counting, zero_placeholder, multi_digit_operation.
+  - Each template documents layout, placeholders (`{n}`, `{g}`, `{t}`, etc.), class-adaptive behavior (Class 1–2 SVG-heavy → Class 3–4 number-heavy), reference HTML snippet, and MongoDB payload schema.
+  - 30+ variants absorb within-bucket variation (oral_no_box, with_regrouping, picture_picture, etc.) so the visual chassis stays single-shape.
+  - Coverage: **22 templates cover all 93 FLN levels, 0 unmapped**. T05 (compute_box) is the largest at 15 levels (Class 3+ arithmetic is visually one shape, just different operands).
+- **Master style spec** ([docs/template-master-style.md](docs/template-master-style.md)) — Noto Sans typography, per-class sizes (18–20pt Class 1–2 vs 16–18pt Class 3–4), 4–5 templates/page target, per-template `heightHint` greedy packing, square-bordered answer boxes sized for 3-digit handwriting.
+- **Template engine backend (phase 1)** — isomorphic renderer:
+  - [backend/src/templates/base.ts](backend/src/templates/base.ts) — `BaseTemplate` abstract class + `TemplateData` / `RenderedQuestion` types
+  - [backend/src/templates/registry.ts](backend/src/templates/registry.ts) — `TEMPLATE_REGISTRY` lookup with collision check
+  - [backend/src/templates/svg-library.ts](backend/src/templates/svg-library.ts) — outlined, monochromatic SVG asset library (star, circle, triangle, square + extensible)
+  - [backend/src/renderer/page-packer.ts](backend/src/renderer/page-packer.ts) — greedy `heightHint` packing into A4 pages (253 mm budget)
+  - [backend/src/renderer/html-builder.ts](backend/src/renderer/html-builder.ts) — master chassis wrapper (CSS vars, body class, page-break-after rules)
+  - [backend/src/renderer/paper-renderer.ts](backend/src/renderer/paper-renderer.ts) — orchestrator
+- **API: `GET /api/papers/:studentId/preview-html`** in [backend/src/index.ts](backend/src/index.ts)
+  - Query params `?classNumber=N&qids=T07_Counting:star:3,...` for phase 1 demo
+  - Returns self-contained HTML document with `X-Paper-Metrics` response header (questionCount, pageCount)
+  - Auth accepts `Authorization: Bearer <jwt>` OR session cookie carrying the same JWT; cookie fallback (`readUserFromCookie` helper) is intentionally narrower than shared `getAuthUser` to avoid touching shared auth code.
+- **fix(ocr): Ollama multi-page OCR + JSON-cleanup + comma-only field format** ([backend/src/routes/evaluation.ts](backend/src/routes/evaluation.ts), Ollama branch only)
+  - **All pages, not just one.** PDF rasterization now uses `pdf_rasterize.py --all-pages` (already supported) and every page PNG is sent to Ollama in turn. Per-page answers are concatenated into one combined flat `answers[]` array. Response carries `pagesProcessed`.
+  - **Numbers + math symbols only in fields.** Prompt explicitly lists what's allowed (digits, `.`, `>`, `<`, `=`, `+`, `−`, `×`, `÷`) and forbids everything else. Post-process strips every character not in the allowed set. Letters/words/stray marks get dropped; mixed values keep only the digits/math.
+  - **No double-brace artifacts in display fields.** `extractedText` and `extractedTokens` had been leaking JSON wrapper syntax (`{"answers":`, `[]}`, etc.) into the OCR preview pane and verify table. New pipeline strips ```json fences + `{"answers":` wrapper + stray JSON punctuation from `extractedText`. `extractedTokens` splits on whitespace AND JSON punctuation, keeps only tokens containing at least one digit or math symbol. `rawOcrText` is preserved unchanged for debugging.
+  - **Comma-only rule for multi-box rows.** Same row with multiple boxes → one entry, comma-separated, **no extra space** (`"7,4"` not `"7, 4"`). Empty middle box collapses (no trailing comma). Different rows → different entries (one per row).
+- **Standardise diagnostic question paper structure cherry-picked** (`a607433`) — the standardisation branch's CSS work was missing on this branch; cherry-picked `e481358` cleanly (5 files, 0 conflicts). `class3.html` now hides section-title boxes (`.section h2` `display:none`), instructions as 14px italic gray (`#6b7280`), dashed section dividers. `paperGenerator.ts` gained `stringifyAnswer` helper + blanks fallback so every diagnostic item gets a non-empty answer string.
+
 ## 2026-08-17 — Backend route split (Phase 4) + landing/dashboard honesty pass
 
 - **`backend/src/index.ts` split from 3566 → 126 lines** across 4 sequential PR batches (#211–#215), extracting all route groups into `backend/src/routes/*.ts` (`auth`, `tickets`, `logbook`, `geo`, `classes`, `admin`, `teachers`, `schools`, `interventions`, `bestPractices`, `students`, `worksheets`, `evaluation`, `analytics`, `diagnosticBulk`) plus a shared `backend/src/config.ts`. Zero intended behavior change — each batch verified via `tsc --noEmit` and live curl testing against a scratch MongoDB seed.
