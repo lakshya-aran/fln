@@ -803,9 +803,21 @@ export function registerEvaluationRoutes(app: express.Express) {
       }
 
       // ===== Ollama Cloud + Gemma 4 (vision) =====
-      // Box-only OCR via Ollama Cloud chat completions, one call per page.
-      // Prompt: read ONLY the handwritten value inside each digit-box; ignore
-      // printed text. Output a flat { "answers": ["75, null, 89", ...] } array.
+      // Box-only OCR via Ollama Cloud chat completions. The outer route
+      // (evaluate-cloud) calls runCloudOcrOnImage() once per page for
+      // multi-page PDFs, so this branch handles ONE image and returns
+      // {status, body}. The outer route merges per-page bodies into one
+      // answer list, which is how multi-page OCR works in this code.
+      //
+      // Field-format rules:
+      //   - Same row with multiple boxes -> one entry, comma-separated,
+      //     NO extra space around the comma ("7,4" not "7, 4").
+      //   - Different rows -> different entries (one per row).
+      //   - Empty middle box collapses (no trailing comma).
+      //   - Only digits + math symbols (., >, <, =, +, -, x, /) survive
+      //     in the answer field; letters/words are dropped.
+      //   - The model's JSON wrapper artifacts (`{"answers": [...]}`,
+      //     ```json fences) are stripped from the displayed fields.
       if (provider === 'ollama-gemma4') {
         const modelName = process.env.OLLAMA_MODEL || 'gemma4:cloud';
         const apiBase = process.env.OLLAMA_API_URL || 'https://ollama.com/api/chat';
@@ -851,108 +863,163 @@ export function registerEvaluationRoutes(app: express.Express) {
         }
 
         const ocrPrompt = [
-          'You are an OCR assistant. The image is a single-page student answer sheet.',
+          'You are an OCR assistant. The image is one page of a student answer sheet.',
           '',
           'On the page there are small drawn rectangular boxes scattered around. Each box has a closed (or near-closed) border. Inside each box, a student may have handwritten digits or characters as their answer.',
           '',
           'Your ONLY job: read the handwritten content inside each box. Do not transcribe any printed text (questions, options, instructions, headers, school name, page numbers, decorative borders, printed digit examples).',
           '',
+          'Allowed handwritten content:',
+          '- DIGITS only (0-9).',
+          '- A decimal point (.).',
+          '- The math-comparison symbols >, <, =.',
+          '- The arithmetic operators +, -, x, /.',
+          '- Anything else (letters, words, stray marks) should be ignored - do not put it into the answer field.',
+          '',
           'Box dimensions (for reference):',
           '- Box height: 0.20 to 0.35 inches (one line of handwriting).',
-          '- Box width: 0.17 to 0.23 inches per digit slot. So 1-digit box ≈ 0.17-0.23 in, 2-digit ≈ 0.34-0.46 in, 3-digit ≈ 0.51-0.69 in. Wider than that means it is a multi-line answer area — read the full handwritten text inside, do not split.',
+          '- Box width: 0.17 to 0.23 inches per digit slot. So 1-digit box ~= 0.17-0.23 in, 2-digit ~= 0.34-0.46 in, 3-digit ~= 0.51-0.69 in. Wider than that means it is a multi-line answer area - read the full handwritten text inside, do not split.',
           '',
           'Output: a single JSON object with this exact shape:',
-          '{ "answers": [ "75, null, 89", "42", "100", null, "abc" ] }',
+          '{ "answers": [ "75", "42", "100", null, ">" ] }',
           '',
           'Rules:',
           '- "answers" is a flat array of strings, one entry per VISUAL ROW on the page (top-to-bottom).',
-          '- For each row, output ONE string. If a row contains multiple digit-boxes side by side, the string is the answers in left-to-right order separated by commas. Use the literal "null" (no quotes around it) for any unanswered box in that row.',
+          '- If a row contains MULTIPLE digit-boxes side by side, separate them with a SINGLE comma (",") in a single string - do NOT use double braces, JSON arrays, or any wrapper. Example: a row with three boxes containing 7, blank, 4 should emit "7, , 4".',
           '- For a wide multi-line area, output the full handwritten text the student wrote there as one string.',
-          '- Empty rows (no box, no writing) — emit a literal "null" string for that row index, OR skip it. Prefer skipping if you can.',
-          '- A row containing one wide multi-line area — emit as one string.',
-          '- Preserve what the student wrote exactly. Do not correct, normalize, or compute.',
+          '- Empty rows (no box, no writing) - emit a literal "null" string for that row index, OR skip it. Prefer skipping if you can.',
+          '- Preserve what the student wrote exactly. Do not correct, normalize, or compute. Do not add quotes around digits. Do not wrap in braces.',
+          '- IMPORTANT - output format restrictions: NEVER surround digits or numbers with double quotes ("), NEVER wrap values in square brackets ([ ]), NEVER use curly braces ({ }), and NEVER use backticks. The output must be plain digits/math-symbols only, optionally comma-separated within a row. Empty box -> literal "null" (no quotes around it). Smudge -> literal "unclear" (no quotes around it).',
           '- If a box has only a smudge or stray dot, output "unclear". If the box is empty, output "null".',
           '- Output ONLY the JSON object. No prose, no markdown fences, no commentary.',
         ].join('\n');
 
-        const ollamaRes = await fetch(apiBase, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + apiKey,
-          },
-          body: JSON.stringify({
-            model: modelName,
-            messages: [
-              {
-                role: 'user',
-                content: ocrPrompt,
-                images: [imageBase64],
-              },
-            ],
-            // Force the model to emit valid JSON. Without this, even with
-            // a strong prompt it may wrap the JSON in ```json fences or
-            // add prose the frontend then can't parse.
-            format: 'json',
-            stream: false,
-          }),
-        });
-        const ollamaJson = await ollamaRes.json().catch(() => ({}));
-        if (!ollamaRes.ok) {
-          const msg = (ollamaJson && ollamaJson.error)
-            || ('Ollama Cloud HTTP ' + ollamaRes.status);
-          return { status: 502, body: { error: 'Ollama Cloud: ' + msg } };
+        let ollamaRes;
+        let ollamaJson: any;
+        try {
+          ollamaRes = await fetch(apiBase, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + apiKey,
+            },
+            body: JSON.stringify({
+              model: modelName,
+              messages: [
+                {
+                  role: 'user',
+                  content: ocrPrompt,
+                  images: [imageBase64],
+                },
+              ],
+              // Force the model to emit valid JSON. Without this, even with
+              // a strong prompt it may wrap the JSON in ```json fences or
+              // add prose the frontend then can't parse.
+              format: 'json',
+              stream: false,
+            }),
+          });
+          ollamaJson = await ollamaRes.json().catch(() => ({}));
+          if (!ollamaRes.ok) {
+            const msg = (ollamaJson && ollamaJson.error)
+              || ('Ollama Cloud HTTP ' + ollamaRes.status);
+            return { status: 502, body: { error: 'Ollama Cloud: ' + msg } };
+          }
+        } catch (e: any) {
+          return { status: 500, body: {
+            error: 'Cloud OCR (OLLAMA-GEMMA4) fetch failed: ' + (e?.message || String(e)),
+          }};
         }
         // Ollama's /api/chat with format:'json' returns the model's
         // JSON object as a string under message.content. Parse it; on
         // any failure (fenced markdown, prose wrapper, etc.) fall back
-        // to the raw text we did receive.
+        // to digit-runs from the raw text.
         const rawText = (ollamaJson && ollamaJson.message && ollamaJson.message.content)
           ? String(ollamaJson.message.content)
           : '';
-        // The user wants only the handwritten answers as a flat list.
+        // Tokens for the preview pane - STRICTLY digits + math symbols.
+        // We split on whitespace AND JSON punctuation too, so tokens like
+        // `{"answers":` or `[]}` never leak into the verify table.
+        const tokens = rawText
+          .replace(/[{}\[\]":,]/g, ' ')
+          .split(/\s+/)
+          .map((s: string) => s.trim())
+          .filter((s: string) => s.length > 0)
+          .filter((s: string) => /[0-9.<>=+\-×÷]/.test(s))
+          .map((text: string) => ({ text, confidence: 0.7 }));
+        // Strip ```json / ``` fences and the top-level {"answers": ...}
+        // wrapper from the raw text so the OCR-preview pane doesn't show
+        // JSON syntax. rawOcrText (below) keeps the raw model output for
+        // debugging.
+        const stripped = rawText
+          .replace(/```(?:json)?\s*/gi, '')
+          .replace(/\s*```/g, '')
+          .trim();
+        const displayedRawText = stripped
+          .replace(/^\s*\{\s*"answers"\s*:\s*/, '')
+          .replace(/\}\s*$/, '')
+          .replace(/[{}\[\]":,]/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+        // Parse the cleaned JSON for the structured answers list.
         let flatAnswers: string[] | null = null;
         let parseError: string | null = null;
-        if (rawText) {
-          // Strip ```json / ``` fences if the model wrapped anyway.
-          const stripped = rawText
-            .replace(/^```(?:json)?\s*/i, '')
-            .replace(/\s*```\s*$/i, '')
-            .trim();
-          try {
-            const parsed = JSON.parse(stripped);
-            if (parsed && Array.isArray(parsed.answers)) {
-              flatAnswers = parsed.answers.map((s: any) => String(s ?? ''));
-            } else {
-              parseError = 'model output did not contain answers array';
-            }
-          } catch (e: any) {
-            parseError = 'JSON parse failed: ' + (e?.message || String(e));
+        try {
+          const parsed = JSON.parse(stripped);
+          if (parsed && Array.isArray(parsed.answers)) {
+            flatAnswers = parsed.answers.map((s: any) => String(s ?? ''));
+          } else {
+            parseError = 'model output did not contain answers array';
           }
-        } else {
-          parseError = 'empty model output';
+        } catch (e: any) {
+          parseError = 'JSON parse failed: ' + (e?.message || String(e));
+          // Fallback: pull 1-4 digit runs from raw text so the UI doesn't
+          // go empty when the model emits unparseable JSON.
+          const digitRuns = (rawText.match(/\d{1,4}/g) || []);
+          flatAnswers = digitRuns;
         }
-        // Build a flat token list (whitespace split) for the existing
-        // downstream consumers (Verify table + EasyOCR-style fill).
-        const tokens = rawText
-          .split(/\s+/)
-          .map(s => s.trim())
-          .filter(Boolean)
-          .map(text => ({ text, confidence: 0.7 }));
+        // Post-process: keep only digits + math symbols; preserve
+        // commas-within-row; drop empty boxes; collapse whitespace.
+        const ALLOWED_RE = /[0-9.<>=+\-×÷]/;
+        const cleanedAnswers = (flatAnswers || []).map((row: string) => {
+          if (row == null) return '';
+          let s = String(row);
+          // Strip double-brace / curly-brace artifacts the model
+          // occasionally emits around values ("{{75}}", "{75}", etc.).
+          s = s.replace(/[{]+/g, '').replace(/[}]+/g, '');
+          // Strip surrounding quotes the model sometimes wraps digits in.
+          s = s.replace(/^"+|"+$/g, '').replace(/\\"/g, '');
+          s = s.replace(/\s+/g, ' ').trim();
+          if (!s) return '';
+          if (s.indexOf(',') >= 0) {
+            const parts = s.split(',').map((p: string) => p.trim());
+            const cleanedParts = parts
+              .map((p: string) => {
+                p = p.replace(/[{]+/g, '').replace(/[}]+/g, '').trim();
+                if (!p) return '';
+                const kept = p.split('').filter((ch: string) => ALLOWED_RE.test(ch)).join('');
+                return kept;
+              })
+              .filter((p: string) => p.length > 0);
+            return cleanedParts.join(',');
+          }
+          return s.split('').filter((ch: string) => ALLOWED_RE.test(ch)).join('');
+        }).filter((s: string) => s.length > 0);
         return { status: 200, body: {
           success: true,
           provider: 'ollama-gemma4',
           model: modelName,
           mimeUsed,
-          // The cleaned, flat answer list — exactly what the verify UI consumes.
-          answers: flatAnswers || [],
-          // Keep raw text + tokens for the OCR analysis preview pane.
-          extractedText: rawText,
+          // Cleaned, flat answer list - digits + math symbols only,
+          // comma-separated within a row, no extra spaces around commas,
+          // empty middle boxes collapsed.
+          answers: cleanedAnswers,
+          // Cleaned raw text for the OCR preview pane (JSON wrapper
+          // stripped, JSON punctuation removed, only handwritten values
+          // remain). rawOcrText keeps the raw model output for debugging.
+          extractedText: displayedRawText,
           extractedTokens: tokens,
           rawOcrText: rawText,
-          // When JSON parsing fails we still want the UI to show the raw text
-          // and an explicit warning — the question-classifier flow can then
-          // try to parse it client-side as a fallback.
           structured: flatAnswers != null,
           structuredError: parseError,
           processingTimeMs: Date.now() - t0,
