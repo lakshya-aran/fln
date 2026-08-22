@@ -843,49 +843,13 @@ export function registerEvaluationRoutes(app: express.Express) {
         const modelName = process.env.OLLAMA_MODEL || 'gemma4:cloud';
         const apiBase = process.env.OLLAMA_API_URL || 'https://ollama.com/api/chat';
 
-        // Ollama's vision API only accepts image MIME types. PDFs must be
-        // rasterized to PNG first — same path /api/icr/filter already uses.
-        let imageBase64 = base64Body;
-        let mimeUsed: string = (dataUrl.indexOf('data:') === 0)
+        // Ollama's vision API only accepts image MIME types. PDFs are
+        // rasterized at the route layer (/api/icr/evaluate-cloud handler),
+        // so this function only ever sees image data URLs.
+        const imageBase64 = base64Body;
+        const mimeUsed: string = (dataUrl.indexOf('data:') === 0)
           ? dataUrl.slice(5, dataUrl.indexOf(';'))
           : 'image/jpeg';
-        if (mimeUsed === 'application/pdf') {
-          try {
-            const { execFileSync } = await import('child_process');
-            const scratchDir = path.join(AI_SERVICES_DIR, 'scratch');
-            fs.mkdirSync(scratchDir, { recursive: true });
-            const pdfPath = path.join(scratchDir, `cloud_pdf_${Date.now()}_${Math.random().toString(36).slice(2)}.pdf`);
-            const pngPath = pdfPath.replace(/\.pdf$/, '.png');
-            fs.writeFileSync(pdfPath, Buffer.from(base64Body, 'base64'));
-            const scriptPath = path.join(AI_SERVICES_DIR, 'scripts', 'pdf_rasterize.py');
-            const childOut = execFileSync(PYTHON_BIN, [scriptPath, pdfPath, pngPath], {
-              cwd: AI_SERVICES_DIR,
-              env: { ...process.env, PYTHONIOENCODING: 'utf-8' },
-              timeout: 30000,
-              maxBuffer: 10 * 1024 * 1024,
-            });
-            const pdfJson = JSON.parse(childOut.toString());
-            if (!pdfJson.success) {
-              try { fs.unlinkSync(pdfPath); } catch { }
-              try { fs.unlinkSync(pngPath); } catch { }
-              return {
-                status: 500, body: {
-                  error: 'Cloud OCR (OLLAMA-GEMMA4) could not rasterize PDF: ' + (pdfJson.error || 'unknown'),
-                }
-              };
-            }
-            imageBase64 = fs.readFileSync(pngPath).toString('base64');
-            mimeUsed = 'image/png';
-            try { fs.unlinkSync(pdfPath); } catch { }
-            try { fs.unlinkSync(pngPath); } catch { }
-          } catch (e: any) {
-            return {
-              status: 500, body: {
-                error: 'Cloud OCR (OLLAMA-GEMMA4) PDF rasterization failed: ' + (e?.message || String(e)),
-              }
-            };
-          }
-        }
 
         const ocrPrompt = [
           'You are an OCR assistant. The image is a single-page student answer sheet.',
@@ -1043,7 +1007,67 @@ export function registerEvaluationRoutes(app: express.Express) {
       });
     }
 
-    const pagesToRun = pageList.length > 0 ? pageList : [{ pageNumber: 1, imageDataUrl: singleDataUrl as string }];
+    // If the caller sent a raw PDF data URL (no per-page rasterization done
+    // client-side), rasterize every page to PNG here and synthesize a page
+    // list. This keeps runCloudOcrOnImage simple — it only ever sees images.
+    // Without this, multi-page PDFs were silently truncated to page 1 because
+    // the Ollama branch used to call pdf_rasterize.py in single-page mode.
+    let effectivePageList = pageList;
+    if (effectivePageList.length === 0 && typeof singleDataUrl === 'string'
+        && singleDataUrl.startsWith('data:application/pdf')) {
+      try {
+        const { execFileSync } = await import('child_process');
+        const scratchDir = path.join(AI_SERVICES_DIR, 'scratch');
+        fs.mkdirSync(scratchDir, { recursive: true });
+        const stamp = `${Date.now()}_${Math.random().toString(36).slice(2)}`;
+        const pdfPath = path.join(scratchDir, `cloud_pdf_${stamp}.pdf`);
+        const outDir = path.join(scratchDir, `cloud_pages_${stamp}`);
+        fs.mkdirSync(outDir, { recursive: true });
+        // Pull just the base64 payload out of the data URL.
+        const pdfBase64 = singleDataUrl.split(',', 2)[1] || '';
+        fs.writeFileSync(pdfPath, Buffer.from(pdfBase64, 'base64'));
+        const scriptPath = path.join(AI_SERVICES_DIR, 'scripts', 'pdf_rasterize.py');
+        const childOut = execFileSync(
+          PYTHON_BIN,
+          [scriptPath, pdfPath, outDir, '--all-pages'],
+          {
+            cwd: AI_SERVICES_DIR,
+            env: { ...process.env, PYTHONIOENCODING: 'utf-8' },
+            timeout: 60000,
+            maxBuffer: 50 * 1024 * 1024,
+          }
+        );
+        const pdfJson = JSON.parse(childOut.toString());
+        try { fs.unlinkSync(pdfPath); } catch { /* best-effort cleanup */ }
+        if (!pdfJson.success) {
+          try { fs.rmSync(outDir, { recursive: true, force: true }); } catch { /* best-effort cleanup */ }
+          return res.status(500).json({
+            error: 'Cloud OCR could not rasterize PDF: ' + (pdfJson.error || 'unknown'),
+          });
+        }
+        const pagesArr = Array.isArray(pdfJson.pages) ? pdfJson.pages : [];
+        effectivePageList = pagesArr
+          .sort((a: any, b: any) => (a.page_number || 0) - (b.page_number || 0))
+          .map((p: any) => ({
+            pageNumber: p.page_number,
+            imageDataUrl: 'data:image/png;base64,' + fs.readFileSync(p.output_path).toString('base64'),
+          }));
+        try { fs.rmSync(outDir, { recursive: true, force: true }); } catch { /* best-effort cleanup */ }
+        if (effectivePageList.length === 0) {
+          return res.status(500).json({
+            error: 'Cloud OCR PDF rasterization returned no pages.',
+          });
+        }
+      } catch (e: any) {
+        return res.status(500).json({
+          error: 'Cloud OCR PDF rasterization failed: ' + (e?.message || String(e)),
+        });
+      }
+    }
+
+    const pagesToRun = effectivePageList.length > 0
+      ? effectivePageList
+      : [{ pageNumber: 1, imageDataUrl: singleDataUrl as string }];
     const results: any[] = [];
     for (const page of pagesToRun) {
       const r = await runCloudOcrOnImage(page.imageDataUrl, provider, apiKey);
