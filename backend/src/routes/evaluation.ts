@@ -380,15 +380,18 @@ export function registerEvaluationRoutes(app: express.Express) {
               };
             }
             // Read each page PNG as base64 and concatenate. Each page is
-            // 300 DPI ~1-3 MB on disk → ~1.5-4 MB base64. 50 pages can
-            // be ~50 MB base64, so we cap at 96 MB (~64 MB binary).
+            // 300 DPI ~1-3 MB on disk → ~1.5-4 MB base64. 22 pages of
+            // high-res scans can be 130 MB base64; 50 pages could be
+            // 300 MB. We cap at 256 MB (~170 MB binary) — generous for
+            // any realistic bulk batch.
             imageBase64s = pagePaths.map((p: string) => fs.readFileSync(p).toString('base64'));
             // Safety cap on cumulative base64 size — Ollama's /api/chat
-            // accepts large request bodies but we cap at ~96 MB base64
-            // (≈ 64 MB binary). Pairs with MAX_PAGES = 50 above and the
-            // frontend's MAX_UPLOAD_BYTES = 32 MB.
+            // accepts large request bodies. 256 MB base64 is enough
+            // for ~50 lower-res pages or ~22 high-res pages. Pairs
+            // with MAX_PAGES = 50 above and the frontend's
+            // MAX_UPLOAD_BYTES = 32 MB (frontend rejects first).
             const totalBase64Bytes = imageBase64s.reduce((n, s) => n + s.length, 0);
-            const MAX_TOTAL_BASE64 = 96 * 1024 * 1024; // ~96 MB base64 ≈ 64 MB binary
+            const MAX_TOTAL_BASE64 = 256 * 1024 * 1024; // ~256 MB base64 ≈ 170 MB binary
             if (totalBase64Bytes > MAX_TOTAL_BASE64) {
               try { fs.rmSync(pdfPath, { force: true }); } catch { /* noop */ }
               try { fs.rmSync(pagesDir, { recursive: true, force: true }); } catch { /* noop */ }
