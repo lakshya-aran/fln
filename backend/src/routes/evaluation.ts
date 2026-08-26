@@ -381,9 +381,10 @@ export function registerEvaluationRoutes(app: express.Express) {
             // 300 DPI ~1-3 MB on disk → ~1.5-4 MB base64.
             imageBase64s = pagePaths.map((p: string) => fs.readFileSync(p).toString('base64'));
             // Safety cap on cumulative base64 size — Ollama's /api/chat
-            // accepts large request bodies but we shouldn't push 50+ MB.
+            // accepts large request bodies but we cap at ~48 MB base64
+            // (≈ 32 MB binary). Matches the frontend's MAX_UPLOAD_BYTES.
             const totalBase64Bytes = imageBase64s.reduce((n, s) => n + s.length, 0);
-            const MAX_TOTAL_BASE64 = 24 * 1024 * 1024; // ~24 MB base64 ≈ 18 MB binary
+            const MAX_TOTAL_BASE64 = 48 * 1024 * 1024; // ~48 MB base64 ≈ 32 MB binary
             if (totalBase64Bytes > MAX_TOTAL_BASE64) {
               try { fs.rmSync(pdfPath, { force: true }); } catch { /* noop */ }
               try { fs.rmSync(pagesDir, { recursive: true, force: true }); } catch { /* noop */ }

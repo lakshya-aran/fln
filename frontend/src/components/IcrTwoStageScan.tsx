@@ -53,8 +53,12 @@ function formatMs(ms: number): string {
   return `${(ms / 1000).toFixed(2)} s`;
 }
 
-const MAX_UPLOAD_BYTES = 8 * 1024 * 1024; // matches backend's 8MB cap
-const MAX_UPLOAD_LABEL = '8 MB';
+// Upload size cap. Matches the backend's MAX_TOTAL_BASE64 in
+// routes/evaluation.ts (48 MB base64 ≈ 32 MB binary). The frontend
+// rejects before talking to the backend so the user sees the error
+// instantly instead of waiting for a round trip.
+const MAX_UPLOAD_BYTES = 32 * 1024 * 1024;
+const MAX_UPLOAD_LABEL = '32 MB';
 
 export const IcrTwoStageScan: React.FC<IcrTwoStageScanProps> = ({
   token,
