@@ -366,8 +366,10 @@ export function registerEvaluationRoutes(app: express.Express) {
               };
             }
             const pagePaths: string[] = pdfJson.pages.map((p: any) => p.output_path).filter(Boolean);
-            // Safety caps: refuse to OCR absurdly long PDFs.
-            const MAX_PAGES = 10;
+            // Safety caps: refuse to OCR absurdly long PDFs. 50 pages
+            // covers a typical bulk batch (a class of 25 students x
+            // 2 pages each).
+            const MAX_PAGES = 50;
             if (pagePaths.length > MAX_PAGES) {
               try { fs.rmSync(pdfPath, { force: true }); } catch { /* noop */ }
               try { fs.rmSync(pagesDir, { recursive: true, force: true }); } catch { /* noop */ }
@@ -378,13 +380,15 @@ export function registerEvaluationRoutes(app: express.Express) {
               };
             }
             // Read each page PNG as base64 and concatenate. Each page is
-            // 300 DPI ~1-3 MB on disk → ~1.5-4 MB base64.
+            // 300 DPI ~1-3 MB on disk → ~1.5-4 MB base64. 50 pages can
+            // be ~50 MB base64, so we cap at 96 MB (~64 MB binary).
             imageBase64s = pagePaths.map((p: string) => fs.readFileSync(p).toString('base64'));
             // Safety cap on cumulative base64 size — Ollama's /api/chat
-            // accepts large request bodies but we cap at ~48 MB base64
-            // (≈ 32 MB binary). Matches the frontend's MAX_UPLOAD_BYTES.
+            // accepts large request bodies but we cap at ~96 MB base64
+            // (≈ 64 MB binary). Pairs with MAX_PAGES = 50 above and the
+            // frontend's MAX_UPLOAD_BYTES = 32 MB.
             const totalBase64Bytes = imageBase64s.reduce((n, s) => n + s.length, 0);
-            const MAX_TOTAL_BASE64 = 48 * 1024 * 1024; // ~48 MB base64 ≈ 32 MB binary
+            const MAX_TOTAL_BASE64 = 96 * 1024 * 1024; // ~96 MB base64 ≈ 64 MB binary
             if (totalBase64Bytes > MAX_TOTAL_BASE64) {
               try { fs.rmSync(pdfPath, { force: true }); } catch { /* noop */ }
               try { fs.rmSync(pagesDir, { recursive: true, force: true }); } catch { /* noop */ }
