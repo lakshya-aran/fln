@@ -3,8 +3,11 @@
 Rasterize a PDF to PNG using PyMuPDF.
 
 Used by the /api/icr/filter endpoint to accept PDFs (the blue-ink filter
-only operates on raster pixels). Renders at 300 DPI so downstream OCR
-sees enough detail to read student handwriting.
+only operates on raster pixels). Renders at 150 DPI — enough detail
+for primary-school answer sheets where the handwriting is large,
+small enough to fit Ollama Cloud's per-request body limit for
+multi-page scans. Was 300 DPI; reduced to avoid "fetch failed"
+when batched scans produced >100 MB request bodies.
 
 Stdout format (single JSON line):
   Single-page mode: {"success": true, "output_path": "...", "page_size": [w, h]}
@@ -63,8 +66,13 @@ def main():
             }))
             sys.exit(1)
 
-        # 300 DPI render matrix (fitz base = 72 DPI).
-        matrix = fitz.Matrix(300 / 72, 300 / 72)
+        # 150 DPI render matrix (fitz base = 72 DPI).
+        # 300 DPI produced ~5-6 MB per page (~130 MB base64 for 22 high-res
+        # pages) which exceeded Ollama Cloud's per-request body limit.
+        # 150 DPI is ~1-1.5 MB per page and remains readable for primary-
+        # school answer sheets where the handwriting is large. For very
+        # small handwriting, raise this back to 300 with batching.
+        matrix = fitz.Matrix(150 / 72, 150 / 72)
 
         if args.all_pages:
             output.mkdir(parents=True, exist_ok=True)

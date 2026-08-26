@@ -380,10 +380,10 @@ export function registerEvaluationRoutes(app: express.Express) {
               };
             }
             // Read each page PNG as base64 and concatenate. Each page is
-            // 300 DPI ~1-3 MB on disk → ~1.5-4 MB base64. 22 pages of
-            // high-res scans can be 130 MB base64; 50 pages could be
-            // 300 MB. We cap at 256 MB (~170 MB binary) — generous for
-            // any realistic bulk batch.
+            // 150 DPI ~0.5-1.5 MB on disk → ~0.7-2 MB base64. 22 pages of
+            // typical scans are ~30 MB base64, well within Ollama Cloud's
+            // per-request body limit. (Was 300 DPI which produced
+            // ~5-6 MB per page → 130+ MB base64 → fetch failed.)
             imageBase64s = pagePaths.map((p: string) => fs.readFileSync(p).toString('base64'));
             // Safety cap on cumulative base64 size — Ollama's /api/chat
             // accepts large request bodies. 256 MB base64 is enough
