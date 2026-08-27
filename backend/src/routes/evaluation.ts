@@ -583,9 +583,16 @@ export function registerEvaluationRoutes(app: express.Express) {
         });
         const ollamaJson = await ollamaRes.json().catch(() => ({}));
         if (!ollamaRes.ok) {
-          const msg = (ollamaJson && ollamaJson.error)
-            || ('Ollama Cloud HTTP ' + ollamaRes.status);
-          return { status: 502, body: { error: 'Ollama Cloud: ' + msg } };
+          // Prefer Ollama's own error message; fall back to a clean
+          // status-only string when its response body is empty (common
+          // for rate-limit rejections that come back as bare HTTP 400).
+          // Avoid the awkward 'Ollama Cloud: Ollama Cloud HTTP 400'
+          // duplication by only adding the prefix when the message
+          // doesn't already mention Ollama.
+          const raw = (ollamaJson && ollamaJson.error)
+            || ('HTTP ' + ollamaRes.status);
+          const msg = /ollama/i.test(String(raw)) ? String(raw) : ('Ollama Cloud: ' + raw);
+          return { status: 502, body: { error: msg } };
         }
         // Ollama's /api/chat with format:'json' returns the model's
         // JSON object as a string under message.content. Parse it; on
