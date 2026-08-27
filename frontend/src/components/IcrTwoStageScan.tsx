@@ -171,13 +171,24 @@ export const IcrTwoStageScan: React.FC<IcrTwoStageScanProps> = ({
         // the sole provider, the backend returns messages like "Ollama
         // Cloud: ..." — pass that straight to the user with a short
         // admin-action hint appended so they know who to ask.
+        // The backend now also returns errorCode / errorKind for
+        // transport failures so we can tailor the hint: ECONNRESET
+        // is Ollama dropping the connection mid-response (retry helps),
+        // not an auth/billing issue like a generic 502 used to imply.
         const providerMsg = data.error || `Cloud OCR HTTP ${res.status}`;
-        const adminHint =
-          res.status === 503
-            ? ` Admin must set the OLLAMA_API_KEY (or ICR_CLOUD_API_KEY_OLLAMA_GEMMA4) env var or POST a key to /api/icr/cloud-config.`
-            : res.status === 502
-            ? ` The upstream Ollama Cloud rejected the request — likely an invalid/revoked key, billing not enabled, or rate limit. Ask the admin to verify the OLLAMA_API_KEY value.`
-            : '';
+        const code = (data.errorCode || '').toUpperCase();
+        let adminHint = '';
+        if (res.status === 503) {
+          adminHint = ' Admin must set the OLLAMA_API_KEY (or ICR_CLOUD_API_KEY_OLLAMA_GEMMA4) env var or POST a key to /api/icr/cloud-config.';
+        } else if (res.status === 502) {
+          if (code === 'ECONNRESET' || code === 'ETIMEDOUT' || code === 'ECONNREFUSED' || code === 'EAI_AGAIN' || code === 'ENOTFOUND') {
+            adminHint = ' Ollama Cloud dropped or refused the connection (transport error). Retry usually helps; if it persists, check the Ollama status page.';
+          } else if (code === 'UNKNOWN' || code === '') {
+            adminHint = ' The upstream Ollama Cloud rejected the request — likely an invalid/revoked key, billing not enabled, or rate limit. Ask the admin to verify the OLLAMA_API_KEY value.';
+          } else {
+            adminHint = ` Ollama Cloud returned an upstream error (${code}).`;
+          }
+        }
         setCloudError(providerMsg + adminHint);
         setCloudOcrState('error');
         return;
