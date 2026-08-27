@@ -368,10 +368,8 @@ export function registerEvaluationRoutes(app: express.Express) {
               };
             }
             const pagePaths: string[] = pdfJson.pages.map((p: any) => p.output_path).filter(Boolean);
-            // Safety caps: refuse to OCR absurdly long PDFs. 50 pages
-            // covers a typical bulk batch (a class of 25 students x
-            // 2 pages each).
-            const MAX_PAGES = 50;
+            // Safety caps: refuse to OCR absurdly long PDFs.
+            const MAX_PAGES = 25;
             if (pagePaths.length > MAX_PAGES) {
               try { fs.rmSync(pdfPath, { force: true }); } catch { /* noop */ }
               try { fs.rmSync(pagesDir, { recursive: true, force: true }); } catch { /* noop */ }
@@ -381,11 +379,12 @@ export function registerEvaluationRoutes(app: express.Express) {
                 }
               };
             }
-            // Read each page PNG as base64 and concatenate. Each page is
-            // 150 DPI ~0.5-1.5 MB on disk → ~0.7-2 MB base64. 22 pages of
-            // typical scans are ~30 MB base64, well within Ollama Cloud's
-            // per-request body limit. (Was 300 DPI which produced
-            // ~5-6 MB per page → 130+ MB base64 → fetch failed.)
+            // Read each page JPEG as base64 and concatenate. pdf_rasterize.py
+            // renders at 200 DPI / JPEG q85 (not 300 DPI lossless PNG — a real
+            // 22-page photo-like scan measured ~4.8 MB/page as PNG vs. a small
+            // fraction of that as JPEG), so real-world pages should land well
+            // under this cap; it remains as a backstop against pathological
+            // inputs, not the primary size control.
             imageBase64s = pagePaths.map((p: string) => fs.readFileSync(p).toString('base64'));
             // Safety cap on cumulative base64 size — Ollama's /api/chat
             // accepts large request bodies. 256 MB base64 is enough
@@ -393,7 +392,7 @@ export function registerEvaluationRoutes(app: express.Express) {
             // with MAX_PAGES = 50 above and the frontend's
             // MAX_UPLOAD_BYTES = 32 MB (frontend rejects first).
             const totalBase64Bytes = imageBase64s.reduce((n, s) => n + s.length, 0);
-            const MAX_TOTAL_BASE64 = 256 * 1024 * 1024; // ~256 MB base64 ≈ 170 MB binary
+            const MAX_TOTAL_BASE64 = 60 * 1024 * 1024; // ~60 MB base64 ≈ 45 MB binary — backstop, not the primary size control post-JPEG switch
             if (totalBase64Bytes > MAX_TOTAL_BASE64) {
               try { fs.rmSync(pdfPath, { force: true }); } catch { /* noop */ }
               try { fs.rmSync(pagesDir, { recursive: true, force: true }); } catch { /* noop */ }
@@ -403,8 +402,8 @@ export function registerEvaluationRoutes(app: express.Express) {
                 }
               };
             }
-            mimeUsed = 'image/png';
-            // Cleanup the per-page PNGs and the source PDF now that we
+            mimeUsed = 'image/jpeg';
+            // Cleanup the per-page JPEGs and the source PDF now that we
             // have them in memory. Done before the Ollama POST so we
             // don't leak disk if the request hangs.
             try { fs.rmSync(pdfPath, { force: true }); } catch { /* noop */ }
