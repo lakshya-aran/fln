@@ -181,13 +181,20 @@ export const IcrTwoStageScan: React.FC<IcrTwoStageScanProps> = ({
         if (res.status === 503) {
           adminHint = ' Admin must set the OLLAMA_API_KEY (or ICR_CLOUD_API_KEY_OLLAMA_GEMMA4) env var or POST a key to /api/icr/cloud-config.';
         } else if (res.status === 502) {
+          // 502 means backend reached Ollama but Ollama returned a
+          // non-2xx (or the upstream fetch threw). Two flavours:
           if (code === 'ECONNRESET' || code === 'ETIMEDOUT' || code === 'ECONNREFUSED' || code === 'EAI_AGAIN' || code === 'ENOTFOUND') {
             adminHint = ' Ollama Cloud dropped or refused the connection (transport error). Retry usually helps; if it persists, check the Ollama status page.';
-          } else if (code === 'UNKNOWN' || code === '') {
-            adminHint = ' The upstream Ollama Cloud rejected the request — likely an invalid/revoked key, billing not enabled, or rate limit. Ask the admin to verify the OLLAMA_API_KEY value.';
           } else {
-            adminHint = ` Ollama Cloud returned an upstream error (${code}).`;
+            // Ollama returned a real HTTP error body (e.g. "HTTP 400").
+            // The error message itself usually tells you why; the
+            // generic hint below covers the common cases.
+            adminHint = ' Ollama Cloud rejected the request — could be a rate limit, the image was too large for Ollama\'s vision API, the model name is wrong, or the key was rotated. Check the Ollama Cloud dashboard / status page; retry usually helps.';
           }
+        } else if (res.status === 400) {
+          // Ollama's "HTTP 400" with no JSON body — almost always
+          // rate limit or model-unavailable, NOT a bad key.
+          adminHint = ' Ollama Cloud returned a generic HTTP 400 — most often a per-minute rate limit or the model is temporarily unavailable. Retry usually works; if it persists, check the Ollama Cloud dashboard for quota / model availability.';
         }
         setCloudError(providerMsg + adminHint);
         setCloudOcrState('error');
