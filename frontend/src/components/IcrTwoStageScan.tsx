@@ -35,6 +35,11 @@ interface ScanResponse {
   };
   processingTimeMs?: number;
   error?: string;
+  // Issue #234: present when the caller told the backend how many
+  // questions this sheet should have (expectedCount below). true means
+  // the model's row count didn't match — the parent surfaces a warning.
+  countMismatch?: boolean | null;
+  expectedCount?: number | null;
 }
 
 interface IcrTwoStageScanProps {
@@ -44,6 +49,12 @@ interface IcrTwoStageScanProps {
   // Called when OCR succeeds so the parent scanner can switch its UI
   // to the Verify step. Parent owns the result state.
   onOcrSuccess: (data: ScanResponse) => void;
+  // Issue #234: the real question count for the selected student/class's
+  // paper, when known ahead of the scan (resolved by the parent from the
+  // diagnostic answer key). Passed to the backend so it can tell the OCR
+  // model exactly how many rows to expect, and so a count mismatch can be
+  // flagged explicitly instead of silently padding/truncating the mapping.
+  expectedCount?: number | null;
 }
 
 type OcrState = 'idle' | 'running' | 'done' | 'error';
@@ -64,6 +75,7 @@ export const IcrTwoStageScan: React.FC<IcrTwoStageScanProps> = ({
   token,
   uploadedFile,
   onOcrSuccess,
+  expectedCount,
 }) => {
   // Cloud OCR state — the only OCR state we keep.
   const [cloudOcrState, setCloudOcrState] = useState<OcrState>('idle');
@@ -135,9 +147,10 @@ export const IcrTwoStageScan: React.FC<IcrTwoStageScanProps> = ({
 
   const runCloudOcr = async () => {
     if (!uploadedFile) return;
-    if (uploadedFile.size > MAX_UPLOAD_BYTES) {
+    const fileToUse = await compressImageIfNeeded(uploadedFile, MAX_UPLOAD_BYTES);
+    if (fileToUse.size > MAX_UPLOAD_BYTES) {
       setCloudError(
-        `File too large: ${(uploadedFile.size / 1024 / 1024).toFixed(1)} MB (max ${MAX_UPLOAD_LABEL}). ` +
+        `File too large: ${(fileToUse.size / 1024 / 1024).toFixed(1)} MB (max ${MAX_UPLOAD_LABEL}). ` +
         `Try compressing the image, or use a smaller scan resolution.`
       );
       return;
@@ -152,7 +165,7 @@ export const IcrTwoStageScan: React.FC<IcrTwoStageScanProps> = ({
       // data URL; the backend rasterizes PDFs to PNG before posting to
       // Ollama (Ollama's vision API only accepts image MIME types).
       // NO apiKey is ever sent from the frontend.
-      const dataUrl = await fileToDataUrl(uploadedFile);
+      const dataUrl = await fileToDataUrl(fileToUse);
       const res = await apiFetch('/api/icr/evaluate-cloud', {
         method: 'POST',
         headers: {
@@ -162,6 +175,10 @@ export const IcrTwoStageScan: React.FC<IcrTwoStageScanProps> = ({
         body: JSON.stringify({
           provider: 'ollama-gemma4',
           imageDataUrl: dataUrl,
+          // Issue #234: tell the backend how many questions this paper
+          // actually has, when known, so the model is told an explicit
+          // target row count instead of guessing from the image alone.
+          ...(typeof expectedCount === 'number' && expectedCount > 0 ? { expectedCount } : {}),
         }),
       });
       const clientMs = Math.round(performance.now() - t0);
@@ -236,6 +253,8 @@ export const IcrTwoStageScan: React.FC<IcrTwoStageScanProps> = ({
           ocrEngine: data.ocrEngine || (data.model ? `Ollama Gemma 4 (${data.model})` : 'Ollama Gemma 4'),
         },
         processingTimeMs: data.processingTimeMs ?? clientMs,
+        countMismatch: data.countMismatch ?? null,
+        expectedCount: data.expectedCount ?? null,
       };
       setCloudOcrState('done');
       onOcrSuccess(normalized);
@@ -299,6 +318,48 @@ function fileToDataUrl(file: File): Promise<string> {
     reader.onerror = () => reject(reader.error || new Error('FileReader failed'));
     reader.readAsDataURL(file);
   });
+}
+
+// Phone-camera scans routinely land north of the 8MB cap at full resolution.
+// Rather than just rejecting them, downscale + re-encode as JPEG (quality
+// step-down, then dimension step-down) until it fits. PDFs and files already
+// under the cap pass through untouched. Bails out and returns the original
+// file if canvas encoding fails for any reason — the existing size check
+// downstream will then produce the normal "too large" error.
+async function compressImageIfNeeded(file: File, maxBytes: number): Promise<File> {
+  if (file.size <= maxBytes || !file.type.startsWith('image/')) return file;
+
+  const dataUrl = await fileToDataUrl(file);
+  const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+    const el = new Image();
+    el.onload = () => resolve(el);
+    el.onerror = () => reject(new Error('Could not decode image for compression'));
+    el.src = dataUrl;
+  });
+
+  let scale = 1;
+  for (let attempt = 0; attempt < 6; attempt++) {
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.max(1, Math.round(img.width * scale));
+    canvas.height = Math.max(1, Math.round(img.height * scale));
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return file;
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+    const quality = attempt < 3 ? [0.9, 0.75, 0.6][attempt] : 0.6;
+    const blob: Blob | null = await new Promise((resolve) =>
+      canvas.toBlob(resolve, 'image/jpeg', quality)
+    );
+    if (blob && blob.size <= maxBytes) {
+      return new File([blob], file.name.replace(/\.\w+$/, '') + '.jpg', {
+        type: 'image/jpeg',
+        lastModified: file.lastModified,
+      });
+    }
+    // Quality alone didn't get us there — shrink dimensions and retry.
+    scale *= 0.7;
+  }
+  return file;
 }
 
 // --- Reusable building blocks ----------------------------------------------
