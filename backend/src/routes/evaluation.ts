@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 import fs from 'fs';
 import { randomUUID } from 'crypto';
+import { PDFDocument } from 'pdf-lib';
 import { dbStore, EvaluationReport, Student, AnswerSubmission, UserRole, CYCLE_NAMES, dedupeQuestionsById } from '../db';
 import { getAuthUser, canAccessStudent } from '../auth';
 import { evaluateAIWorksheet } from '../gemini';
@@ -671,7 +672,21 @@ export function registerEvaluationRoutes(app: express.Express) {
 
       return { status: 400, body: { error: 'Unknown provider: ' + provider } };
     } catch (e: any) {
-      return { status: 500, body: { error: 'Cloud OCR failed: ' + (e && e.message ? e.message : String(e)) } };
+      // Node fetch() failures tend to be cryptic ("fetch failed" with no
+      // .cause). Surface the underlying error type and any nested cause
+      // so the UI can tell the user WHY it failed: DNS, TLS, timeout,
+      // reset, etc. Yesterday's "file too large" work made the payload
+      // smaller but didn't add diagnostics — a generic "fetch failed"
+      // is what shows up for every kind of upstream failure.
+      const code = e?.code || e?.cause?.code || 'unknown';
+      const msg = (e && e.message ? e.message : String(e)) || 'unknown error';
+      const causeMsg = e?.cause?.message ? ` (cause: ${e.cause.message})` : '';
+      console.error('[Cloud OCR]', code, msg, causeMsg, '\n', e?.stack?.split('\n').slice(0, 3).join('\n'));
+      return { status: 502, body: {
+        error: 'Cloud OCR upstream failed: ' + msg + causeMsg,
+        errorCode: code,
+        errorKind: e?.cause?.name || e?.name || 'FetchError',
+      } };
     }
   };
 
@@ -703,6 +718,175 @@ export function registerEvaluationRoutes(app: express.Express) {
     const r = await runCloudOcrOnImage(singleDataUrl, provider, apiKey);
     return res.status(r.status).json(r.body);
   });
+
+  // =========================================================================
+  // BULK OCR endpoint — splits a multi-student PDF into N per-student
+  // sub-PDFs and OCRs each one separately via Ollama. This is the only way
+  // to scan a whole class at once: a 25-student x 2-page PDF is ~150-300 MB
+  // base64, way past Ollama's per-request body limit, so we can't send the
+  // whole thing in one POST.
+  // =========================================================================
+  app.post('/api/icr/evaluate-bulk', async (req, res) => {
+    const user = getAuthUser(req);
+    if (!user) return res.status(401).json({ error: 'Unauthorized' });
+
+    const { fileDataUrl, imageDataUrl, fileBase64, provider, pagesPerStudent } = req.body || {};
+    const singleDataUrl = fileDataUrl || imageDataUrl || fileBase64;
+    if (!singleDataUrl || typeof singleDataUrl !== 'string') {
+      return res.status(400).json({ error: 'fileDataUrl / imageDataUrl / fileBase64 is required (data URL).' });
+    }
+    if (provider !== 'ollama-gemma4') {
+      return res.status(400).json({ error: 'provider must be "ollama-gemma4".' });
+    }
+
+    // Pages-per-student: FLN Class 2-4 papers are 2 pages each. Class 1 is
+    // typically 1 page. Default to 2 so a typical bulk batch (25 students
+    // x 2 pages = 50 pages) splits into 25 chunks that each fit Ollama's
+    // body limit.
+    const pps = Number.isFinite(pagesPerStudent) && pagesPerStudent >= 1
+      ? Math.min(Math.floor(pagesPerStudent), 20) // hard cap to avoid accidental 1000
+      : 2;
+
+    const apiKey = await getCloudKey(provider);
+    if (!apiKey) {
+      return res.status(503).json({
+        error: provider + ' API key not configured on the server. Ask an admin to set it via /api/icr/cloud-config or the ICR_CLOUD_API_KEY_' + provider.toUpperCase() + ' env var.',
+      });
+    }
+
+    // Parse the data URL → raw base64 PDF bytes.
+    const commaIdx = singleDataUrl.indexOf(',');
+    const base64Body = commaIdx >= 0 ? singleDataUrl.slice(commaIdx + 1) : singleDataUrl;
+    const pdfBytes = Buffer.from(base64Body, 'base64');
+    if (pdfBytes.length === 0) {
+      return res.status(400).json({ error: 'Empty PDF payload.' });
+    }
+
+    // Hard cap on the raw upload to keep the JSON body within Express's
+    // 100 MB limit. Base64 inflates by ~33%, so we cap raw at ~70 MB.
+    const MAX_RAW_BYTES = 70 * 1024 * 1024;
+    if (pdfBytes.length > MAX_RAW_BYTES) {
+      return res.status(413).json({
+        error: `PDF too large for bulk endpoint: ${(pdfBytes.length / 1024 / 1024).toFixed(1)} MB raw (max ${MAX_RAW_BYTES / 1024 / 1024} MB). Split the batch in half and try again.`,
+      });
+    }
+
+    const t0 = Date.now();
+
+    // Step 1: split PDF into per-student sub-PDFs using pdf-lib (MERN, no
+    // Python helper). Each sub-PDF has pps pages; the last chunk may be
+    // shorter if the source PDF doesn't divide evenly.
+    let sourceDoc;
+    try {
+      sourceDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
+    } catch (e: any) {
+      return res.status(400).json({ error: 'Could not parse PDF: ' + (e?.message || String(e)) });
+    }
+    const totalPages = sourceDoc.getPageCount();
+    if (totalPages === 0) {
+      return res.status(400).json({ error: 'PDF has no pages.' });
+    }
+    // Hard cap on chunk count to keep the request bounded. 100 chunks at
+    // 2 pages each = 200 pages — well beyond any realistic class batch.
+    const expectedChunks = Math.ceil(totalPages / pps);
+    if (expectedChunks > 100) {
+      return res.status(400).json({
+        error: `Too many chunks: ${totalPages} pages / ${pps} pages-per-student = ${expectedChunks}. Max 100. Increase pagesPerStudent or split the file.`,
+      });
+    }
+
+    const subPdfs: Array<{ chunkIndex: number; pageFrom: number; pageTo: number; pdfBase64: string; pageCount: number }> = [];
+    for (let chunkIndex = 0; chunkIndex < expectedChunks; chunkIndex++) {
+      const pageFrom = chunkIndex * pps; // 0-based inclusive
+      const pageTo = Math.min(pageFrom + pps, totalPages); // 0-based exclusive
+      const subDoc = await PDFDocument.create();
+      const copiedIndices = [];
+      for (let p = pageFrom; p < pageTo; p++) copiedIndices.push(p);
+      const copiedPages = await subDoc.copyPages(sourceDoc, copiedIndices);
+      copiedPages.forEach((p) => subDoc.addPage(p));
+      const subBytes = await subDoc.save();
+      subPdfs.push({
+        chunkIndex,
+        pageFrom: pageFrom + 1, // 1-based for display
+        pageTo: pageTo,         // already exclusive in 1-based world → page_to
+        pdfBase64: Buffer.from(subBytes).toString('base64'),
+        pageCount: copiedIndices.length,
+      });
+    }
+
+    // Step 2: OCR each sub-PDF sequentially. Sequential (not Promise.all)
+    // so we don't hammer Ollama with 25 concurrent large requests; each
+    // one is already small enough to fit the body limit, so latency is
+    // sum-of-latencies (~2-5 s per chunk on a good day).
+    const results: any[] = [];
+    for (let i = 0; i < subPdfs.length; i++) {
+      const sub = subPdfs[i];
+      const chunkDataUrl = 'data:application/pdf;base64,' + sub.pdfBase64;
+      const chunkT0 = Date.now();
+      let r;
+      try {
+        // Reuse the existing single-image helper — it already handles
+        // data:application/pdf → rasterize → Ollama → parse JSON for the
+        // Ollama branch. No logic duplication.
+        r = await runCloudOcrOnImage(chunkDataUrl, provider, apiKey);
+      } catch (e: any) {
+        results.push({
+          studentIndex: i,
+          pageFrom: sub.pageFrom,
+          pageTo: sub.pageTo,
+          pageCount: sub.pageCount,
+          success: false,
+          error: 'OCR threw: ' + (e?.message || String(e)),
+          processingTimeMs: Date.now() - chunkT0,
+        });
+        continue;
+      }
+      if (r.status !== 200 || !r.body || !r.body.success) {
+        results.push({
+          studentIndex: i,
+          pageFrom: sub.pageFrom,
+          pageTo: sub.pageTo,
+          pageCount: sub.pageCount,
+          success: false,
+          error: (r.body && r.body.error) || ('Cloud OCR HTTP ' + r.status),
+          processingTimeMs: Date.now() - chunkT0,
+        });
+        continue;
+      }
+      // Successful OCR for this chunk.
+      results.push({
+        studentIndex: i,
+        pageFrom: sub.pageFrom,
+        pageTo: sub.pageTo,
+        pageCount: sub.pageCount,
+        success: true,
+        answers: r.body.answers || [],
+        rawOcrText: r.body.rawOcrText || '',
+        extractedTokens: r.body.extractedTokens || [],
+        structured: !!r.body.structured,
+        structuredError: r.body.structuredError || null,
+        pageErrors: r.body.pageErrors || {},
+        meta: r.body.meta || null,
+        provider: r.body.provider,
+        ocrEngine: r.body.ocrEngine || ('Ollama ' + (process.env.OLLAMA_MODEL || 'gemma4:cloud')),
+        processingTimeMs: Date.now() - chunkT0,
+      });
+    }
+
+    const successCount = results.filter((x) => x.success).length;
+    return res.json({
+      success: true,
+      provider,
+      totalPages,
+      pagesPerStudent: pps,
+      totalStudents: subPdfs.length,
+      successfulStudents: successCount,
+      failedStudents: subPdfs.length - successCount,
+      results,
+      processingTimeMs: Date.now() - t0,
+    });
+  });
+
 
   // Generate Personalized Class Worksheets
   app.post('/api/evaluation/submit', async (req, res) => {
