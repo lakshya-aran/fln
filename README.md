@@ -1,6 +1,6 @@
 # FLN — Foundational Literacy & Numeracy Assessment Platform
 
-A large-scale, personalized assessment system that helps teachers measure, track, and improve every student's Foundational Literacy and Numeracy (FLN) outcomes — from automatic question paper generation to scanning answer sheets and instant, profile-driven evaluation.
+A large-scale, personalized assessment system that helps teachers measure, track, and improve every student's Foundational Literacy and Numeracy (FLN) outcomes — from automatic, student-specific question paper generation to bulk scanning of answer sheets and instant, profile-driven evaluation powered by cloud OCR.
 
 ---
 
@@ -45,42 +45,36 @@ This project is built to be usable by schools, teachers, and administrators oper
 
 ## What This Software Does
 
-The platform is built around **personalized, student-specific assessment**, not one-size-fits-all testing. Core capabilities:
+The platform is built around **per-student diagnostic profiling**, not one-size-fits-all testing. Every student gets their own FLN level profile built up from diagnostic assessments, and all subsequent practice, midline, and endline papers are generated against that profile. Core capabilities:
 
-- **Student Profiling** — every student has a profile that tracks their current FLN level, assessment history, and progress over time.
-- **Teacher Dashboard** — central workspace for teachers to manage classes, generate assessments, scan results, and view analytics.
-- **Automatic Question Paper Generation** — question papers are generated automatically based on grade level and the student's current FLN level, not just a static template.
-  - For a **new class/new school** with no prior data, the system falls back to a **standard question paper** aligned with the generic FLN benchmark expected for that grade.
-  - Once a student has a profile, future papers are **personalized**, while still meeting the minimum competency bar defined for that grade under FLN criteria.
-- **Print & Distribute** — teachers can print a generic class paper or individual, name-tagged worksheets per student.
-- **Scan & Auto-Evaluate** — after collecting completed sheets, the teacher scans them (via phone camera or a school scanner) and the system evaluates them automatically.
-- **Instant Results & Certification**
-  - If a student **clears** the FLN benchmark for their grade → they receive a certificate for that grade and progress forward.
-  - If a student **does not clear** it → they receive a detailed analysis of which FLN level they're actually at, along with a scheduled re-assessment date for the appropriate (lower) level.
-  - Students who clear a lower-level re-assessment go on to attempt the FLN qualifier for their original grade again — every subsequent paper is generated from their updated, personalized profile.
+- **Student Profiling via Diagnostic** — after a student is registered, the teacher runs a diagnostic assessment for them. The diagnostic identifies which FLN levels the student has cleared and which they are lacking, building the student's profile from the ground up. Every student's profile starts empty and grows with each assessment they take.
+- **Teacher Dashboard** — central workspace for teachers to manage classes, generate bulk diagnostic / midline / endline papers for every student, trigger scans, and view per-student analytics.
+- **Bulk Generation & Bulk Printing** — the teacher generates the **bulk diagnostic paper** (or bulk midline / endline paper) from the app, not a single paper. One action produces a full set of per-student randomized papers for the class, ready to print.
+- **Scan & Auto-Evaluate** — after collecting completed sheets, the teacher feeds them through a school scanner (not a phone camera, for the time being) and uploads them into the app. The system evaluates them automatically.
+- **Cloud OCR via Ollama Gemma 4** — scanned answer sheets are processed by Ollama's Gemma 4 vision model in the cloud, which extracts the student's handwritten answers from each page. The extracted answers are matched to the per-student answer key the system already generated when the paper was created.
+- **Progressive Practice Path** — based on the diagnostic profile, the system schedules **progressive practice worksheets** on the levels the student needs to work on. Each successive worksheet increases the difficulty one step at a time, so the student can prepare and learn with progressive questions matched to their gaps. Midline and endline papers then test whether those gaps have closed.
+- **No FLN Qualifier After Diagnostic** — students do not re-attempt an FLN qualifier immediately after the diagnostic. Instead, the diagnostic tells them which concepts they are lacking, and they work through midline + endline papers on those levels and skills until they close the gap. The student does not need to give the next FLN qualifier in the meantime.
+- **FLN Certification** — FLN certification for a grade means the student has completed **all the grade's competencies and all the grade's levels mapped in our system** (i.e. cleared the endline on every level required for that grade). Certification is the outcome of clearing all competencies, not a single re-attempt of a qualifier.
+
 
 ## How It Works (Workflow)
 
-1. Teacher generates a question paper from the dashboard (standard paper for new classes, or personalized per student once profiles exist).
-2. Paper is printed and distributed to students.
-3. Students take the assessment on paper.
-4. Teacher collects the answer sheets.
-5. Teacher scans the sheets (phone or scanner) and uploads them into the app.
-6. System auto-evaluates the sheet and updates the student's profile.
-7. Teacher gets an instant result:
-   - **Pass** → certificate issued, student advances.
-   - **Fail** → FLN level diagnosis + scheduled re-assessment at the appropriate level.
-8. Cycle repeats until the student clears the grade-level FLN qualifier.
+1. Teacher registers a student into a class.
+2. Teacher generates the **bulk diagnostic paper** for the class from the dashboard — every student in the class receives their own randomized version.
+3. Papers are printed and distributed to students.
+4. Students take the diagnostic assessment on paper.
+5. Teacher collects the answer sheets and scans them through the school scanner, then uploads them into the app (bulk upload — one file for the whole class).
+6. The system runs OCR on every page (Ollama Gemma 4, per-page, in the cloud), matches each extracted answer to the per-student answer key, and updates each student's profile with what they cleared and what they still lack.
+7. Based on the profile, the system schedules **progressive practice worksheets** on the levels the student is lacking. The student works through these, then takes a **midline** paper to check progress added with further levels, and finally an **endline** paper to confirm the gap has closed and cleared that rade competencies.
+8. The cycle repeats until every student has closed all gaps for their grade. A student is FLN-certified for the grade once they have cleared all grade-level competencies and all grade-level levels mapped in the system.
+
+*(Detailed write-ups of the OCR pipeline, PDF generation, etc. live as static docs under `docs/` and are updated as each piece is added.)*
 
 ## Tech Stack
 
-This project is built on the **MERN stack**:
-- **M**ongoDB — database
-- **E**xpress.js — backend framework
-- **R**eact — frontend
-- **N**ode.js — backend runtime
+This project is built on the **MERN stack** (MongoDB / Express / React / Node), with a Python sidecar for one-time PDF rasterization before cloud OCR, and Ollama's Gemma 4 vision model as the cloud OCR backend.
 
-(Specific libraries for OCR/scanning, PDF generation, etc. will be documented as they're added.)
+
 
 ## Getting Started
 
@@ -101,8 +95,10 @@ your own test data and iterate on features without touching anyone else's.
    (the file at the repo root, `.env.example`, is only for the AI scripts in
    `ai-services/` — it does **not** configure the database).
 2. In `backend/.env`, set `MONGODB_URI` to your own connection string, e.g.
-   `mongodb+srv://<user>:<pass>@<cluster>.mongodb.net/fln` (Atlas) or
+   `mongodb+srv://<user>:<password>@<cluster>.mongodb.net/fln` (Atlas) or
    `mongodb://127.0.0.1:27017/fln` (local mongod).
+   Also set `OLLAMA_API_KEY` (or `ICR_CLOUD_API_KEY_OLLAMA_GEMMA4`) to enable
+   cloud OCR via Ollama Gemma 4.
 3. Populate it with the full demo dataset (states/districts/schools/teachers/
    volunteers/students — matches the demo login buttons in the UI):
    ```bash
@@ -121,102 +117,9 @@ Demo login after seeding: `superadmin@fln.org`, password `Fln@2026` (see
 emails, which follow a predictable `role.<state>_<district>_<block>_<school>@fln.org`
 pattern).
 
-## Rules
- Contributor Onboarding — Onboarding Document (Mandatory)
-
-    Every student contributing to the FLN project is required to submit an Onboarding Document (.md) before their first pull request.
-    The document is a record of your understanding of the project and your plan for contributing to it. Submissions that omit any of the sections below will be returned for revision.
-
-    Purpose:
-
-    The Onboarding Document exists to ensure that every contributor:
-
-    1. Has a working understanding of what FLN is and the problem it solves.
-    2. Has read the existing codebase and can describe its current state in their own words.
-    3. Has independently identified weaknesses, gaps, and risks in the current implementation.
-    4. Has formed opinions and proposed ideas for improving the project.
-    5. Has a concrete plan for tackling at least one identified gap.
-    6. Has produced a tangible contribution (code, documentation, tests, or design) that advances the project.
-
-    Reading the code without forming a view is not enough. The document is intended to surface misunderstanding early and to surface good ideas quickly.
-
-    File Naming and Location:
-
-    - File name: ONBOARDING-<your-name>.md 
-    - Location: you have to make the PR in the Ideas folder .
-    - Format: Markdown (.md).( PDF, .docx, or plain .txt will not be accepted.)
-
-    Required Sections:
-
-    The document must contain the following six sections, in this order.
-
-    1. What is FLN?
-
-    Describe, in your own words, what FLN stands for, the domain it operates in (Foundational Literacy and Numeracy / education), the population it
-    serves, and the problem it aims to solve. Do not copy the project description verbatim — paraphrase it. A reader who has never heard of FLN should be
-    able to understand the project's purpose from this section alone.
-
-    2. What do you understand by FLN (as a system)?
-
-    Go beyond the mission statement. Describe FLN as a system: the users (students, teachers, administrators, superadmins), the main entities (schools,
-    classes, assessments, worksheets, certifications), and the high-level flow of data through it. This section is about demonstrating that you
-    understand how the pieces fit together, not just what the project is for.
-
-    3. Current State of the Repository — What Has Been Done So Far:
-
-    Walk through the repository and describe what already exists:
-
-    - Tech stack (frontend, backend, database, auth, deployment).
-    - Implemented features (authentication, role-based access, dashboards, worksheet generation, OMR, analytics, etc.).
-
-    4. Gaps Observed in the Code:
-
-    This is the most important section. List concrete weaknesses, bugs, missing features, or design problems you found while reading the code. You can also pick issues which are stated on FLN git repo and solve them. For each
-    gap, include:
-
-    - Where — file path and line range or component.
-    - What — what is wrong or missing.
-    - Why it matters — the impact on users, maintainability, performance, or correctness.
-
-    5. Ideas for the Project:
-
-    Propose improvements, new features, or refactors that would make FLN better. Each idea should include:
-
-    - What — the proposed change in one or two sentences.
-    - Why — the problem it solves or the value it adds.
-    - How — a sketch of the implementation
-
-
-    6. Your Contribution:
-
-    Describe the actual work you have done as part of this onboarding. A contribution can be any of:
-
-    - A bug fix.
-    - A new feature or endpoint.
-    - A refactor.
-    - Tests (unit, integration, or end-to-end).
-    - Documentation (this onboarding document counts only if it is exceptional; the document itself is mandatory, not the contribution).
-    - A design document or architectural proposal.
-
-    Review Criteria
-
-    A reviewer will check the Onboarding Document against the following:
-
-    - All six sections are present and in order.
-    - Section 4 cites real files and real code, not vague impressions.
-    - Section 5 ideas are grounded in the gaps from Section 4.
-    - The document is written in the contributor's own words, not generated by an AI without understanding.
-
-    A document that reads as if it was written without reading the codebase will be sent back.
-
-### Explainer Video Gate (Mandatory, before Onboarding Document)
-
-Before submitting the Onboarding Document, every new contributor must watch the FLN project explainer video (linked on Vibe) in full and pass the attention-check questions at the end. This is required *before* your first PR, not just before onboarding review — the video explains why the project is scoped the way it is (Math-only for now, no new features until Version 1 is clean, why the 93-level framework isn't a fixed lookup table) so you don't spend your first PR re-litigating decisions that are already settled.
-
-### Working Only From Predefined Issues
+## Working Only From Predefined Issues
 
 Until Version 1 is clean end-to-end, contributors should pick up work only from issues labeled [`intern-ready`](https://github.com/vicharanashala/fln/issues?q=is%3Aissue+is%3Aopen+label%3Aintern-ready) — these are mechanical, well-scoped tasks (e.g. splitting a god-file, rolling out pagination) that don't require a judgment call about platform behavior. Issues without that label may touch pedagogical logic (the level framework, certification distance, diagnostic scoring) or unbuilt backend features, and need core-team review before and during the work — don't self-assign those without checking with a maintainer first. If you think something is missing from the issue list, raise it as a new issue; don't build it unscoped.
-
 
 ## Contribution Guidelines
 
