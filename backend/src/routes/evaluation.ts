@@ -764,13 +764,154 @@ export function registerEvaluationRoutes(app: express.Express) {
     return res.status(r.status).json(r.body);
   });
 
-  // =========================================================================
+  // =====================================================================
+  // Student name extraction helper — used by the bulk endpoint to read
+  // the printed name header in the top-left of each per-student sub-PDF.
+  // Returns { studentName: string | null } or { studentName: null,
+  // error: string } so the bulk handler can record both success and
+  // failure per-chunk without dropping the OCR results.
+  //
+  // Implementation: rasterize the first page of the data URL (whether
+  // PDF or image) at low DPI to keep the payload tiny, then ask Ollama
+  // to output ONLY the printed name. We don't reuse runCloudOcrOnImage
+  // here because that helper's prompt and JSON schema are tuned for
+  // box-answers, not name detection — adding a second task to that
+  // prompt would confuse the model.
+  // =====================================================================
+  const extractStudentNameFromDataUrl = async (
+    dataUrl: string,
+    provider: string,
+    apiKey: string
+  ): Promise<{ studentName: string | null; error?: string }> => {
+    if (provider !== 'ollama-gemma4') {
+      return { studentName: null, error: 'name extraction only supports ollama-gemma4' };
+    }
+    const modelName = process.env.OLLAMA_MODEL || 'gemma4:cloud';
+    const apiBase = process.env.OLLAMA_API_URL || 'https://ollama.com/api/chat';
+
+    // Strip the data URL prefix.
+    const commaIdx = dataUrl.indexOf(',');
+    const base64Body = commaIdx >= 0 ? dataUrl.slice(commaIdx + 1) : dataUrl;
+    const mimeUsedIn = (dataUrl.indexOf('data:') === 0)
+      ? dataUrl.slice(5, dataUrl.indexOf(';'))
+      : 'image/jpeg';
+
+    // For PDF inputs, rasterize ONLY page 1 (lower DPI than the answer
+    // sheet path — we just need to read printed text, not handwriting).
+    let imageBase64s: string[];
+    try {
+      if (mimeUsedIn === 'application/pdf') {
+        const { execFileSync } = await import('child_process');
+        const scratchDir = path.join(AI_SERVICES_DIR, 'scratch');
+        fs.mkdirSync(scratchDir, { recursive: true });
+        const stamp = Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 8);
+        const pdfPath = path.join(scratchDir, `name_pdf_${stamp}.pdf`);
+        const pagesDir = path.join(scratchDir, `name_pdf_${stamp}_pages`);
+        fs.writeFileSync(pdfPath, Buffer.from(base64Body, 'base64'));
+        const scriptPath = path.join(AI_SERVICES_DIR, 'scripts', 'pdf_rasterize.py');
+        const childOut = execFileSync(
+          PYTHON_BIN,
+          [scriptPath, pdfPath, pagesDir, '--page', '1'],
+          {
+            cwd: AI_SERVICES_DIR,
+            env: { ...process.env, PYTHONIOENCODING: 'utf-8' },
+            timeout: 30000,
+            maxBuffer: 32 * 1024 * 1024,
+          }
+        );
+        const pdfJson = JSON.parse(childOut.toString());
+        try { fs.rmSync(pdfPath, { force: true }); } catch { /* noop */ }
+        try { fs.rmSync(pagesDir, { recursive: true, force: true }); } catch { /* noop */ }
+        if (!pdfJson.success) {
+          return { studentName: null, error: 'rasterize failed: ' + (pdfJson.error || 'unknown') };
+        }
+        // pdf_rasterize.py returns EITHER a multi-page shape
+        //   { success, pages: [{ output_path, page_number, page_size }, ...] }
+        // when called with --all-pages, OR a single-page shape
+        //   { success, output_path, page_size, raster_size }
+        // when called with --page N. Support both for forward compatibility.
+        let pagePath: string | null = null;
+        if (Array.isArray(pdfJson.pages) && pdfJson.pages.length > 0 && pdfJson.pages[0].output_path) {
+          pagePath = pdfJson.pages[0].output_path;
+        } else if (pdfJson.output_path) {
+          pagePath = pdfJson.output_path;
+        }
+        if (!pagePath) return { studentName: null, error: 'no page output from rasterize' };
+        imageBase64s = [fs.readFileSync(pagePath).toString('base64')];
+      } else {
+        imageBase64s = [base64Body];
+      }
+    } catch (e: any) {
+      return { studentName: null, error: 'rasterize threw: ' + (e?.message || String(e)) };
+    }
+
+    const namePrompt = [
+      'You are reading the TOP-LEFT corner of page 1 of a primary-school diagnostic answer sheet.',
+      'The school prints the STUDENT\'S NAME there as a printed label.',
+      'Read ONLY that printed name. Ignore all handwritten content.',
+      'Ignore the rest of the page — questions, answer boxes, instructions, page numbers.',
+      '',
+      'Return a single JSON object with one field:',
+      '  studentName: the EXACT printed name as it appears (preserve case and spacing), or null if unreadable',
+      '',
+      'Example: {"studentName": "Aarav Kumar"}',
+      'Example when unreadable: {"studentName": null}',
+      '',
+      'Output ONLY the JSON object. No prose, no markdown fences.',
+    ].join('\n');
+
+    try {
+      const ollamaRes = await fetch(apiBase, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + apiKey,
+        },
+        body: JSON.stringify({
+          model: modelName,
+          messages: [{
+            role: 'user',
+            content: namePrompt,
+            images: imageBase64s,
+          }],
+          format: 'json',
+          stream: false,
+        }),
+      });
+      if (!ollamaRes.ok) {
+        return { studentName: null, error: 'Ollama HTTP ' + ollamaRes.status };
+      }
+      const ollamaJson = await ollamaRes.json().catch(() => ({}));
+      const raw = (ollamaJson && ollamaJson.message && ollamaJson.message.content) || '';
+      const stripped = String(raw)
+        .replace(/^```(?:json)?\s*/i, '')
+        .replace(/\s*```\s*$/i, '')
+        .trim();
+      if (!stripped) return { studentName: null, error: 'empty model output' };
+      let parsed: any = null;
+      try { parsed = JSON.parse(stripped); } catch (e: any) {
+        return { studentName: null, error: 'JSON parse failed: ' + (e?.message || String(e)) };
+      }
+      if (parsed && typeof parsed === 'object' && 'studentName' in parsed) {
+        const name = parsed.studentName;
+        if (name == null) return { studentName: null };
+        const s = String(name).trim();
+        if (!s) return { studentName: null };
+        return { studentName: s };
+      }
+      return { studentName: null, error: 'model output missing studentName key' };
+    } catch (e: any) {
+      return { studentName: null, error: 'name OCR fetch failed: ' + (e?.message || String(e)) };
+    }
+  };
+
+  // =====================================================================
   // BULK OCR endpoint — splits a multi-student PDF into N per-student
   // sub-PDFs and OCRs each one separately via Ollama. This is the only way
   // to scan a whole class at once: a 25-student x 2-page PDF is ~150-300 MB
   // base64, way past Ollama's per-request body limit, so we can't send the
   // whole thing in one POST.
-  // =========================================================================
+  // =====================================================================
   app.post('/api/icr/evaluate-bulk', async (req, res) => {
     const user = getAuthUser(req);
     if (!user) return res.status(401).json({ error: 'Unauthorized' });
@@ -916,6 +1057,43 @@ export function registerEvaluationRoutes(app: express.Express) {
         ocrEngine: r.body.ocrEngine || ('Ollama ' + (process.env.OLLAMA_MODEL || 'gemma4:cloud')),
         processingTimeMs: Date.now() - chunkT0,
       });
+
+      // Step 3: extract the printed student name from the top-left of
+      // page 1 of this chunk. Done AFTER the main OCR so a name-extraction
+      // failure never blocks the answer-extraction result the user came
+      // for. The name is a nice-to-have label for the per-student dropdown
+      // — the chunk index is the authoritative key for matching to the
+      // student list provided to /api/diagnostic/bulk (the teacher prints
+      // papers in the same order, so chunk N = students[N]).
+      const chunkDataUrlForName = 'data:application/pdf;base64,' + sub.pdfBase64;
+      const nameT0 = Date.now();
+      try {
+        const nameRes = await extractStudentNameFromDataUrl(chunkDataUrlForName, provider, apiKey);
+        const lastIdx = results.length - 1;
+        if (nameRes.studentName) {
+          results[lastIdx] = {
+            ...results[lastIdx],
+            studentName: nameRes.studentName,
+            studentNameError: null,
+            studentNameProcessingTimeMs: Date.now() - nameT0,
+          };
+        } else {
+          results[lastIdx] = {
+            ...results[lastIdx],
+            studentName: null,
+            studentNameError: nameRes.error || 'unknown',
+            studentNameProcessingTimeMs: Date.now() - nameT0,
+          };
+        }
+      } catch (e: any) {
+        const lastIdx = results.length - 1;
+        results[lastIdx] = {
+          ...results[lastIdx],
+          studentName: null,
+          studentNameError: 'name OCR threw: ' + (e?.message || String(e)),
+          studentNameProcessingTimeMs: Date.now() - nameT0,
+        };
+      }
     }
 
     const successCount = results.filter((x) => x.success).length;
