@@ -229,8 +229,10 @@ export const RegionalAnalyticsView: React.FC<{ token: string; user: User }> = ({
                         strokeLinecap="round"
                         className="transition-all duration-700 ease-out" />
               </svg>
-              {/* Inner absolute content */}
-              <div className="absolute text-center">
+              {/* Inner absolute content. inset-0 + flex-center keeps the
+                  "X% Certified" label centered ON the donut ring; without
+                  inset-0 it floats at the parent's top-left corner. */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                 <span className="block text-3xl font-display font-black text-zinc-900 dark:text-white leading-none">{activeMetrics.certificationRate}%</span>
                 <span className="text-[9px] text-zinc-500 dark:text-zinc-400 font-mono uppercase font-bold tracking-widest mt-1.5 inline-block">Certified</span>
               </div>
@@ -258,27 +260,66 @@ export const RegionalAnalyticsView: React.FC<{ token: string; user: User }> = ({
               </p>
             </div>
             
-            {/* Visual Bars container */}
+            {/* Visual Bars container. The level distribution is grouped into
+                ~6 buckets (L1-L6 + L7-L16+ summarized) instead of all 16 raw
+                levels — otherwise the L1..L16+ labels jammed together with
+                gap-3 and overlapped the bar rectangles at the bottom. The
+                raw 16-key distribution is still preserved on the data
+                object; the bucket count is a presentation concern only. */}
             <div className="flex items-end justify-between gap-3 h-48 px-2 border-b border-zinc-200 dark:border-zinc-700 pb-2">
-              {Object.entries(activeMetrics.levelDistribution || { "Level 1": 0, "Level 2": 0, "Level 3": 0, "Level 4": 0, "Level 5": 0, "Level 6": 0 }).map(([level, val]: any) => {
-                const count = Number(val);
-                const maxLevelVal = Math.max(...Object.values(activeMetrics.levelDistribution || {}) as number[], 1);
-                const percentHeight = (count / maxLevelVal) * 100;
-                return (
-                  <div key={level} className="flex-grow flex flex-col items-center group relative">
-                    {/* Tooltip on hover */}
-                    <div className="absolute bottom-full mb-2 bg-zinc-900 text-white text-[10px] px-2 py-1 rounded font-mono font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10 shadow">
-                      {count} student{count !== 1 ? 's' : ''}
+              {(() => {
+                const raw = activeMetrics.levelDistribution || {};
+                const entries = Object.entries(raw);
+                // If we have 8+ entries, group them into ~6 buckets so labels
+                // don't overlap. If we have <=8 (typical for small data),
+                // render each entry as its own bar.
+                const bucketCount = entries.length > 8 ? 6 : Math.max(entries.length, 1);
+                const buckets: Array<{ label: string; count: number; level: string }> = [];
+                if (entries.length > 8) {
+                  const per = Math.ceil(entries.length / bucketCount);
+                  for (let i = 0; i < entries.length; i += per) {
+                    const slice = entries.slice(i, i + per);
+                    const count = slice.reduce((s, [, v]) => s + Number(v), 0);
+                    const firstLevel = String(slice[0][0]).replace('Level ', 'L');
+                    const lastLevel = String(slice[slice.length - 1][0]).replace('Level ', 'L');
+                    const label = firstLevel === lastLevel ? firstLevel : `${firstLevel}-${lastLevel}`;
+                    buckets.push({ label, count, level: firstLevel });
+                  }
+                } else {
+                  buckets.push(...entries.map(([level, val]) => ({
+                    label: String(level).replace('Level ', 'L'),
+                    count: Number(val),
+                    level: String(level),
+                  })));
+                }
+                const max = Math.max(...buckets.map(b => b.count), 1);
+                return buckets.map((b) => {
+                  const percentHeight = (b.count / max) * 100;
+                  return (
+                    <div key={b.level} className="flex-grow flex flex-col items-center group relative min-w-0">
+                      {/* Tooltip on hover */}
+                      <div className="absolute bottom-full mb-2 bg-zinc-900 text-white text-[10px] px-2 py-1 rounded font-mono font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10 shadow whitespace-nowrap">
+                        {b.count} student{b.count !== 1 ? 's' : ''}
+                      </div>
+                      {/* Bar graphic */}
+                      <div
+                        className="w-full bg-zinc-200 dark:bg-zinc-600 rounded-t-lg relative overflow-hidden transition-all duration-500"
+                        style={{ height: `${percentHeight}%`, minHeight: b.count > 0 ? '12px' : '4px' }}
+                      >
+                        <div className="absolute inset-0 bg-zinc-950 group-hover:bg-zinc-700 transition-colors duration-200 rounded-t-lg" />
+                      </div>
+                      {/* Label. truncate keeps long bucket labels (e.g. "L1-L3")
+                          from overflowing into the next bar's space. */}
+                      <span
+                        className="text-[10px] font-mono font-bold text-zinc-500 dark:text-zinc-400 mt-2 text-center whitespace-nowrap overflow-hidden text-ellipsis max-w-full"
+                        title={b.label}
+                      >
+                        {b.label}
+                      </span>
                     </div>
-                    {/* Bar graphic */}
-                    <div className="w-full bg-zinc-200 dark:bg-zinc-600 rounded-t-lg relative overflow-hidden transition-all duration-500" style={{ height: `${percentHeight}%`, minHeight: count > 0 ? '12px' : '4px' }}>
-                      <div className="absolute inset-0 bg-zinc-950 group-hover:bg-zinc-700 transition-colors duration-200 rounded-t-lg" />
-                    </div>
-                    {/* Label */}
-                    <span className="text-[10px] font-mono font-bold text-zinc-500 dark:text-zinc-400 mt-2 text-center whitespace-nowrap">{level.replace('Level ', 'L')}</span>
-                  </div>
-                );
-              })}
+                  );
+                });
+              })()}
             </div>
             
             {/* Total Indicator */}
