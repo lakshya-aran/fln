@@ -399,11 +399,25 @@ export function registerStudentRoutes(app: express.Express) {
     const user = getAuthUser(req);
     if (!user) return res.status(401).json({ error: 'Unauthorized' });
 
-    if (!['SCHOOL', 'TEACHER', 'ADMIN', 'SUPERADMIN', 'VOLUNTEER'].includes(user.role.toUpperCase()) &&
-      user.role !== UserRole.SCHOOL && user.role !== UserRole.TEACHER &&
-      user.role !== UserRole.ADMIN && user.role !== UserRole.SUPERADMIN &&
-      user.role !== UserRole.VOLUNTEER) {
+    const STUDENT_REGISTRATION_ROLES = [
+      UserRole.SUPERADMIN,
+      UserRole.ADMIN,
+      UserRole.SCHOOL,
+      UserRole.TEACHER,
+      UserRole.VOLUNTEER,
+    ];
+    if (!STUDENT_REGISTRATION_ROLES.includes(user.role)) {
       return res.status(403).json({ error: 'Forbidden.' });
+    }
+
+    // Issue 5: principals are scoped to their own school. If a principal
+    // submits a schoolId that disagrees with their own schoolId, reject
+    // with HTTP 400 instead of silently overriding.
+    if (user.role === UserRole.SCHOOL && user.schoolId && req.body.schoolId
+        && String(req.body.schoolId).toLowerCase() !== user.schoolId.toLowerCase()) {
+      return res.status(400).json({
+        error: `A principal can only register students at their own school (${user.schoolId}). Got '${req.body.schoolId}'.`,
+      });
     }
 
     // Build aadhars set for uniqueness check
@@ -426,9 +440,10 @@ export function registerStudentRoutes(app: express.Express) {
       userId: user.id,
       userEmail: user.email,
       userRole: user.role,
-      activityType: 'verify',
+      // Issue 16: student registration is "register", not "verify".
+      activityType: 'register',
       status: 'Success',
-      details: `Onboarded and verified student: ${result.student.name}`,
+      details: `Onboarded student: ${result.student.name}`,
     });
 
     res.json(result.student);
@@ -436,7 +451,8 @@ export function registerStudentRoutes(app: express.Express) {
 
   // ─── POST /api/students/bulk-import ─────────────────────────────────────────
   // Accepts { rows: CsvRow[] }, validates and registers each row immediately.
-  // Returns a per-row summary. Allowed roles: SCHOOL, TEACHER, VOLUNTEER, ADMIN+.
+  // Returns a per-row summary. Allowed roles: SUPERADMIN, ADMIN, SCHOOL,
+  // TEACHER, VOLUNTEER. District and block admins are not allowed.
   app.post('/api/students/bulk-import', async (req, res) => {
     const user = getAuthUser(req);
     if (!user) return res.status(401).json({ error: 'Unauthorized' });
@@ -454,6 +470,19 @@ export function registerStudentRoutes(app: express.Express) {
     }
     if (rows.length > 500) {
       return res.status(400).json({ error: 'Maximum 500 rows per request.' });
+    }
+
+    // Issue 5: principals cannot bulk-import into another school. Verify
+    // every row's schoolId (if present) matches the principal's own school.
+    if (user.role === UserRole.SCHOOL && user.schoolId) {
+      for (let i = 0; i < rows.length; i++) {
+        const sid = rows[i]?.schoolId;
+        if (sid && String(sid).toLowerCase() !== user.schoolId.toLowerCase()) {
+          return res.status(400).json({
+            error: `Row ${i + 1}: a principal can only bulk-import students at their own school (${user.schoolId}). Got '${sid}'.`,
+          });
+        }
+      }
     }
 
     // Pre-load all existing aadhar numbers once; the helper adds new ones as
@@ -491,7 +520,8 @@ export function registerStudentRoutes(app: express.Express) {
           userId: user.id,
           userEmail: user.email,
           userRole: user.role,
-          activityType: 'verify',
+          // Issue 16: bulk-import registration is "register", not "verify".
+          activityType: 'register',
           status: 'Success',
           details: `[Bulk Import] Onboarded student: ${outcome.student.name}`,
         });
