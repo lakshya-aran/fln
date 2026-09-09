@@ -44,7 +44,11 @@ const CONTENT_ITEMS = [
 
 export const PanelViews: React.FC<PanelViewsProps> = ({ activePanel, currentUser, token }) => {
   const {
-    students, studentsLoading, schools, schoolsLoaded, schoolsError, usersList, reportsList, worksheetsList, teachersList,
+    students, studentsLoading,
+    schools, schoolsLoaded, schoolsError,
+    usersList, usersLoaded, usersError,
+    teachersList, teachersLoaded, teachersError,
+    reportsList, worksheetsList,
     getDistrictStats, getBlockStats, updateStudentLocally, refreshStudents, refreshTeachers,
   } = usePanelData(token, currentUser, activePanel);
 
