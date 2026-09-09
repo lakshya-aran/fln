@@ -44,7 +44,7 @@ const CONTENT_ITEMS = [
 
 export const PanelViews: React.FC<PanelViewsProps> = ({ activePanel, currentUser, token }) => {
   const {
-    students, studentsLoading, schools, usersList, reportsList, worksheetsList, teachersList,
+    students, studentsLoading, schools, schoolsLoaded, schoolsError, usersList, reportsList, worksheetsList, teachersList,
     getDistrictStats, getBlockStats, updateStudentLocally, refreshStudents, refreshTeachers,
   } = usePanelData(token, currentUser, activePanel);
 
@@ -122,7 +122,7 @@ export const PanelViews: React.FC<PanelViewsProps> = ({ activePanel, currentUser
 
   if (panel === 'content') return <ContentPanel />;
 
-  if (panel === 'analytics') return <AnalyticsPanel currentUser={currentUser} schools={schools} students={students} getDistrictStats={getDistrictStats} getBlockStats={getBlockStats} />;
+  if (panel === 'analytics') return <AnalyticsPanel currentUser={currentUser} schools={schools} schoolsLoaded={schoolsLoaded} schoolsError={schoolsError} students={students} getDistrictStats={getDistrictStats} getBlockStats={getBlockStats} />;
 
   if (panel === 'system_settings') return <SystemSettingsPanel />;
 

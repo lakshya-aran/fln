@@ -62,6 +62,11 @@ export function usePanelData(token: string, currentUser: User, activePanel: stri
   // empty state instead.
   const [studentsLoading, setStudentsLoading] = useState(true);
   const [apiSchools, setApiSchools] = useState<School[]>([]);
+  // Issue 7: track whether the /api/schools request has resolved so
+  // AnalyticsPanel can show a loading state instead of the 14-school
+  // fallback when the principal first opens the panel.
+  const [schoolsLoaded, setSchoolsLoaded] = useState(false);
+  const [schoolsError, setSchoolsError] = useState(false);
   const [apiUsers, setApiUsers] = useState<any[]>([]);
   const [apiReports, setApiReports] = useState<EvaluationReport[]>([]);
   const [apiWorksheets, setApiWorksheets] = useState<Worksheet[]>([]);
@@ -69,7 +74,11 @@ export function usePanelData(token: string, currentUser: User, activePanel: stri
 
   useEffect(() => {
     const headers = { 'Authorization': `Bearer ${token}` };
-    apiFetch('/api/schools', { headers }).then(r => r.json()).then(d => { if (Array.isArray(d)) setApiSchools(d); }).catch(() => { });
+    apiFetch('/api/schools', { headers })
+      .then(r => r.json())
+      .then(d => { if (Array.isArray(d)) setApiSchools(d); })
+      .catch(() => { setSchoolsError(true); })
+      .finally(() => setSchoolsLoaded(true));
     apiFetch('/api/admin/coordinators', { headers }).then(r => r.json()).then(d => { if (Array.isArray(d)) setApiUsers(d); }).catch(() => { });
     apiFetch('/api/evaluation/reports', { headers }).then(r => r.json()).then(d => { if (Array.isArray(d)) setApiReports(d); }).catch(() => { });
     apiFetch('/api/worksheets', { headers }).then(r => r.json()).then(d => { if (Array.isArray(d)) setApiWorksheets(d); }).catch(() => { });
@@ -95,7 +104,15 @@ export function usePanelData(token: string, currentUser: User, activePanel: stri
   }, [token, activePanel, apiStudents.length]);
 
   const students = apiStudents;
-  const schools = apiSchools.length > 0 ? apiSchools : SCHOOLS_FALLBACK;
+  // Issue 7: for principals, never substitute the 14-school demo
+  // fallback. Backend /api/schools is already role-scoped to the
+  // principal's own school, so a real (small) list is always the
+  // correct rendering. For other roles we keep the existing fallback
+  // behaviour for now — Issue 9 will remove the fallbacks wholesale.
+  const isPrincipal = currentUser.role === UserRole.SCHOOL;
+  const schools = (isPrincipal || apiSchools.length > 0)
+    ? apiSchools
+    : SCHOOLS_FALLBACK;
   const usersList = apiUsers.length > 0 ? apiUsers : USERS_FALLBACK;
   // No mock fallback here (unlike students/schools/users): a fake report's
   // studentId (e.g. 's1') will never match a real student in `students`,
@@ -166,7 +183,7 @@ export function usePanelData(token: string, currentUser: User, activePanel: stri
   };
 
   return {
-    students, studentsLoading, schools, usersList, reportsList, worksheetsList, teachersList,
+    students, studentsLoading, schools, schoolsLoaded, schoolsError, usersList, reportsList, worksheetsList, teachersList,
     getDistrictStats, getBlockStats, updateStudentLocally, refreshStudents, refreshTeachers,
   };
 }
