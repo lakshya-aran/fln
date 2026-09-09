@@ -45,7 +45,7 @@ const CONTENT_ITEMS = [
 export const PanelViews: React.FC<PanelViewsProps> = ({ activePanel, currentUser, token }) => {
   const {
     students, studentsLoading, schools, usersList, reportsList, worksheetsList, teachersList,
-    getDistrictStats, getBlockStats, updateStudentLocally, refreshStudents,
+    getDistrictStats, getBlockStats, updateStudentLocally, refreshStudents, refreshTeachers,
   } = usePanelData(token, currentUser, activePanel);
 
   const panel = activePanel;
@@ -84,7 +84,7 @@ export const PanelViews: React.FC<PanelViewsProps> = ({ activePanel, currentUser
   if (panel === 'attendance') return <AttendancePanel students={students} reportsList={reportsList} />;
 
   // ===================== PRINCIPAL / SCHOOL ADMIN PANELS =====================
-  if (panel === 'teachers' && (currentUser.role === UserRole.SCHOOL || currentUser.role === UserRole.BLOCK_ADMIN)) return <TeachersPanel schools={schools} teachersList={teachersList} currentUser={currentUser} />;
+  if (panel === 'teachers' && (currentUser.role === UserRole.SCHOOL || currentUser.role === UserRole.BLOCK_ADMIN)) return <TeachersPanel schools={schools} teachersList={teachersList} currentUser={currentUser} token={token} refreshTeachers={refreshTeachers} />;
 
   // ===================== BLOCK/DISTRICT/STATE ADMIN + SUPERADMIN SHARED PANELS =====================
   if (panel === 'schools') return <SchoolsPanel schools={schools} />;

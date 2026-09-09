@@ -155,8 +155,18 @@ export function usePanelData(token: string, currentUser: User, activePanel: stri
     apiFetch('/api/students', { headers }).then(r => r.json()).then(d => { if (Array.isArray(d)) setApiStudents(d); }).catch(() => { });
   };
 
+  // Issue 4: re-fetch the teacher list after a principal adds a teacher.
+  // Mirrors refreshStudents. The list is already role-scoped on the
+  // backend (teachers.ts GET handler), so re-fetching will only return the
+  // caller's own school.
+  const refreshTeachers = () => {
+    if (currentUser.role !== UserRole.SCHOOL && currentUser.role !== UserRole.BLOCK_ADMIN) return;
+    const headers = { 'Authorization': `Bearer ${token}` };
+    apiFetch('/api/teachers', { headers }).then(r => r.json()).then(d => { if (Array.isArray(d)) setApiTeachers(d); }).catch(() => { });
+  };
+
   return {
     students, studentsLoading, schools, usersList, reportsList, worksheetsList, teachersList,
-    getDistrictStats, getBlockStats, updateStudentLocally, refreshStudents,
+    getDistrictStats, getBlockStats, updateStudentLocally, refreshStudents, refreshTeachers,
   };
 }
