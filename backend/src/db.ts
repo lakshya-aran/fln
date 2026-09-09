@@ -88,6 +88,17 @@ export interface School {
   strength: 'high' | 'low'; // High-strength vs. Low-strength (§1.2)
   teachersCount: number;
   isAccessLocked?: boolean;
+  // Extended identity fields (issue #1: superadmin school onboarding).
+  // Optional so existing school records remain compatible. New records are
+  // encouraged to populate them so that two schools with the same name in
+  // different districts can be precisely identified.
+  address?: string;
+  pincode?: string;
+  udiseCode?: string;
+  schoolType?: 'primary' | 'upper_primary' | 'secondary' | 'higher_secondary' | 'other';
+  establishedYear?: number;
+  contactEmail?: string;
+  contactPhone?: string;
 }
 
 export interface ClassGroup {
@@ -512,7 +523,23 @@ export interface LogEntry {
   userId: string;
   userEmail: string;
   userRole: UserRole;
-  activityType: 'download' | 'print' | 'conduct' | 'scan' | 'verify' | 'ticket';
+  // activityType union. Issue 16 expands this beyond the original
+  // download/print/conduct/scan/verify/ticket set. New categories are added
+  // semantically as the corresponding code paths land. Order matches the
+  // domain flow: onboarding → registration → work → verification → ticket.
+  activityType:
+    | 'download'
+    | 'print'
+    | 'conduct'
+    | 'scan'
+    | 'verify'
+    | 'ticket'
+    | 'onboard'
+    | 'register'
+    | 'revive'
+    | 'restore'
+    | 'intervene'
+    | 'promote';
   status: 'Success' | 'Failed' | 'Delayed';
   details: string;
 }
