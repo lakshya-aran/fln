@@ -29,8 +29,9 @@ export function registerAdminRoutes(app: express.Express) {
       return res.status(400).json({ error: 'User with this email already exists.' });
     }
 
-    // Issue 2: for a principal (UserRole.SCHOOL), the schoolId is the source
-    // of truth for school identity and geography. We explicitly:
+    // Issue 2 + Issue 10: for principals (UserRole.SCHOOL) and teachers
+    // (UserRole.TEACHER), the schoolId is the source of truth for school
+    // identity and geography. We explicitly:
     //   1. Require schoolId.
     //   2. Validate that the school exists (case-insensitive lookup matches
     //      the way /api/schools stores ids).
@@ -40,17 +41,18 @@ export function registerAdminRoutes(app: express.Express) {
     //      400 rather than silently overriding, so misconfigurations are
     //      surfaced instead of hidden.
     //
-    // For other roles (TEACHER, ADMIN, etc.) we still accept the geographic
-    // fields the caller submits — TEACHER accounts created by superadmin via
-    // this route get a separate fix in Issue 10.
+    // For other roles (ADMIN, district/block coordinators, volunteers) we
+    // still accept the geographic fields the caller submits — those accounts
+    // legitimately span a wider scope.
     let resolvedSchoolId: string | undefined = schoolId || undefined;
     let resolvedStateCode: string | undefined = stateCode ? stateCode.toUpperCase() : undefined;
     let resolvedDistrictCode: string | undefined = districtCode ? districtCode.toUpperCase() : undefined;
     let resolvedBlockCode: string | undefined = blockCode ? blockCode.toUpperCase() : undefined;
 
-    if (role === UserRole.SCHOOL) {
+    if (role === UserRole.SCHOOL || role === UserRole.TEACHER) {
+      const roleLabel = role === UserRole.SCHOOL ? 'school' : 'teacher';
       if (!schoolId) {
-        return res.status(400).json({ error: 'schoolId is required when role is school.' });
+        return res.status(400).json({ error: `schoolId is required when role is ${roleLabel}.` });
       }
       const schools = await dbStore.getSchools();
       const targetSchool = schools.find(s => s.id.toLowerCase() === String(schoolId).toLowerCase());
