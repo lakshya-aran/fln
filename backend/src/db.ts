@@ -1285,10 +1285,16 @@ const COLLECTION_NAMES: Record<keyof DatabaseSchema, string> = {
   }
 
   /** Fast count of schools with optional filters. */
-  async countSchoolsFast(opts?: { stateCode?: string; schoolType?: string; accessLocked?: boolean }): Promise<number> {
+  async countSchoolsFast(opts?: { stateCode?: string; districtCode?: string; blockCode?: string; schoolId?: string; schoolType?: string; accessLocked?: boolean }): Promise<number> {
     if (this.mongoDb) {
       const filter: any = {};
+      // Issue 8: support schoolId (maps to the school's `id` field, not _id)
+      // so the analytics route can scope to a single school without loading
+      // every document.
+      if (opts?.schoolId) filter.id = opts.schoolId;
       if (opts?.stateCode) filter.stateCode = opts.stateCode;
+      if (opts?.districtCode) filter.districtCode = opts.districtCode;
+      if (opts?.blockCode) filter.blockCode = opts.blockCode;
       if (opts?.schoolType) filter.schoolType = opts.schoolType;
       if (opts?.accessLocked != null) filter.accessLocked = opts.accessLocked;
       return await this.mongoDb.collection('schools').countDocuments(filter);
@@ -1373,12 +1379,28 @@ const COLLECTION_NAMES: Record<keyof DatabaseSchema, string> = {
     return counts;
   }
 
-  /** Fast aggregation: count of evaluation reports. */
-  async countReports(): Promise<number> {
+  /**
+   * Fast aggregation: count of evaluation reports, optionally scoped to a
+   * school. Issue 8: when the analytics endpoint is called by a
+   * principal/teacher we want reports scoped to their own school; for
+   * volunteers we accept either a single school id or an `$in` array.
+   */
+  async countReports(opts?: { schoolId?: string | { $in: string[] } }): Promise<number> {
     if (this.mongoDb) {
-      return await this.mongoDb.collection('evaluation_reports').countDocuments({});
+      const filter: any = {};
+      if (opts?.schoolId) filter.schoolId = opts.schoolId;
+      return await this.mongoDb.collection('evaluation_reports').countDocuments(filter);
     }
-    return (this.data?.evaluationReports || []).length;
+    let result = this.data?.evaluationReports || [];
+    if (opts?.schoolId) {
+      if (typeof opts.schoolId === 'string') {
+        result = result.filter(r => (r as any).schoolId === opts.schoolId);
+      } else if ((opts.schoolId as any).$in) {
+        const ids = new Set((opts.schoolId as any).$in);
+        result = result.filter(r => ids.has((r as any).schoolId));
+      }
+    }
+    return result.length;
   }
 
   /** Fast aggregation: count reports grouped by pass/fail (score >= 50). */
