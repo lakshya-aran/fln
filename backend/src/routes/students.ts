@@ -420,6 +420,10 @@ export function registerStudentRoutes(app: express.Express) {
       });
     }
 
+    // `existingAadhars` here is for INTRA-BATCH dedup only — empty
+    // for a single-row POST. The school-scoped DB check is done
+    // inside `createStudentFromData` after the schoolId is resolved.
+    const existingAadhars = new Set<string>();
     // Build aadhars set for uniqueness check
     const rawAadhar = String(req.body.aadharNumber).replace(/[^0-9]/g, '');
     const existingAadhars = await dbStore.getExistingAadhars([rawAadhar]);
@@ -484,11 +488,21 @@ export function registerStudentRoutes(app: express.Express) {
         }
       }
     }
-
     // Pre-load all existing aadhar numbers once; the helper adds new ones as
     // it inserts, so intra-batch duplicates are caught too.
     const aadharsInBatch = rows.map(r => String(r.aadharNumber).replace(/[^0-9]/g, '')).filter(Boolean);
     const existingAadhars = await dbStore.getExistingAadhars(aadharsInBatch);
+    // `existingAadhars` is for INTRA-BATCH dedup — pre-seeded with
+    // every row's raw + mask, but for each iteration the current
+    // row's entry is removed before the helper runs and re-added
+    // after, so the helper's check never self-matches the row being
+    // processed. The school-scoped DB check lives inside
+    // `createStudentFromData` and is per-row.
+    const aadharsInBatch = rows.flatMap(r => {
+      const raw = String(r.aadharNumber).replace(/[^0-9]/g, '');
+      return raw ? [raw, formatAadhaarMask(raw)] : [];
+    });
+    const existingAadhars = new Set<string>(aadharsInBatch);
 
     const results: {
       row: number; status: 'created' | 'failed'; name?: string; id?: string; reason?: string;

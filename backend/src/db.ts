@@ -527,6 +527,14 @@ export interface LogEntry {
   // download/print/conduct/scan/verify/ticket set. New categories are added
   // semantically as the corresponding code paths land. Order matches the
   // domain flow: onboarding → registration → work → verification → ticket.
+  // activityType union. Both legacy and new categories coexist:
+  //   - Original FLN lifecycle (download/print/conduct/scan/verify/ticket).
+  //   - School-dashboard lifecycle (issue #16: onboard/register/revive/
+  //     restore/intervene/promote) — added by
+  //     fix/school-dashboard-priority-1-10 Issues 1, 2, 4, 5, 10.
+  //   - Vault audit actions (tokenize/detokenize/step_up_*/mfa_*) — added
+  //     by origin/main's Aadhaar Vault work; see
+  //     backend/src/modules/vault/audit/logbook-entry.ts.
   activityType:
     | 'download'
     | 'print'
@@ -534,12 +542,26 @@ export interface LogEntry {
     | 'scan'
     | 'verify'
     | 'ticket'
+    // School-dashboard lifecycle (issue #16):
     | 'onboard'
     | 'register'
     | 'revive'
     | 'restore'
     | 'intervene'
-    | 'promote';
+    | 'promote'
+    // Vault audit actions (origin/main's Aadhaar Vault work).
+    | 'tokenize'
+    | 'detokenize'
+    | 'step_up_request'
+    | 'step_up_approve'
+    | 'mfa_enroll'
+    | 'mfa_verify'
+    // Wave 2A: account-level MFA enrollment lifecycle events.
+    | 'mfa_enrollment_initiated'
+    | 'mfa_enrollment_verified'
+    | 'mfa_enrollment_failed'
+    | 'mfa_enrollment_revoked';
+  activityType: 'download' | 'print' | 'conduct' | 'scan' | 'verify' | 'ticket';
   status: 'Success' | 'Failed' | 'Delayed';
   details: string;
 }
