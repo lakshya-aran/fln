@@ -28,7 +28,8 @@
     "test:error-classification": "tsx src/errorClassification.test.ts",
     "test:paper-lock": "tsx src/paperLock.test.ts",
     "test:competency-prerequisites": "tsx src/competencyPrerequisites.test.ts",
-    "test:worksheet-content": "tsx src/services/worksheetContent.test.ts"
+    "test:worksheet-content": "tsx src/services/worksheetContent.test.ts",
+    "test:concept-batch": "tsx src/routes/worksheets.conceptBatch.test.ts"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

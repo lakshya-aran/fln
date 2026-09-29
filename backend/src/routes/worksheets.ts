@@ -5,6 +5,7 @@ import { randomUUID } from 'crypto';
 import { dbStore, UserRole, Student, Question, Worksheet, LevelWorksheet } from '../db';
 import { getAuthUser } from '../auth';
 import { generateQuestionsForLevel } from '../levelGenerator';
+import { resolveWorksheetContent } from '../services/worksheetContent';
 import * as levelsBackendClient from '../levelsBackendClient';
 import { ROOT_DIR } from '../config';
 import { recordStudentCycleLock } from '../paperLock';
@@ -351,6 +352,71 @@ export function registerWorksheetRoutes(app: express.Express) {
       res.json({ success: true, pdfUrl: result.pdfUrl });
     } catch (err: any) {
       console.error('Worksheet PDF generation failed:', err);
+      res.status(500).json({ success: false, error: err.message });
+    }
+  });
+
+  /**
+   * Issue #601: build a worksheet's content from a teacher's concept selection.
+   *
+   * Same shape as /generate-pdf above: auth check, validate input, call the
+   * service, return the result. resolveWorksheetContent() (#600) turns the
+   * concepts into concrete questions (observed-only templates dropped,
+   * artwork picked deterministically from paperSeed).
+   *
+   * Nothing is persisted: no Worksheet row, no cycle lock. A concept
+   * worksheet is not an exam cycle paper, and /generate-pdf cannot render it
+   * anyway (it expects per-student question ids).
+   *
+   * PDF rendering is #602 (renderConceptWorksheet in paperGenerator.ts),
+   * which does not exist yet. Until it lands, pdfUrl is null and the
+   * resolved questions are returned so the caller can see what the paper
+   * will contain. Wiring #602 in only fills pdfUrl; the rest of the
+   * response stays the same.
+   */
+  app.post('/api/worksheets/generate-concept-batch', async (req, res) => {
+    const user = getAuthUser(req);
+    if (!user) return res.status(401).json({ error: 'Unauthorized' });
+
+    // Same suspension rule as /generate (§6.5).
+    if (user.role === UserRole.TEACHER && user.isBanned) {
+      return res.status(403).json({ error: 'Generation Denied: Teacher account is suspended/banned due to 3 Delayed Attempts within the academic year.' });
+    }
+
+    const { conceptIds, questionsPerConcept, className, section, paperSeed } = req.body || {};
+    if (!Array.isArray(conceptIds) || conceptIds.length === 0 || !conceptIds.every(id => typeof id === 'string')) {
+      return res.status(400).json({ error: 'conceptIds must be a non-empty array of concept id strings (e.g. ["S1.1"]).' });
+    }
+    if (!Number.isInteger(questionsPerConcept) || questionsPerConcept <= 0) {
+      return res.status(400).json({ error: 'questionsPerConcept must be a positive integer.' });
+    }
+    if (typeof className !== 'string' || !className.trim() || typeof section !== 'string' || !section.trim()) {
+      return res.status(400).json({ error: 'className and section are required.' });
+    }
+    if (paperSeed !== undefined && (typeof paperSeed !== 'string' || !paperSeed.trim())) {
+      return res.status(400).json({ error: 'paperSeed, when given, must be a non-empty string.' });
+    }
+
+    try {
+      // A server-chosen seed is echoed back, so the caller can regenerate
+      // the same paper later by sending it.
+      const seed: string = paperSeed ?? randomUUID();
+      const content = await resolveWorksheetContent(conceptIds, questionsPerConcept, seed);
+      if (content.totalQuestions === 0) {
+        return res.status(404).json({ error: 'No written question templates exist for the selected concepts. Author at least one first.' });
+      }
+
+      res.json({
+        success: true,
+        pdfUrl: null,
+        className: className.trim(),
+        section: section.trim(),
+        paperSeed: seed,
+        totalQuestions: content.totalQuestions,
+        concepts: content.concepts,
+      });
+    } catch (err: any) {
+      console.error('Concept worksheet generation failed:', err);
       res.status(500).json({ success: false, error: err.message });
     }
   });
