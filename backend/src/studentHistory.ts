@@ -108,3 +108,35 @@ export async function getAttemptHistoryForStudent(studentId: string): Promise<At
   }
   return attempts;
 }
+
+/**
+ * Issue #614: distinct conceptIds a given student has been assessed on.
+ *
+ * Maps over #613's getAttemptHistoryForStudent output, dedupes by
+ * conceptId, and drops attempts whose conceptId is undefined (e.g. the
+ * question predates Question.conceptId, the source worksheet couldn't
+ * be resolved, or the questionId wasn't on the worksheet).
+ *
+ * Edge case (from issue body, explicitly flagged for confirmation):
+ *   "An attempt whose question.conceptId is undefined -- the .filter(Boolean)
+ *    above drops these. Confirm this is the right call (silently dropping vs.
+ *    surfacing 'N attempts have no concept mapping' as a separate diagnostic)
+ *    before shipping."
+ *
+ * Implementation choice: silently drop, matching the issue's reference
+ * pseudocode exactly. Surfacing "N dropped" would be a useful diagnostic
+ * but it's a different shape than the issue asks for, and #614's caller
+ * (#621's mastery computation) only operates on real conceptIds anyway.
+ * If a "diagnostic" channel is wanted, that's a separate issue.
+ *
+ * The returned list is sorted ascending so callers (especially #621,
+ * which iterates a fixed NIPUN_CONCEPT_IDS array) get deterministic
+ * iteration order regardless of which report happened to be read first.
+ */
+export async function getDistinctConceptIds(studentId: string): Promise<string[]> {
+  const attempts = await getAttemptHistoryForStudent(studentId);
+  const ids = attempts
+    .map(a => a.conceptId)
+    .filter((id): id is string => typeof id === 'string' && id.length > 0);
+  return [...new Set(ids)].sort();
+}

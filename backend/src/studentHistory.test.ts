@@ -11,7 +11,7 @@
 
 import assert from 'node:assert';
 import { dbStore, UserRole, type Worksheet, type EvaluationReport, type Question } from './db';
-import { getAttemptHistoryForStudent } from './studentHistory';
+import { getAttemptHistoryForStudent, getDistinctConceptIds } from './studentHistory';
 
 // ---- test harness ----------------------------------------------------------
 let passed = 0;
@@ -301,6 +301,140 @@ async function run() {
     assert.strictEqual(attempts[0].conceptId, undefined);
     assert.notStrictEqual(attempts[0].question, undefined);
     assert.strictEqual(attempts[0].question?.conceptId, undefined);
+  });
+
+  // ----- getDistinctConceptIds (#614) ---------------------------------------
+
+  // 8. N distinct concepts across multiple attempts -> returns exactly N.
+  // The "Done when" clause from the issue body, verbatim:
+  //   "For a student with attempts spanning N distinct concepts, returns
+  //    exactly N ids, each appearing once regardless of how many attempts
+  //    touched it."
+  await test('N distinct concepts across multiple attempts returns exactly N, each once', async () => {
+    const w = mkWorksheet('ws-d1', [
+      mkQuestion({ question_id: 'q1', question: 'a', answer: '1', conceptId: 'S3.1' }),
+      mkQuestion({ question_id: 'q2', question: 'b', answer: '2', conceptId: 'S3.1' }), // same as q1
+      mkQuestion({ question_id: 'q3', question: 'c', answer: '3', conceptId: 'S3.2' }),
+      mkQuestion({ question_id: 'q4', question: 'd', answer: '4', conceptId: 'S3.3' }),
+    ]);
+    const r = mkReport({
+      id: 'rep-d1', studentId: 's-distinct', worksheetId: 'ws-d1',
+      timestamp: '2026-08-01T10:00:00.000Z',
+      questionResults: [
+        { questionId: 'q1', submittedAnswer: '1', isCorrect: true },
+        { questionId: 'q2', submittedAnswer: '2', isCorrect: false }, // same concept as q1
+        { questionId: 'q3', submittedAnswer: '3', isCorrect: true },
+        { questionId: 'q4', submittedAnswer: '0', isCorrect: false },
+      ],
+    });
+    installFixtures([w], [r]);
+
+    const ids = await getDistinctConceptIds('s-distinct');
+    assert.strictEqual(ids.length, 3, `expected 3 distinct conceptIds, got ${ids.length}: ${JSON.stringify(ids)}`);
+    // Set membership regardless of order:
+    assert.deepStrictEqual(new Set(ids), new Set(['S3.1', 'S3.2', 'S3.3']));
+    // And sorted (the implementation sorts; lock that in so callers depending
+    // on deterministic order -- #621's NIPUN_CONCEPT_IDS iteration -- don't
+    // break by accident):
+    assert.deepStrictEqual([...ids].sort(), ids, 'expected the output to be sorted ascending');
+  });
+
+  // 9. Attempts with undefined conceptId are silently dropped.
+  await test('attempts with undefined conceptId are silently dropped (issue edge case)', async () => {
+    const w = mkWorksheet('ws-d2', [
+      mkQuestion({ question_id: 'qA', question: 'a', answer: '1', conceptId: 'S3.1' }),
+      mkQuestion({ question_id: 'qNoC', question: 'n/a', answer: '0' /* no conceptId */ }),
+    ]);
+    const r = mkReport({
+      id: 'rep-d2', studentId: 's-mixed', worksheetId: 'ws-d2',
+      timestamp: '2026-08-02T10:00:00.000Z',
+      questionResults: [
+        { questionId: 'qA', submittedAnswer: '1', isCorrect: true },
+        { questionId: 'qNoC', submittedAnswer: '0', isCorrect: true },
+      ],
+    });
+    installFixtures([w], [r]);
+
+    const ids = await getDistinctConceptIds('s-mixed');
+    assert.deepStrictEqual(ids, ['S3.1'], 'only S3.1 should survive; the undefined-conceptId attempt must be silently dropped');
+  });
+
+  // 10. Worksheet not found ("diagnostic" literal) -- all attempts come back
+  //     with conceptId undefined, so getDistinctConceptIds returns [].
+  await test('"diagnostic" worksheet literal -> empty distinct ids (all undefined filtered)', async () => {
+    const r = mkReport({
+      id: 'rep-d3', studentId: 's-diag', worksheetId: 'diagnostic',
+      timestamp: '2026-08-03T10:00:00.000Z',
+      questionResults: [
+        { questionId: 'qx', submittedAnswer: 'x', isCorrect: false },
+        { questionId: 'qy', submittedAnswer: 'y', isCorrect: false },
+      ],
+    });
+    installFixtures([], [r]);
+
+    const ids = await getDistinctConceptIds('s-diag');
+    assert.deepStrictEqual(ids, []);
+  });
+
+  // 11. Student with zero reports -> empty array.
+  await test('zero reports -> empty distinct ids', async () => {
+    installFixtures([], []);
+    const ids = await getDistinctConceptIds('s-empty');
+    assert.deepStrictEqual(ids, []);
+  });
+
+  // 12. ConceptId is the empty string in the data -- defensively excluded.
+  //     This isn't in the issue body explicitly, but the implementation's
+  //     `id.length > 0` filter handles it; lock that in so a regression to
+  //     a plain `.filter(Boolean)` (which would let '' through) gets caught.
+  await test('empty-string conceptId is excluded, not included as ""', async () => {
+    const w = mkWorksheet('ws-d4', [
+      mkQuestion({ question_id: 'qE', question: 'e', answer: '0', conceptId: '' }),
+      mkQuestion({ question_id: 'qR', question: 'r', answer: '1', conceptId: 'S3.5' }),
+    ]);
+    const r = mkReport({
+      id: 'rep-d4', studentId: 's-empty-cid', worksheetId: 'ws-d4',
+      timestamp: '2026-08-04T10:00:00.000Z',
+      questionResults: [
+        { questionId: 'qE', submittedAnswer: '0', isCorrect: true },
+        { questionId: 'qR', submittedAnswer: '1', isCorrect: true },
+      ],
+    });
+    installFixtures([w], [r]);
+
+    const ids = await getDistinctConceptIds('s-empty-cid');
+    assert.deepStrictEqual(ids, ['S3.5'], `expected only S3.5; the empty-string conceptId must be excluded, not returned as ""`);
+  });
+
+  // 13. ConceptId appears across MULTIPLE reports/worksheets -- still deduped once.
+  //     This is the "regardless of how many attempts touched it" half of the
+  //     issue's "Done when" clause.
+  await test('same conceptId across multiple reports/worksheets dedupes to one entry', async () => {
+    const w1 = mkWorksheet('ws-multi-1', [
+      mkQuestion({ question_id: 'qM1', question: 'a', answer: '1', conceptId: 'S3.7' }),
+    ]);
+    const w2 = mkWorksheet('ws-multi-2', [
+      mkQuestion({ question_id: 'qM2', question: 'b', answer: '2', conceptId: 'S3.7' }),
+      mkQuestion({ question_id: 'qM3', question: 'c', answer: '3', conceptId: 'S3.4' }),
+    ]);
+    const r1 = mkReport({
+      id: 'rep-multi-1', studentId: 's-multi', worksheetId: 'ws-multi-1',
+      timestamp: '2026-08-05T10:00:00.000Z',
+      questionResults: [{ questionId: 'qM1', submittedAnswer: '1', isCorrect: true }],
+    });
+    const r2 = mkReport({
+      id: 'rep-multi-2', studentId: 's-multi', worksheetId: 'ws-multi-2',
+      timestamp: '2026-08-06T10:00:00.000Z',
+      questionResults: [
+        { questionId: 'qM2', submittedAnswer: '2', isCorrect: true },
+        { questionId: 'qM3', submittedAnswer: '0', isCorrect: false },
+      ],
+    });
+    installFixtures([w1, w2], [r1, r2]);
+
+    const ids = await getDistinctConceptIds('s-multi');
+    assert.strictEqual(ids.length, 2, `expected 2 distinct (S3.7 appears twice, S3.4 once), got ${ids.length}: ${JSON.stringify(ids)}`);
+    assert.deepStrictEqual(ids, ['S3.4', 'S3.7']); // sorted ascending
   });
 
   console.log(`\n  ${passed} passed, ${failed} failed`);
