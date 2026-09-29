@@ -82,6 +82,11 @@ export const QuestionTemplatePanel: React.FC = () => {
   const [subskills, setSubskills] = useState<string[]>([]);
   const [generationIntent, setGenerationIntent] = useState('');
   const [questionFamily, setQuestionFamily] = useState<QuestionFamily>('operation');
+  // Issue #599: assessmentMode picker. Defaults to 'written' to match
+  // the backend's existing seeded behavior (every template authored
+  // before this field defaulted to 'written'). 'observed' / 'both'
+  // are opt-in choices from the Superadmin authoring form.
+  const [assessmentMode, setAssessmentMode] = useState<'written' | 'observed' | 'both'>('written');
   const [svgThemeIds, setSvgThemeIds] = useState<string[]>([]);
   const [params, setParams] = useState<QuestionTemplateParams>(EMPTY_PARAMS);
   const [name, setName] = useState('');
@@ -229,6 +234,8 @@ export const QuestionTemplatePanel: React.FC = () => {
     setSubskills([]);
     setGenerationIntent('');
     setQuestionFamily('operation');
+    // Issue #599: clear assessmentMode back to the default.
+    setAssessmentMode('written');
     setSvgThemeIds([]);
     setParams(EMPTY_PARAMS);
     setName('');
@@ -244,6 +251,9 @@ export const QuestionTemplatePanel: React.FC = () => {
     setSubskills(t.subskills);
     setGenerationIntent(t.generationIntent ?? '');
     setQuestionFamily(t.questionFamily ?? 'operation');
+    // Issue #599: hydrate assessmentMode from the stored row so editing
+    // an existing template preserves the authored mode.
+    setAssessmentMode(t.assessmentMode ?? 'written');
     setSvgThemeIds(t.svgThemeIds ?? []);
     setParams({
       numeralRange: t.numeralRange,
@@ -286,6 +296,12 @@ export const QuestionTemplatePanel: React.FC = () => {
         subskills,
         generationIntent: generationIntent.trim(),
         questionFamily,
+        // Issue #599: tell the backend which assessment mode this
+        // template is for. Backend (db.ts:786) defaults to 'written'
+        // when missing, so always sending it explicitly is the safer
+        // contract -- an author who explicitly picks 'observed' keeps
+        // that choice through round-trips.
+        assessmentMode,
         svgThemeIds,
         ...params,
         name: name.trim(),
@@ -618,6 +634,30 @@ export const QuestionTemplatePanel: React.FC = () => {
               </div>
             </div>
           </div>
+
+            {/* Issue #599: assessmentMode picker. Three options; default
+                'written' matches the backend's seeded behaviour. */}
+            <div className="mt-3">
+              <div className={labelCls}>Assessment mode</div>
+              <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+                How this question's answer is recorded. <code>written</code> = the child fills a worksheet.
+                <code>observed</code> = the teacher watches the child and records on an observation sheet
+                (separate flow). <code>both</code> = either path is valid.
+              </p>
+              <div className="mt-1 flex flex-wrap gap-2">
+                {[
+                  { v: 'written',  label: 'Written' },
+                  { v: 'observed', label: 'Observed' },
+                  { v: 'both',     label: 'Either (both)' },
+                ].map(opt => (
+                  <button key={opt.v} type="button"
+                    onClick={() => { setFormError(null); setAssessmentMode(assessmentMode === opt.v ? assessmentMode : opt.v as typeof assessmentMode); }}
+                    aria-pressed={assessmentMode === opt.v} className={chipCls(assessmentMode === opt.v)}>
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
 
           {/* Step 5 — the options that govern the numbers */}
           <div className="space-y-2">
