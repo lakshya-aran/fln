@@ -24,20 +24,23 @@ const MAX_INTENT_CHARS = 2000;
  * Issue #598: human-readable labels for every value of QuestionFamily.
  * Single source of truth so the chip picker, the list table, and any
  * future display surface render the same label for the same value.
+ * Each label is derived from the actual cluster of levels in
+ * backend/src/data/skillLevelMap.json (109 levels across 7 stages) --
+ * see the comment block above QUESTION_FAMILY_LABELS for the mapping.
  * Keep the keys in sync with QUESTION_FAMILIES in
  * backend/src/types/questionTemplateParams.ts.
  */
 const QUESTION_FAMILY_LABELS: Record<QuestionFamily, string> = {
-  counting:        'Counting a picture',
-  operation:       'Number operation',
-  shape:           'Shape (identify / match / trace)',
-  pattern:         'Pattern (continue / find missing)',
-  comparison:      'Comparison (more / less / longer / shorter)',
-  classification:  'Classification (sort / group / odd one out)',
-  sequencing:      'Sequencing (before / after / ordinal)',
-  vocabulary:      'Vocabulary (number word <-> numeral)',
-  calendar:        'Calendar (days / months / date read)',
-  reasoning:       'Mathematical reasoning / problem solving',
+  counting:        'Counting (rote / cardinal / to 20)',
+  operation:       'Arithmetic (add / subtract / multiply / divide)',
+  shape:           'Shapes & spatial (2D / 3D / geometry)',
+  pattern:         'Patterns (continue / complete / rule)',
+  comparison:      'Comparison (more / less / order)',
+  classification:  'Classification & sorting (by property / tally)',
+  sequencing:      'Sequencing & ordering (ordinals / number line)',
+  vocabulary:      'Numeral & number-name vocabulary',
+  calendar:        'Calendar & time (days / months / clock)',
+  reasoning:       'Reasoning & word problems (multi-step / applied)',
 };
 
 const EMPTY_PARAMS: QuestionTemplateParams = {
