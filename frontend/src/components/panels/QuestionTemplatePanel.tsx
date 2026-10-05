@@ -87,7 +87,12 @@ export const QuestionTemplatePanel: React.FC = () => {
         apiFetch('/api/question-templates/stats'),
       ]);
       if (!mapRes.ok || !catRes.ok || !listRes.ok || !statsRes.ok) {
-        setLoadError('Could not load questions. You may not have superadmin access.');
+        // Surface the actual failing endpoint instead of blaming the user's
+        // role. This previously masked a backend ReferenceError as a misleading
+        // "You may not have superadmin access." (see issue #670).
+        const failing = [mapRes, catRes, listRes, statsRes].find(r => !r.ok);
+        const detail = failing ? `${failing.status} ${failing.statusText} (${failing.url})` : 'one endpoint failed';
+        setLoadError(`Could not load question templates — ${detail}.`);
         return;
       }
       setLevelMap(await mapRes.json());
