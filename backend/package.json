@@ -23,6 +23,7 @@
     "test:search-index": "tsx --test tests/students-search-index.test.ts",
     "test:panel-isolation": "tsx --test tests/panel-isolation.test.cjs",
     "test:roster-filters": "tsx --test tests/roster-filters-persistence.test.cjs",
+    "test:layout-rules": "tsx src/config/worksheetLayoutRules.test.ts",
     "audit:aadhaar": "tsx scripts/audit-aadhaar-at-rest.ts",
     "test:answer-matching": "tsx src/answerMatching.test.ts",
     "test:error-classification": "tsx src/errorClassification.test.ts",
