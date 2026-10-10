@@ -1,4 +1,7 @@
-// Server-side view of the 93-level -> 24-skill -> ~179-subskill curriculum map.
+// Server-side view of the level -> skill -> subskill curriculum map.
+// Counts are deliberately not written here; they change as the curriculum
+// grows. Read them from the snapshot (`levelCount`, and the sizes of `levels`
+// and `skills`) instead of trusting a number in a comment.
 //
 // The canonical data lives in `frontend/src/data/skillProgressionMap.ts`. That
 // module cannot be imported here: `frontend` and `backend` are separate npm
