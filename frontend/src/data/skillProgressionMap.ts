@@ -1,4 +1,5 @@
-// 109 FLN Levels → 24 Core Skills (SK01-SK24) → ~150 Granular Subskills
+// FLN Levels → Core Skills (SK01-SK24) → Granular Subskills
+// (counts live in the data below — see MAX_LEVEL — not in this comment)
 // Source: docs/skill-graph/FLN_93_Level_Skill_Graph_Specification.md
 //         (the canonical spec the project adopted Sep 2026 — filename predates
 //         the 2026-09-19 Balvatika sync, see below; node count has since grown)
@@ -940,6 +941,9 @@ const LEVEL_BY_SCODE: Record<string, LevelSkillMapping> = Object.fromEntries(LEV
 // ─────────────────────────────────────────────────────────────────────────────
 // Derived aggregates
 // ─────────────────────────────────────────────────────────────────────────────
+
+/** Highest FLN level number. Use this instead of hardcoding the level count. */
+export const MAX_LEVEL: number = LEVEL_SKILL_MAP.length;
 
 /** Look up a level by its S-notation code (e.g. "S4.1") instead of its
  * L-number. See LevelSkillMapping.sCode and issue #280. */

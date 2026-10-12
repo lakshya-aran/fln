@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { runQuestionBankAudit } from './questionBankAudit';
+import { MAX_LEVEL } from '../data/skillProgressionMap';
 
 describe('Question Bank Audit Engine', () => {
   // Scenario 1: Valid question -> 0 issues (Health Score 100%)
@@ -86,7 +87,7 @@ describe('Question Bank Audit Engine', () => {
   });
 
   // Scenario 7: Level 0 -> INVALID_LEVEL
-  it('flags Level 0 (below range 1-93) as INVALID_LEVEL', () => {
+  it('flags Level 0 (below range 1-MAX_LEVEL) as INVALID_LEVEL', () => {
     const lvlZero = [
       { id: 'QB-012', questionText: 'Sample level zero question', answer: '1', level: 0 },
     ];
@@ -94,20 +95,20 @@ describe('Question Bank Audit Engine', () => {
     expect(res.categoryCounts.INVALID_LEVEL).toBe(1);
   });
 
-  // Scenario 8: Level 94 -> INVALID_LEVEL
-  it('flags Level 94 (above range 1-93) as INVALID_LEVEL', () => {
-    const lvl94 = [
-      { id: 'QB-013', questionText: 'Sample level 94 question', answer: '1', level: 94 },
+  // Scenario 8: Level MAX_LEVEL + 1 -> INVALID_LEVEL
+  it('flags Level MAX_LEVEL + 1 (above range) as INVALID_LEVEL', () => {
+    const lvlAbove = [
+      { id: 'QB-013', questionText: 'Sample level above max question', answer: '1', level: MAX_LEVEL + 1 },
     ];
-    const res = runQuestionBankAudit(lvl94);
+    const res = runQuestionBankAudit(lvlAbove);
     expect(res.categoryCounts.INVALID_LEVEL).toBe(1);
   });
 
-  // Scenario 9: Valid levels 1 and 93 -> no level issue
-  it('accepts boundary FLN levels 1 and 93 without flagging INVALID_LEVEL', () => {
+  // Scenario 9: Valid levels 1 and MAX_LEVEL -> no level issue
+  it('accepts boundary FLN levels 1 and MAX_LEVEL without flagging INVALID_LEVEL', () => {
     const validLevels = [
       { id: 'QB-014', questionText: 'Level 1 question', answer: '1', level: 1 },
-      { id: 'QB-015', questionText: 'Level 93 question', answer: '93', level: 93 },
+      { id: 'QB-015', questionText: 'Max level question', answer: String(MAX_LEVEL), level: MAX_LEVEL },
     ];
     const res = runQuestionBankAudit(validLevels);
     expect(res.categoryCounts.INVALID_LEVEL).toBe(0);
@@ -152,7 +153,7 @@ describe('Question Bank Audit Engine', () => {
         id: 'QB-018',
         questionText: 'x', // missing text (< 3 chars)
         answer: '', // missing answer
-        level: 105, // invalid level
+        level: MAX_LEVEL + 1, // invalid level
         answer_type: 'choice',
         choices: ['only one'], // invalid choices
         svgHtml: '<circle cx="10" cy="10" r="5" />', // malformed SVG

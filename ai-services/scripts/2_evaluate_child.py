@@ -203,7 +203,7 @@ class ChildEvaluator:
                         pass
                 # 1_compare_answers.py records the paper's source_level as
                 # `fln_level` on each comparison row, so the deterministic
-                # fallback can show the actual 93-level framework level
+                # fallback can show the actual curriculum level
                 # rather than the unknown "Level ?" the prior version emitted.
                 w_fln = w.get("fln_level")
                 if w_fln is not None:

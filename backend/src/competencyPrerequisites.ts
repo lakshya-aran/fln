@@ -1,6 +1,5 @@
 /**
- * Prerequisite edges for the FLN curriculum (108 levels as of PR #517's Stage-3
- * finalisation, 2026-09-18), keyed by conceptId.
+ * Prerequisite edges for the FLN curriculum, keyed by conceptId.
  *
  * SOURCE OF TRUTH: `Research/fln_level_networks.md` — Part 2, "The Ten Strand
  * Chains (the actual prerequisite graph)". That document expresses the graph as

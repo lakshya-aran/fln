@@ -13,6 +13,7 @@
  * Reads MONGODB_URI from the backend/.env file (same source as `npm run dev:backend`).
  */
 import { MongoClient } from 'mongodb';
+import { LEVEL_COUNT } from '../backend/src/config/skillLevelMap';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -73,7 +74,7 @@ function buildClass1Batch(school: School) {
       teacherId: teacherId,
       currentLevel,
       currentSubLevel,
-      targetLevel: Math.min(currentLevel + 1, 93),
+      targetLevel: Math.min(currentLevel + 1, LEVEL_COUNT),
       aadharMasked: `XXXX-XXXX-${pad2(1000 + Math.floor(Math.random() * 9000))}`,
       levelHistory: [
         {

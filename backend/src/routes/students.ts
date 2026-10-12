@@ -5,6 +5,7 @@ import { classifyErrorType } from '../errorClassification';
 import { getAuthUser, canAccessStudent } from '../auth';
 import { generateDiagnosticPaper } from '../paperGenerator';
 import { generateQuestionsForLevel } from '../levelGenerator';
+import { LEVEL_COUNT } from '../config/skillLevelMap';
 import { evaluateAIDiagnostic } from '../gemini';
 import { runCertificationEligibility } from '../services/certificationRecords';
 import { invalidateFingerprintCache } from './misconceptions';
@@ -713,12 +714,12 @@ export function registerStudentRoutes(app: express.Express) {
       const startLevel = (classNumber - 1) * 12 + 1;
       questions = [];
       for (let lvl = startLevel; lvl < startLevel + 8; lvl++) {
-        const lvlQuestions = generateQuestionsForLevel(Math.min(lvl, 108), 0);
+        const lvlQuestions = generateQuestionsForLevel(Math.min(lvl, LEVEL_COUNT), 0);
         lvlQuestions.forEach(q => {
           questions.push({
             ...q,
             question_id: `DIAG_${lvl}_${q.question_id}`,
-            source_level: Math.min(lvl, 108)
+            source_level: Math.min(lvl, LEVEL_COUNT)
           });
         });
       }
@@ -934,7 +935,7 @@ export function registerStudentRoutes(app: express.Express) {
     //   - score:          number of boxes answered correctly
     //   - recommendedLevel: lowest source_level where the student failed any
     //                       question (Weakest-Level Mapping). All-correct →
-    //                       max source_level + 1, capped at 93.
+    //                       max source_level + 1, capped (see the cap below).
     //   - subLevel:       0 (Mastery) / 1 (Easier) / 2 (Remedial) within the
     //                       recommended level based on how many of that level's
     //                       questions were missed.
@@ -1248,7 +1249,7 @@ export function registerStudentRoutes(app: express.Express) {
     // Prerequisite Learning Path.
     //
     // Identity comes from ONE authoritative field: Question.conceptId — the
-    // immutable S1.1-S7.18 tag of the 93-level framework that the concept
+    // immutable S-code tag of the curriculum framework that the concept
     // question generator already stamps on every question it produces, and the
     // key CURRICULUM_MAPPING is built around.
     //
@@ -1315,7 +1316,7 @@ export function registerStudentRoutes(app: express.Express) {
     //
     // Every field is filled from a value this handler has already computed —
     // the narrative string, the conceptMastery object, the
-    // recommendedLevel/subLevel placement, and the existing 93-level
+    // recommendedLevel/subLevel placement, and the existing curriculum-level
     // CURRICULUM_MAPPING. Nothing is inferred or invented: where this handler
     // holds no real data (blockers, recommendations) the arrays are left
     // empty and the UI hides those sections.

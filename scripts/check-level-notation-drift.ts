@@ -1,8 +1,8 @@
 // Issue #280 ask #2: fails when the two level-numbering systems disagree.
 //
-// The project has two graphs of the same 93 levels:
+// The project has two graphs of the same levels:
 //   - S-notation (S1.1-S7.18)  — Research/fln_level_networks.md, Research/fln_proposed_levels.md
-//   - L-notation (L1-L93)      — frontend/src/data/skillProgressionMap.ts
+//   - L-notation (L1-Ln)       — frontend/src/data/skillProgressionMap.ts
 //
 // L(n) is defined as the n-th S-code in stage-then-index order (deterministic,
 // no judgement involved) and is now computed directly in skillProgressionMap.ts

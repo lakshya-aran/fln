@@ -19,7 +19,7 @@ import { SuperAdminExecutiveDashboard } from './SuperAdminExecutiveDashboard';
 
 
 
-export { FLN_LEVELS_LIST, FLNLevelReferenceModal } from './dashboards/FLNLevelReference';
+export { FLNLevelReferenceModal } from './dashboards/FLNLevelReference';
 
 export const STATE_NAMES: Record<string, string> = {
   'PB': 'Punjab',

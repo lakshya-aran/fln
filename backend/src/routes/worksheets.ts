@@ -485,7 +485,7 @@ export function registerWorksheetRoutes(app: express.Express) {
     res.json(newWorksheet);
   });
 
-  // Generate printable PDF for an existing worksheet (connects 93 FLN levels with diagnostic pipeline)
+  // Generate printable PDF for an existing worksheet (connects the FLN levels with the diagnostic pipeline)
   app.post('/api/worksheets/generate-pdf', async (req, res) => {
     const user = getAuthUser(req);
     if (!user) return res.status(401).json({ error: 'Unauthorized' });

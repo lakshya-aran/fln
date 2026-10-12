@@ -92,8 +92,8 @@ class AnswerComparator:
             is_correct = str(student_ans["answer"]).strip() == str(question["answer"]).strip()
 
             diff_map = {"e": "easy", "m": "medium", "h": "hard"}
-            # `fln_level` records the paper's source_level (the 93-level
-            # framework level: 1..93). Downstream steps use this to render
+            # `fln_level` records the paper's source_level (the curriculum
+            # level number from the level map). Downstream steps use this to render
             # "Level {n} - {topic} - Error: ..." instead of an unknown "Level ?".
             comparison = {
                 "question_id": q_id,

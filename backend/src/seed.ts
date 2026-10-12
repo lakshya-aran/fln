@@ -5,6 +5,7 @@ import { UserRole } from './db';
 import { STATES_UTS } from './geoData';
 import { computeStudentDisplayId } from './displayId';
 import questionBankSeed from './data/question_bank_seed.json';
+import { LEVEL_COUNT } from './config/skillLevelMap';
 import {
   generateAdminId,
   generateDistrictAdminId,
@@ -464,7 +465,7 @@ async function main() {
                 teacherId: teacherIds[cIdx],
                 currentLevel: currentLevel,
                 currentSubLevel: randomSubLevel(),
-                targetLevel: Math.min(currentLevel + 1, 108),
+                targetLevel: Math.min(currentLevel + 1, LEVEL_COUNT),
                 aadharMasked: generateAadhaar(),
                 levelHistory: [
                   {

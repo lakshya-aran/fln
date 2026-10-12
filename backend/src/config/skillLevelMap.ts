@@ -36,8 +36,15 @@ export interface SkillInfo {
 const LEVELS = snapshot.levels as Record<string, Omit<LevelInfo, 'levelId'>>;
 const SKILLS = snapshot.skills as Record<string, Omit<SkillInfo, 'id'>>;
 
-/** Total number of FLN levels. Read from the snapshot rather than hardcoded as 93. */
+/** Total number of FLN levels. Read from the snapshot rather than hardcoded. */
 export const LEVEL_COUNT: number = snapshot.levelCount;
+
+/** Lowest and highest level number in a stage (e.g. "Class 2"), or undefined if the stage is unknown. */
+export function getLevelRangeForStage(stage: string): { min: number; max: number } | undefined {
+  const numbers = Object.values(LEVELS).filter(l => l.stage === stage).map(l => l.levelNumber);
+  if (numbers.length === 0) return undefined;
+  return { min: Math.min(...numbers), max: Math.max(...numbers) };
+}
 
 export function levelIdFor(levelNumber: number): string {
   return `L${levelNumber}`;

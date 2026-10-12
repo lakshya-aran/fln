@@ -199,114 +199,6 @@ export const BLOCK_NAMES: Record<string, string> = {
   'KAL_01': 'Karaikal Block 1', 'KAL_02': 'Karaikal Block 2',
 };
 
-// Auto-generate 93 detailed FLN levels
-export const FLN_LEVELS: any[] = (() => {
-  const levels: any[] = [];
-  const strandRotation = [
-    'Number Sense (One-to-One Correspondence)',
-    'Number Operations',
-    'Shapes',
-    'Measurement',
-    'Patterns',
-    'Money',
-    'Calendar & Time',
-    'Fractions',
-    'Data Handling'
-  ];
-
-  const outcomesByStrand: Record<string, string[]> = {
-    'Number Sense (One-to-One Correspondence)': [
-      'Counting objects up to 10 with 1-to-1 matching',
-      'Comparing sizes of groups (more, less, equal)',
-      'Identifying position on a number line 1-10',
-      'Reading and writing numerals up to 20',
-      'Understanding place value up to 50 (tens and ones)',
-      'Understanding place value up to 100',
-      'Comparing 2-digit numbers using <, >, =',
-      'Understanding numbers up to 1000'
-    ],
-    'Number Operations': [
-      'Single-digit addition using visual aids',
-      'Single-digit subtraction using visual objects',
-      'Addition and subtraction of numbers up to 20 without carrying',
-      'Double-digit addition without carrying',
-      'Double-digit subtraction without borrowing',
-      'Addition with carrying (2-digit)',
-      'Subtraction with borrowing (2-digit)',
-      'Basic multiplication tables of 2, 5, 10',
-      'Introductory division as equal sharing',
-      '3-digit addition and subtraction operations'
-    ],
-    'Shapes': [
-      'Identifying basic shapes: Circle, Triangle, Square',
-      'Recognizing shapes in real-world objects',
-      'Differentiating 2D vs 3D shapes (Sphere, Cube)',
-      'Understanding properties of shapes (corners, sides)',
-      'Symmetry and spatial arrangements'
-    ],
-    'Measurement': [
-      'Comparing length and height of objects (tall, short)',
-      'Measuring length using non-standard units (handspan)',
-      'Comparing weight of objects (heavy, light)',
-      'Measuring volume using capacity containers',
-      'Standard measurement units (cm, m, grams, ml)'
-    ],
-    'Patterns': [
-      'Identifying simple repeating shape patterns (AB, AABB)',
-      'Completing numeric skip counting patterns by 2s and 5s',
-      'Creating custom sequential patterns',
-      'Advanced numeric patterns (backwards, skip 10s)'
-    ],
-    'Money': [
-      'Identifying 1, 2, 5, 10 rupee coins',
-      'Understanding currency notes: 10, 20, 50, 100 rupees',
-      'Adding simple monetary transactions (total price)',
-      'Making change for a transaction (rupee notes)'
-    ],
-    'Calendar & Time': [
-      'Identifying morning, afternoon, night routines',
-      'Sequencing days of the week',
-      'Telling time in full hours on analog clock',
-      'Reading months of the year',
-      'Telling time in half-hours and quarter-hours'
-    ],
-    'Fractions': [
-      'Concept of whole vs. half (1/2)',
-      'Concept of quarter (1/4)',
-      'Comparing 1/2, 1/4 and whole visually',
-      'Concept of three-quarters (3/4) and simple fractions'
-    ],
-    'Data Handling': [
-      'Sorting objects into visual groups',
-      'Creating simple tally charts',
-      'Reading and interpreting bar pictographs',
-      'Basic multi-variable tables'
-    ]
-  };
-
-  for (let i = 1; i <= 93; i++) {
-    const classLevel = i <= 42 ? 1 : i <= 61 ? 2 : i <= 75 ? 3 : 4;
-    const strand = strandRotation[(i - 1) % strandRotation.length];
-    const outcomes = outcomesByStrand[strand] || ['Demonstrates competency in foundational math concepts'];
-    const outcome = outcomes[(i - 1) % outcomes.length];
-
-    levels.push({
-      levelNumber: i,
-      strand,
-      topic: `${strand.split(' ')[0]} - Phase ${Math.ceil(i / 10)}`,
-      learningOutcome: outcome,
-      classLevel,
-      subLevels: {
-        mastery: `Evaluates capability in ${outcome.toLowerCase()} under standard conditions.`,
-        easier: `Simplified questions focusing on visual recognition and matching of ${outcome.toLowerCase()}.`,
-        remedial: `Remedial intervention addressing fundamental prerequisite concepts for ${outcome.toLowerCase()}.`
-      }
-    });
-  }
-
-  return levels;
-})();
-
 export const INITIAL_SCHOOLS: any[] = [
   {
     id: 'gps-mt-001',
@@ -633,7 +525,7 @@ export const INITIAL_ANNOUNCEMENTS: any[] = [
   {
     id: 'ann-003',
     title: 'FLN Numeracy Benchmark Standards Updated',
-    body: 'Revised NCERT-aligned sub-level descriptions have been populated for FLN levels 1 to 93. No action required; the auto-level evaluation pipeline incorporates these immediately.',
+    body: 'Revised NCERT-aligned sub-level descriptions have been populated for all FLN levels. No action required; the auto-level evaluation pipeline incorporates these immediately.',
     urgency: 'low',
     postedAt: '2026-06-28 11:30 AM',
     emailEscalation: false
