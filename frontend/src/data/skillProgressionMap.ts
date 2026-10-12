@@ -1,5 +1,5 @@
 // FLN Levels → Core Skills (SK01-SK24) → Granular Subskills
-// (counts live in the data below — see MAX_LEVEL — not in this comment)
+// (counts live in the data below — see MAX_FLN_LEVEL — not in this comment)
 // Source: docs/skill-graph/FLN_93_Level_Skill_Graph_Specification.md
 //         (the canonical spec the project adopted Sep 2026 — filename predates
 //         the 2026-09-19 Balvatika sync, see below; node count has since grown)
@@ -905,6 +905,7 @@ export const LEVEL_SKILL_MAP: LevelSkillMapping[] = [
       { levelId: 'L98', relationshipType: 'often_precedes',
         rationale: "Demoted from required_for_procedure (issue #279): perimeter/area computation is fundamentally addition/multiplication over given measurements — unit conversion is only needed for the subset of problems with mixed units, not the core skill." }] }),
 ];
+export const MAX_FLN_LEVEL = LEVEL_SKILL_MAP.length;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Sanity checks
@@ -941,9 +942,6 @@ const LEVEL_BY_SCODE: Record<string, LevelSkillMapping> = Object.fromEntries(LEV
 // ─────────────────────────────────────────────────────────────────────────────
 // Derived aggregates
 // ─────────────────────────────────────────────────────────────────────────────
-
-/** Highest FLN level number. Use this instead of hardcoding the level count. */
-export const MAX_LEVEL: number = LEVEL_SKILL_MAP.length;
 
 /** Look up a level by its S-notation code (e.g. "S4.1") instead of its
  * L-number. See LevelSkillMapping.sCode and issue #280. */

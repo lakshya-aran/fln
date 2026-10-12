@@ -6,7 +6,8 @@
 // component's own top-level hooks, they're now called unconditionally.
 import React, { useState } from 'react';
 import { BookMarked } from 'lucide-react';
-import { FLN_LEVELS_LIST, FLN_CLASS_ORDER } from '../dashboards/FLNLevelReference';
+import { FLN_LEVELS_LIST } from '../dashboards/FLNLevelReference';
+import { STAGES, stageLabel } from '../../data/skillProgressionMap';
 
 export const ContentPanel: React.FC = () => {
     // Render the full FLN level framework as cards, grouped by class/stage.
@@ -17,7 +18,7 @@ export const ContentPanel: React.FC = () => {
     const [search, setSearch] = useState('');
     const [classFilter, setClassFilter] = useState<string>('ALL');
 
-    const classOrder = FLN_CLASS_ORDER;
+    const classOrder = STAGES.map(stageLabel);
     const classesPresent = Array.from(new Set(FLN_LEVELS_LIST.map(l => l.class)))
       .sort((a, b) => classOrder.indexOf(a) - classOrder.indexOf(b));
 
